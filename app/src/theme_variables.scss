@@ -1,0 +1,36 @@
+@use '@angular/material' as mat;
+@import "./styles/colors.scss";
+
+/* For use in src/lib/core/theming/_palette.scss */
+$app-brui: (
+    50 : #eaf0e8,
+    100 : #9a918d,
+    200 : #776156,
+    300 : #5f4a3f,
+    400 : #49352a,
+    500 : $principal,
+    600 : #776156,
+    700 : #5f4a3f,
+    800 : #49352a,
+    900 : #37261d,
+    A100 : #8f5738,
+    A200 : #8f5738,
+    A400 : #8f5738,
+    A700 : #8f5738,
+    contrast: (
+        50 : $preto,
+        100 : $preto,
+        200 : $preto,
+        300 : $preto,
+        400 : $preto,
+        500 : $branco,
+        600 : $branco,
+        700 : $branco,
+        800 : $branco,
+        900 : $branco,
+        A100 : $preto,
+        A200 : $preto,
+        A400 : $preto,
+        A700 : $preto,
+    )
+);

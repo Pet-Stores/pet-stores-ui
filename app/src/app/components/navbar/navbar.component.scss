@@ -1,0 +1,8 @@
+@import '../../../styles/colors.scss';
+
+.navbar {
+  color: $principal;
+  background-color: $secundaria;
+  height: 100px;
+  position: relative;
+}
