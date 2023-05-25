@@ -5,4 +5,24 @@
   background-color: $secundaria;
   height: 100px;
   position: relative;
+
+}
+
+.navbar img {
+  margin-top: 20px;
+  margin-left: -40px;
+}
+
+@media (max-width: 767px) {
+  .navbar {
+    height: 60px;
+    position: relative;
+  }
+
+  .navbar img {
+    height: 100px;
+    width: 100px;
+    margin-top: 10px;
+    margin-left: -25px;
+  }
 }
