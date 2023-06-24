@@ -99,7 +99,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (min-width: 351px) and (max-width: 720px) {
   .navbar {
     width: 100%;
     height: 100px;
@@ -120,6 +120,37 @@
 
     .favorite-icon {
       margin-left: 50px;
+      margin-right: 15px;
+    }
+
+    .cart-icon button {
+      margin-left: -20px;
+    }
+  }
+}
+
+
+@media (min-width: 300px) and (max-width: 350px) {
+  .navbar {
+    width: 100%;
+    height: 100px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .logo img {
+      height: 100px;
+      width: 100px;
+      margin-left: 50px;
+    }
+
+    .menu-icon button {
+      margin-left: 10px;
+    }
+
+    .favorite-icon {
+      margin-left: 10px;
       margin-right: 15px;
     }
 
