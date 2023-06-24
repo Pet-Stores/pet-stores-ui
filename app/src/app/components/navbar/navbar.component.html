@@ -1,3 +1,74 @@
-<mat-toolbar class="navbar">
-  <span><img src="../../assets/img/PetStores(200×200px)/1.svg" alt=""></span>
+<!-- MOBILE -->
+<!-- <mat-toolbar class="navbar" *ngIf="isMobileScreen; else notMobile">
+
+  <div class="menu-icon">
+    <button mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+
+  <div class="logo">
+    <img src="../../assets/img/PetStores(200×200px)/1.svg" alt="">
+  </div>
+
+  <div class="favorite-icon">
+    <button mat-icon-button>
+      <mat-icon>favorite</mat-icon>
+    </button>
+  </div>
+
+  <div class="cart-icon">
+    <button>
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
+  </div>
+
+</mat-toolbar> -->
+
+<!-- NOTEBOOK AND DESKTOP -->
+<!-- <ng-template #notMobile>
+  <mat-toolbar class="navbar">
+    <mat-icon>menu</mat-icon>
+    <span><img src="../../assets/img/PetStores(200×200px)/1.svg" alt=""></span>
+  </mat-toolbar>
+</ng-template> -->
+
+
+
+
+
+
+
+
+<mat-toolbar class="navbar" *ngIf="isMobileScreen; else notMobile">
+  <div class="menu-icon">
+    <button mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+
+  <div class="logo">
+    <img src="../../assets/img/PetStores(200×200px)/1.svg" alt="">
+  </div>
+
+  <div class="icons">
+    <div class="favorite-icon">
+      <button mat-icon-button>
+        <mat-icon>favorite</mat-icon>
+      </button>
+    </div>
+
+    <div class="cart-icon">
+      <button mat-icon-button>
+        <mat-icon>shopping_cart</mat-icon>
+      </button>
+    </div>
+  </div>
 </mat-toolbar>
+
+<ng-template #notMobile>
+  <mat-toolbar class="navbar">
+    <mat-icon>menu</mat-icon>
+    <span><img src="../../assets/img/PetStores(200×200px)/1.svg" alt=""></span>
+  </mat-toolbar>
+</ng-template>

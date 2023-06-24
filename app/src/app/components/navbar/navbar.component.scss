@@ -1,28 +1,130 @@
 @import '../../../styles/colors.scss';
 
+// .navbar {
+//   color: $principal;
+//   background-color: $secundaria;
+//   height: 100px;
+//   position: relative;
+
+// }
+
+// .navbar img {
+//   margin-top: 20px;
+//   margin-left: -40px;
+// }
+
+
+// @media (max-width: 767px) {
+//   .navbar {
+//     width: 100%;
+//     height: 100px;
+//     position: relative;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//   }
+
+//   .logo img {
+//     height: 100px;
+//     width: 100px;
+//     margin-top: 10px;
+//     margin-left: 100px;
+//   }
+
+//   .menu-icon button {
+//     display: inline-block;
+//     color: $principal;
+//     background-color: $ternaria;
+//     border-radius: 5px;
+//     margin-left: -100px;
+//   }
+
+//   .favorite-icon button {
+//     border: none;
+//     background-color: transparent;
+//     color: $principal;
+//     cursor: pointer;
+//     margin-left: 70px;
+//     margin-right: 15px;
+//   }
+
+//   .cart-icon button {
+//     display: inline-block;
+//     margin-right: -300px !important;
+//     border: none;
+//     background-color: transparent;
+//     color: $principal;
+//     cursor: pointer;
+//   }
+// }
+
+
+
 .navbar {
   color: $principal;
   background-color: $secundaria;
   height: 100px;
   position: relative;
 
-}
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.navbar img {
-  margin-top: 20px;
-  margin-left: -40px;
+  .icons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  .menu-icon button {
+    color: $principal;
+    background-color: $ternaria;
+    border-radius: 5px;
+  }
+
+  .favorite-icon,
+  .cart-icon {
+    margin-left: 10px;
+  }
+
+  .favorite-icon button,
+  .cart-icon button {
+    border: none;
+    background-color: transparent;
+    color: $principal;
+    cursor: pointer;
+  }
 }
 
 @media (max-width: 767px) {
   .navbar {
-    height: 60px;
-    position: relative;
-  }
-
-  .navbar img {
+    width: 100%;
     height: 100px;
-    width: 100px;
-    margin-top: 10px;
-    margin-left: -25px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .logo img {
+      height: 100px;
+      width: 100px;
+      margin-left: 90px;
+    }
+
+    .menu-icon button {
+      margin-left: 10px;
+    }
+
+    .favorite-icon {
+      margin-left: 50px;
+      margin-right: 15px;
+    }
+
+    .cart-icon button {
+      margin-left: -20px;
+    }
   }
 }
