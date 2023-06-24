@@ -1,65 +1,5 @@
 @import '../../../styles/colors.scss';
 
-// .navbar {
-//   color: $principal;
-//   background-color: $secundaria;
-//   height: 100px;
-//   position: relative;
-
-// }
-
-// .navbar img {
-//   margin-top: 20px;
-//   margin-left: -40px;
-// }
-
-
-// @media (max-width: 767px) {
-//   .navbar {
-//     width: 100%;
-//     height: 100px;
-//     position: relative;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//   }
-
-//   .logo img {
-//     height: 100px;
-//     width: 100px;
-//     margin-top: 10px;
-//     margin-left: 100px;
-//   }
-
-//   .menu-icon button {
-//     display: inline-block;
-//     color: $principal;
-//     background-color: $ternaria;
-//     border-radius: 5px;
-//     margin-left: -100px;
-//   }
-
-//   .favorite-icon button {
-//     border: none;
-//     background-color: transparent;
-//     color: $principal;
-//     cursor: pointer;
-//     margin-left: 70px;
-//     margin-right: 15px;
-//   }
-
-//   .cart-icon button {
-//     display: inline-block;
-//     margin-right: -300px !important;
-//     border: none;
-//     background-color: transparent;
-//     color: $principal;
-//     cursor: pointer;
-//   }
-// }
-
-
-
 .navbar {
   color: $principal;
   background-color: $secundaria;
@@ -99,7 +39,37 @@
   }
 }
 
-@media (min-width: 351px) and (max-width: 720px) {
+@media (max-width: 320px) {
+  .navbar {
+    width: 100%;
+    height: 100px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .logo img {
+      height: 100px;
+      width: 100px;
+      margin-left: 50px;
+    }
+
+    .menu-icon button {
+      margin-left: 10px;
+    }
+
+    .favorite-icon {
+      margin-left: 10px;
+      margin-right: 15px;
+    }
+
+    .cart-icon button {
+      margin-left: -20px;
+    }
+  }
+}
+
+@media (min-width: 360px) and (max-width: 428px) {
   .navbar {
     width: 100%;
     height: 100px;
@@ -124,13 +94,12 @@
     }
 
     .cart-icon button {
-      margin-left: -20px;
+      margin-left: -30px;
     }
   }
 }
 
-
-@media (min-width: 300px) and (max-width: 350px) {
+@media (min-width: 429px) and (max-width: 768px) {
   .navbar {
     width: 100%;
     height: 100px;
@@ -142,7 +111,7 @@
     .logo img {
       height: 100px;
       width: 100px;
-      margin-left: 50px;
+      margin-left: 270px;
     }
 
     .menu-icon button {
@@ -150,7 +119,98 @@
     }
 
     .favorite-icon {
+      margin-left: 50px;
+      margin-right: 15px;
+    }
+
+    .cart-icon button {
+      margin-left: -20px;
+    }
+  }
+}
+
+@media (min-width: 769px) and (max-width: 834px) {
+  .navbar {
+    width: 100%;
+    height: 100px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .logo img {
+      height: 100px;
+      width: 100px;
+      margin-left: 295px;
+    }
+
+    .menu-icon button {
       margin-left: 10px;
+    }
+
+    .favorite-icon {
+      margin-left: 50px;
+      margin-right: 15px;
+    }
+
+    .cart-icon button {
+      margin-left: -20px;
+    }
+  }
+}
+
+@media (min-width: 835px) and (max-width: 884px) {
+  .navbar {
+    width: 100%;
+    height: 100px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .logo img {
+      height: 100px;
+      width: 100px;
+      margin-left: 330px;
+    }
+
+    .menu-icon button {
+      margin-left: 10px;
+    }
+
+    .favorite-icon {
+      margin-left: 50px;
+      margin-right: 15px;
+    }
+
+    .cart-icon button {
+      margin-left: -20px;
+    }
+  }
+}
+
+@media (min-width: 885px) and (max-width: 1114px) {
+  .navbar {
+    background-color: aqua;
+    width: 100%;
+    height: 100px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .logo img {
+      height: 100px;
+      width: 100px;
+      margin-left: 330px;
+    }
+
+    .menu-icon button {
+      margin-left: 10px;
+    }
+
+    .favorite-icon {
+      margin-left: 50px;
       margin-right: 15px;
     }
 

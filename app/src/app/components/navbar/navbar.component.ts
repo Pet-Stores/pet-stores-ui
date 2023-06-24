@@ -12,12 +12,14 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.checkScreenSize();
     window.addEventListener('resize', () => {
+      console.log(this.checkScreenSize());
+
       this.checkScreenSize();
     });
   }
 
   checkScreenSize() {
-    this.isMobileScreen = window.innerWidth <= 767;
+    this.isMobileScreen = window.innerWidth < 1114;
   }
 
 }
