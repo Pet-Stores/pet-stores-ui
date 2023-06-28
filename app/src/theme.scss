@@ -1,3 +1,8 @@
 @use '@angular/material' as mat;
+@import "./theme_variables.scss";
 
 @include mat.core();
+
+$app-brui: mat.define-light-theme($app-primary, $app-accent, $app-warn);
+
+@include mat.all-component-themes($app-brui);

@@ -1,0 +1,120 @@
+@import '~@angular/material/theming';
+@import '../theme_variables.scss';
+
+
+@include mat.core();
+
+
+// $app-primary-color: ($app_brui);
+
+$app-primary-color: (
+  50 : #e8e5e4,
+  100 : #c5bfbc,
+  200 : #9e9590,
+  300 : #776a63,
+  400 : #594a41,
+  500 : #3c2a20,
+  600 : #36251c,
+  700 : #2e1f18,
+  800 : #271913,
+  900 : #1a0f0b,
+  A100 : #ff7c5c,
+  A200 : #ff5429,
+  A400 : #f53100,
+  A700 : #db2c00,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+
+$app-secondary-color: (
+  50 : #fffbf7,
+  100 : #fff6ea,
+  200 : #fff0dd,
+  300 : #ffeacf,
+  400 : #ffe6c4,
+  500 : #ffe1ba,
+  600 : #ffddb3,
+  700 : #ffd9ab,
+  800 : #ffd5a3,
+  900 : #ffcd94,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #ffffff,
+  A700 : #ffffff,
+  contrast: (50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$app-ternary-color: (
+  50 : #fffdfa,
+  100 : #fffaf2,
+  200 : #fff6ea,
+  300 : #fff2e2,
+  400 : #fff0db,
+  500 : #ffedd5,
+  600 : #ffebd0,
+  700 : #ffe8ca,
+  800 : #ffe5c4,
+  900 : #ffe0ba,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #ffffff,
+  A700 : #ffffff,
+  contrast: (50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$my-palette-primery: mat-palette($app-primary-color);
+$my-palette-secondary: mat-palette($app-secondary-color);
+$my-palette-ternary: mat-palette($app-ternary-color);
+
+$my-theme: mat-ligth-theme((
+  color: (
+    primary: $my-palette-primery,
+    secondary: $my-palette-secondary,
+    ternary: $my-palette-ternary
+    )
+  )
+);
+
+@include angular-material-theme($my-theme);

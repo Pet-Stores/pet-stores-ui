@@ -19,7 +19,12 @@ export class NavbarComponent implements OnInit {
   }
 
   checkScreenSize() {
-    this.isMobileScreen = window.innerWidth < 1114;
+    this.isMobileScreen = window.innerWidth <= 1114;
+  }
+
+  abrirPreenchimentoDeCep() {
+    console.log('Abriu dialog . . .');
+
   }
 
 }
