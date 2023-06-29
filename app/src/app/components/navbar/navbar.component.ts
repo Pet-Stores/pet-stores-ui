@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  isMobileScreen = false;
+  public isMobileScreen: boolean = false;
+  public showFiller: boolean = false;
+  public openMenu: boolean = true
+
+  constructor() {}
 
   ngOnInit() {
     this.checkScreenSize();
@@ -22,9 +26,13 @@ export class NavbarComponent implements OnInit {
     this.isMobileScreen = window.innerWidth <= 1114;
   }
 
-  abrirPreenchimentoDeCep() {
+  funcaoTeste() {
     console.log('Abriu dialog . . .');
-
+    if (this.openMenu) {
+      this.openMenu = false
+    } else {
+      this.openMenu = true
+    }
   }
 
 }

@@ -1,5 +1,11 @@
 @import '../../../styles/colors.scss';
 
+a {
+  text-decoration: none;
+  color: $principal;
+  font-size: large;
+
+}
 
 .navbar {
   color: $principal;
@@ -43,12 +49,25 @@
   }
 }
 
-a {
-  text-decoration: none;
-  color: $principal;
-  font-size: large;
+.navbar-2 {
+  background-color: $principal;
+  color: $branco;
 
+  .pegadas-esquerda {
+    margin-top: -50px;
+    height: 10px;
+    position: absolute;
+    left: 0;
+  }
+
+  .pegadas-direita {
+    margin-top: -50px;
+    height: 10px;
+    position: absolute;
+    right: 0;
+  }
 }
+
 
 @media (max-width: 320px) {
   .navbar {
@@ -78,6 +97,42 @@ a {
       margin-left: -20px;
     }
   }
+
+  .pesquisar-mobile input {
+    width: 90%;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-left: 17px;
+    background-color: $ternaria;
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .pesquisar-mobile input::placeholder {
+    color: $principal;
+  }
+
+  .search {
+    position: relative;
+    float: right;
+    margin-right: 20px;
+    margin-top: -32px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  input:focus {
+    outline: solid 1px $principal
+  }
+
+  .example-sidenav {
+    // padding: 20px;
+    width: 50%;
+    border: solid 1px black;
+  }
 }
 
 @media (min-width: 360px) and (max-width: 428px) {
@@ -92,21 +147,54 @@ a {
     .logo img {
       height: 100px;
       width: 100px;
-      margin-left: 90px;
+      margin-left: 80px;
     }
 
     .menu-icon button {
       margin-left: 10px;
-    }
-
-    .favoritos {
-      margin-left: 50px;
-      margin-right: 15px;
+      border: none;
+      background-color: transparent;
     }
 
     .cart-icon button {
       margin-left: -30px;
     }
+  }
+
+  .pesquisar-mobile input {
+    width: 90%;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-left: 17px;
+    background-color: $ternaria;
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .pesquisar-mobile input::placeholder {
+    color: $principal;
+  }
+
+  .search {
+    position: relative;
+    float: right;
+    margin-right: 20px;
+    margin-top: -32px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  input:focus {
+    outline: solid 1px $principal
+  }
+
+  .example-sidenav {
+    // padding: 20px;
+    width: 50%;
+    border: solid 1px black;
   }
 }
 
@@ -257,7 +345,7 @@ a {
       margin-left: 20px;
     }
 
-    .pesquisar input{
+    .pesquisar input {
       width: 200px;
       height: 30px;
       border: none;
@@ -266,7 +354,8 @@ a {
       margin-left: 35px;
       background-color: $ternaria;
 
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Define a sombra desejada */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      /* Define a sombra desejada */
     }
 
     .pesquisar input::placeholder {
@@ -280,6 +369,11 @@ a {
       background-color: transparent;
       cursor: pointer;
     }
+
+    input:focus {
+      outline: solid 2px $principal
+    }
+
 
     .pedidos {
       margin-left: 10px;
