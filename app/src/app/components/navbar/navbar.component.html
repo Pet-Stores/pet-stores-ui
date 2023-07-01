@@ -82,26 +82,69 @@
       <mat-icon>shopping_cart</mat-icon>
     </span>
     <div class="carrinho">
-      <a href="#" (click)="funcaoTeste()"> <strong>Lojas Próximas!</strong> </a>
+      <a href="#" (click)="funcaoTeste()"> <strong>Carrinho</strong> </a>
     </div>
 
     <span class="icone-usuario">
       <mat-icon>account_circle</mat-icon>
     </span>
     <div class="usuario">
-      <a href="#" (click)="funcaoTeste()"> <strong>Entrar</strong> </a> | <a href="#"
-        (click)="funcaoTeste()"> <strong>Cadastrar-se</strong> </a>
+      <a href="#" (click)="funcaoTeste()"> <strong>Entrar</strong> </a> | <a href="#" (click)="funcaoTeste()">
+        <strong>Cadastrar-se</strong> </a>
     </div>
 
   </mat-toolbar>
-  <mat-toolbar-row class="navbar-2">
-    <div class="pegadas-esquerda">
+
+
+  <mat-toolbar class="navbar-2">
+
+    <!-- <div class="pegadas-esquerda">
       <img src="../../assets/img/Pet Stores (75 × 75 px)/5.svg">
+    </div> -->
+
+    <div class="links">
+
+      <select class="select select-pet" matNativeControl required>
+        <option value="" disabled selected hidden>Pets</option>
+        <option *ngFor="let opcoes of listaPets" [value]="opcoes.value">{{ opcoes.value }}</option>
+      </select>
+
+      <select class="select select-lojas" matNativeControl required>
+        <option value="" disabled selected hidden>Opções lojas</option>
+        <option *ngFor="let opcoes of listaLojas" [value]="opcoes.value">{{ opcoes.value }}</option>
+      </select>
+
+      <select class="select" matNativeControl required>
+        <option value="" disabled selected hidden>Agendamentos</option>
+        <option *ngFor="let opcoes of listaAgendamentos" [value]="opcoes.value">{{ opcoes.value }}</option>
+      </select>
+
+      <select class="select" matNativeControl required>
+        <option value="" disabled selected hidden>Marcas</option>
+        <option *ngFor="let opcoes of listaMarcas" [value]="opcoes.value">{{ opcoes.value }}</option>
+      </select>
+
+      <select class="select" matNativeControl required>
+        <option value="" disabled selected hidden>Serviços</option>
+        <option *ngFor="let opcoes of listaServicos" [value]="opcoes.value">{{ opcoes.value }}</option>
+      </select>
+
+      <select class="select" matNativeControl required>
+        <option value="" disabled selected hidden>Mais</option>
+        <option *ngFor="let opcoes of listaMais" [value]="opcoes.value">{{ opcoes.value }}</option>
+      </select>
+
+      <mat-icon class="ajuda-icon">support_agent</mat-icon>
+      <select class="select" matNativeControl required>
+        <option value="" disabled selected hidden>Ajuda</option>
+        <option *ngFor="let opcoes of listaAjuda" [value]="opcoes.value">{{ opcoes.value }}</option>
+      </select>
+
     </div>
-    <div class="pegadas-direita">
+
+    <!-- <div class="pegadas-direita">
       <img src="../../assets/img/Pet Stores (75 × 75 px)/6.svg">
-    </div>
-  </mat-toolbar-row>
+    </div> -->
+
+  </mat-toolbar>
 </ng-template>
-
-
