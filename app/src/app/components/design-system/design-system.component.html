@@ -1,0 +1,120 @@
+<div class="ds-container">
+  <header class="ds-header">
+    <div class="logo-area">
+      <img src="assets/img/Pet Stores (200 × 200 px).svg" alt="Pet Stores Logo" class="ds-logo">
+      <h1>UX Design System</h1>
+    </div>
+    <p class="ds-subtitle">Diretrizes de Identidade Visual e Experiência do Usuário — Pet Stores</p>
+  </header>
+
+  <nav class="ds-nav">
+    <a (click)="scrollTo('colors')">Cores</a>
+    <a (click)="scrollTo('typography')">Tipografia</a>
+    <a (click)="scrollTo('imagery')">Imagens & Ícones</a>
+    <a (click)="scrollTo('shimmer')">Efeitos Premium</a>
+    <a (click)="scrollTo('components')">Componentes</a>
+  </nav>
+
+  <section id="colors" class="ds-section">
+    <h2>01. Paleta de Cores Oficial</h2>
+    <p>Nossa paleta foi escolhida para transmitir <strong>acolhimento, confiança e sofisticação</strong>.</p>
+    
+    <div class="color-grid">
+      <div class="color-group">
+        <h3>Primária (Marca)</h3>
+        <div class="color-cards">
+          <div class="color-card">
+            <div class="color-swatch" style="background-color: #3c2a20;"></div>
+            <div class="color-info">
+              <span class="color-name">Coffee Brown (Principal)</span>
+              <span class="color-hex">$principal: #3C2A20</span>
+              <span class="color-usage">Backgrounds, Headers, Texto Forte</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="color-group">
+        <h3>Secundária (Apoio)</h3>
+        <div class="color-cards">
+          <div class="color-card">
+            <div class="color-swatch" style="background-color: #ffe1ba; border: 1px solid #ddd;"></div>
+            <div class="color-info">
+              <span class="color-name">Champagne (Secundaria)</span>
+              <span class="color-hex">$secundaria: #FFE1BA</span>
+              <span class="color-usage">Seções, Cards, Nav-flutuante</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="typography" class="ds-section">
+    <h2>02. Tipografia</h2>
+    <div class="typo-container">
+      <div class="typo-example">
+        <h1 class="font-display">Display Title - Roboto 900</h1>
+        <p class="typo-meta">Uso: Banners e Títulos de Grande Impacto</p>
+      </div>
+      <div class="typo-example">
+        <h2 class="font-headline">Headline - Roboto 700</h2>
+        <p class="typo-meta">Uso: Títulos de Seção e Cabeçalhos</p>
+      </div>
+      <div class="typo-example">
+        <p class="font-body">Body Text - Roboto Regular. O cuidado com o seu pet começa na clareza das informações e na elegância da interface.</p>
+        <p class="typo-meta">Uso: Textos corridos e descrições.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="imagery" class="ds-section">
+    <h2>03. Iconografia e Imagens</h2>
+    <div class="imagery-grid">
+      <div class="asset-card">
+        <h3>Logotipo Oficial</h3>
+        <img src="assets/img/Pet Stores (200 × 200 px).svg" alt="Logo" class="asset-preview">
+        <p>Identidade visual central da Pet Stores.</p>
+      </div>
+      <div class="asset-card">
+        <h3>Ícones UX</h3>
+        <div class="icon-previews">
+          <img src="assets/img/Pet Stores (50 × 50 px)/1.svg" alt="Icon 1">
+          <img src="assets/img/Pet Stores (50 × 50 px)/2.svg" alt="Icon 2">
+          <img src="assets/img/Pet Stores (50 × 50 px)/3.svg" alt="Icon 3">
+        </div>
+        <p>Minimalismo e clareza para navegação rápida.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="shimmer" class="ds-section">
+    <h2>04. Efeitos Premium (Shimmer)</h2>
+    <p>Utilizamos brilhos sutis para guiar o olhar do usuário e transmitir exclusividade.</p>
+    <div class="effect-demo">
+      <div class="shimmer-text">Pet Stores Premium</div>
+      <button class="btn-premium">
+        <span>Explorar Serviços</span>
+        <div class="btn-shine"></div>
+      </button>
+    </div>
+  </section>
+
+  <section id="components" class="ds-section">
+    <h2>05. Componentes Base</h2>
+    <div class="components-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div style="background: white; padding: 20px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1);">
+        <h3>Inputs de Texto</h3>
+        <div style="border: 1px solid #3c2a20; padding: 10px; border-radius: 8px; color: #3c2a20;">Exemplo de Input</div>
+      </div>
+      <div style="background: white; padding: 20px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1);">
+        <h3>Tags de Status</h3>
+        <span style="background: #3c2a20; color: white; padding: 5px 15px; border-radius: 50px; font-size: 0.8rem;">Ativo</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="ds-footer">
+    <p>&copy; 2026 Pet Stores UI - JBC Software Solutions</p>
+  </footer>
+</div>

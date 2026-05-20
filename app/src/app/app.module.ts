@@ -7,12 +7,14 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { HomeComponent } from './components/home/home.component';
+import { DesignSystemComponent } from './components/design-system/design-system.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    DesignSystemComponent
   ],
   imports: [
     BrowserModule,
