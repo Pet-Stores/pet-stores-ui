@@ -1,131 +1,164 @@
-<!-- MONITORES < 1114 PX -->
-@if (isMobileScreen()) {
-  <div class="mobile">
-    <div class="navbar">
-      <mat-toolbar class="navbar">
-        @if (openMenu()) {
-          <div class="menu-icon">
+<div class="navbar-container">
+  <!-- MONITORES < 1114 PX -->
+  @if (isMobileScreen()) {
+    <div class="mobile">
+      <div class="navbar">
+        <div class="menu-icon">
+          @if (openMenu()) {
             <button (click)="drawer.toggle(); funcaoTeste()" mat-icon-button>
               <mat-icon>menu</mat-icon>
             </button>
-          </div>
-        } @else {
-          <button (click)="drawer.toggle(); funcaoTeste()" mat-icon-button>
-            <mat-icon>close</mat-icon>
-          </button>
-        }
-        <div class="logo">
-          <img (click)="funcaoTeste()" src="../../assets/img/PetStores(200×200px)/1.svg" alt="">
-        </div>
-        <div class="icons">
-          <div class="cart-icon">
-            <button mat-icon-button>
-              <mat-icon>shopping_cart</mat-icon>
+          } @else {
+            <button (click)="drawer.toggle(); funcaoTeste()" mat-icon-button>
+              <mat-icon>close</mat-icon>
             </button>
+          }
+        </div>
+        
+        <div class="logo">
+          <img (click)="funcaoTeste()" src="../../assets/img/PetStores(200×200px)/1.svg" alt="Pet Stores Logo">
+        </div>
+
+        <div class="icons" style="margin-left: auto;">
+          <button mat-icon-button>
+            <mat-icon>shopping_cart</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="pesquisar-mobile">
+        <div class="search-container">
+          <input matInput [placeholder]="animatedPlaceholder()">
+          <mat-icon class="search-icon">search</mat-icon>
+        </div>
+      </div>
+
+      <mat-drawer #drawer class="example-sidenav" mode="side">
+        <p>Menu Lateral</p>
+        @if (showFiller()) {
+          <p>Opções em breve...</p>
+        }
+        <button (click)="showFiller.set(!showFiller())" mat-raised-button>
+          Ver mais
+        </button>
+      </mat-drawer>
+    </div>
+  } @else {
+    <!-- MONITORES > 1114 PX -->
+    <div class="navbar">
+      <div class="logo">
+        <img (click)="funcaoTeste()" src="../../assets/img/Pet Stores (200 × 200 px).svg" alt="Pet Stores Logo">
+      </div>
+
+      <div class="nav-item" (click)="funcaoTeste()" style="margin-left: 20px;">
+        <mat-icon>location_on</mat-icon>
+        <span>Lojas</span>
+      </div>
+
+      <div class="search-container">
+        <input matInput [placeholder]="animatedPlaceholder()">
+        <mat-icon class="search-icon" (click)="funcaoTeste()">search</mat-icon>
+      </div>
+
+      <div class="nav-item" (click)="funcaoTeste()">
+        <mat-icon>local_shipping</mat-icon>
+        <span>Pedidos</span>
+      </div>
+
+      <div class="nav-item" (click)="funcaoTeste()">
+        <mat-icon>favorite</mat-icon>
+        <span>Favoritos</span>
+      </div>
+
+      <div class="nav-item" (click)="funcaoTeste()">
+        <mat-icon>shopping_cart</mat-icon>
+        <span>Carrinho</span>
+      </div>
+
+      <!-- ITEM DE PERFIL -->
+      <div class="nav-item user-profile-dropdown">
+        <mat-icon>account_circle</mat-icon>
+        <span>Perfil</span>
+        
+        <div class="dropdown-content">
+          <a href="#" (click)="funcaoTeste()">
+            <mat-icon>login</mat-icon>
+            Já sou cliente
+          </a>
+          <a href="#" (click)="funcaoTeste()">
+            <mat-icon>person_add</mat-icon>
+            Criar minha conta
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar-2">
+      <div class="links">
+        <div class="dropdown-item">
+          <span class="dropdown-trigger">Pets</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaPets(); track opcoes) {
+              <a href="#">{{ opcoes.value }}</a>
+            }
           </div>
         </div>
-      </mat-toolbar>
+
+        <div class="dropdown-item">
+          <span class="dropdown-trigger">Lojas</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaLojas(); track opcoes) {
+              <a href="#">{{ opcoes.value }}</a>
+            }
+          </div>
+        </div>
+
+        <div class="dropdown-item">
+          <span class="dropdown-trigger">Agendamentos</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaAgendamentos(); track opcoes) {
+              <a href="#">{{ opcoes.value }}</a>
+            }
+          </div>
+        </div>
+
+        <div class="dropdown-item">
+          <span class="dropdown-trigger">Marcas</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaMarcas(); track opcoes) {
+              <a href="#">{{ opcoes.value }}</a>
+            }
+          </div>
+        </div>
+
+        <div class="dropdown-item">
+          <span class="dropdown-trigger">Serviços</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaServicos(); track opcoes) {
+              <a href="#">{{ opcoes.value }}</a>
+            }
+          </div>
+        </div>
+
+        <div class="dropdown-item">
+          <span class="dropdown-trigger">Mais</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaMais(); track opcoes) {
+              <a href="#">{{ opcoes.value }}</a>
+            }
+          </div>
+        </div>
+
+        <div class="dropdown-item help-section">
+          <mat-icon class="support-icon">support_agent</mat-icon>
+          <span class="dropdown-trigger">Ajuda</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaAjuda(); track opcoes) {
+              <a href="#">{{ opcoes.value }}</a>
+            }
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="pesquisar-mobile">
-      <input matInput placeholder="  Pesquisar">
-    </div>
-    <button (click)="funcaoTeste()" class="search"><mat-icon>search</mat-icon></button>
-    <mat-drawer #drawer class="example-sidenav" mode="side">
-      <p>Auto-resizing sidenav</p>
-      @if (showFiller()) {
-        <p>Lorem, ipsum dolor sit amet consectetur.</p>
-      }
-      <button (click)="showFiller.set(!showFiller())" mat-raised-button>
-        Toggle extra text
-      </button>
-    </mat-drawer>
-  </div>
-} @else {
-  <mat-toolbar class="navbar">
-    <div class="logo">
-      <img (click)="funcaoTeste()" src="../../assets/img/Pet Stores (200 × 200 px).svg">
-    </div>
-    <span class="icone-localizacao">
-      <mat-icon>location_on</mat-icon>
-    </span>
-    <div class="localizacao">
-      <a href="#" (click)="funcaoTeste()"> <strong>Lojas próximas</strong> </a>
-    </div>
-    <div class="pesquisar">
-      <input matInput placeholder="  Pesquisar">
-    </div>
-    <button (click)="funcaoTeste()" class="search"><mat-icon>search</mat-icon></button>
-    <span class="icone-pedidos">
-      <mat-icon>local_shipping</mat-icon>
-    </span>
-    <div class="pedidos">
-      <a href="#" (click)="funcaoTeste()"><strong>Meus pedidos</strong></a>
-    </div>
-    <span class="icone-favoritos">
-      <mat-icon>favorite</mat-icon>
-    </span>
-    <div class="favoritos">
-      <a href="#" (click)="funcaoTeste()"> <strong>Favoritos</strong> </a>
-    </div>
-    <span class="icone-carrinho">
-      <mat-icon>shopping_cart</mat-icon>
-    </span>
-    <div class="carrinho">
-      <a href="#" (click)="funcaoTeste()"> <strong>Carrinho</strong> </a>
-    </div>
-    <span class="icone-usuario">
-      <mat-icon>account_circle</mat-icon>
-    </span>
-    <div class="usuario">
-      <a href="#" (click)="funcaoTeste()"> <strong>Entrar</strong> </a> | <a href="#" (click)="funcaoTeste()">
-      <strong>Cadastrar-se</strong> </a>
-    </div>
-  </mat-toolbar>
-  <mat-toolbar class="navbar-2">
-  <div class="links">
-    <select class="select select-pet" matNativeControl required>
-      <option value="" disabled selected hidden>Pets</option>
-      @for (opcoes of listaPets(); track opcoes) {
-        <option [value]="opcoes.value">{{ opcoes.value }}</option>
-      }
-    </select>
-    <select class="select select-lojas" matNativeControl required>
-      <option value="" disabled selected hidden>Opções lojas</option>
-      @for (opcoes of listaLojas(); track opcoes) {
-        <option [value]="opcoes.value">{{ opcoes.value }}</option>
-      }
-    </select>
-    <select class="select" matNativeControl required>
-      <option value="" disabled selected hidden>Agendamentos</option>
-      @for (opcoes of listaAgendamentos(); track opcoes) {
-        <option [value]="opcoes.value">{{ opcoes.value }}</option>
-      }
-    </select>
-    <select class="select" matNativeControl required>
-      <option value="" disabled selected hidden>Marcas</option>
-      @for (opcoes of listaMarcas(); track opcoes) {
-        <option [value]="opcoes.value">{{ opcoes.value }}</option>
-      }
-    </select>
-    <select class="select" matNativeControl required>
-      <option value="" disabled selected hidden>Serviços</option>
-      @for (opcoes of listaServicos(); track opcoes) {
-        <option [value]="opcoes.value">{{ opcoes.value }}</option>
-      }
-    </select>
-    <select class="select" matNativeControl required>
-      <option value="" disabled selected hidden>Mais</option>
-      @for (opcoes of listaMais(); track opcoes) {
-        <option [value]="opcoes.value">{{ opcoes.value }}</option>
-      }
-    </select>
-    <mat-icon class="ajuda-icon">support_agent</mat-icon>
-    <select class="select" matNativeControl required>
-      <option value="" disabled selected hidden>Ajuda</option>
-      @for (opcoes of listaAjuda(); track opcoes) {
-        <option [value]="opcoes.value">{{ opcoes.value }}</option>
-      }
-    </select>
-  </div>
-</mat-toolbar>
-}
+  }
+</div>

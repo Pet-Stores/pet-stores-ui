@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, signal } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, signal } from '@angular/core';
 
 @Component({
     selector: 'app-navbar',
@@ -6,11 +6,26 @@ import { Component, HostListener, OnInit, signal } from '@angular/core';
     styleUrls: ['./navbar.component.scss'],
     standalone: false
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
 
   public isMobileScreen = signal<boolean>(false);
   public showFiller = signal<boolean>(false);
   public openMenu = signal<boolean>(true);
+  public animatedPlaceholder = signal<string>('');
+
+  private phrases = [
+    'O que seu pet precisa hoje?',
+    'Procurando por ração?',
+    'Encontre os melhores petshops...',
+    'Agende um banho e tosa',
+    'Marcas oficiais para seu pet',
+    'Medicamentos e acessórios'
+  ];
+  private currentPhraseIndex = 0;
+  private currentCharIndex = 0;
+  private isDeleting = false;
+  private typingSpeed = 100;
+  private timeoutId: any;
 
   public listaPets = signal([
     {value: 'Gato'},
@@ -72,6 +87,42 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.checkScreenSize();
+    this.typeEffect();
+  }
+
+  ngOnDestroy() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+  }
+
+  typeEffect() {
+    const currentPhrase = this.phrases[this.currentPhraseIndex];
+    
+    if (this.isDeleting) {
+      this.animatedPlaceholder.set(currentPhrase.substring(0, this.currentCharIndex - 1));
+      this.currentCharIndex--;
+    } else {
+      this.animatedPlaceholder.set(currentPhrase.substring(0, this.currentCharIndex + 1));
+      this.currentCharIndex++;
+    }
+
+    let delta = this.typingSpeed;
+
+    if (this.isDeleting) {
+      delta /= 2;
+    }
+
+    if (!this.isDeleting && this.currentCharIndex === currentPhrase.length) {
+      this.isDeleting = true;
+      delta = 2000;
+    } else if (this.isDeleting && this.currentCharIndex === 0) {
+      this.isDeleting = false;
+      this.currentPhraseIndex = (this.currentPhraseIndex + 1) % this.phrases.length;
+      delta = 500;
+    }
+
+    this.timeoutId = setTimeout(() => this.typeEffect(), delta);
   }
 
   @HostListener('window:resize', ['$event'])
