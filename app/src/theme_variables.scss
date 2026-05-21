@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@import "./styles/colors.scss";
+@use "./styles/colors" as c;
 
 /* For use in src/lib/core/theming/_palette.scss */
 $app-brui: (

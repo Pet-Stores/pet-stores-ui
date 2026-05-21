@@ -1,9 +1,9 @@
 @use '@angular/material' as mat;
-@import "./theme_variables.scss";
+@use "./theme_variables" as *;
 
 @include mat.elevation-classes();
 @include mat.app-background();
 
-$app-brui: mat.m2-define-light-theme($app-primary, $app-accent, $app-warn);
+$app-brui-theme: mat.m2-define-light-theme($app-primary, $app-accent, $app-warn);
 
-@include mat.all-component-themes($app-brui);
+@include mat.all-component-themes($app-brui-theme);
