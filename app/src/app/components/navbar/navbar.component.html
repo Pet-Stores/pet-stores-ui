@@ -75,78 +75,90 @@
         <span>Carrinho</span>
       </div>
 
-      <div class="nav-item" (click)="funcaoTeste()">
+      <!-- ITEM DE PERFIL CORRIGIDO -->
+      <div class="nav-item user-profile-dropdown">
         <mat-icon>account_circle</mat-icon>
-        <span>Entrar</span>
+        <span>Perfil</span>
+        
+        <div class="dropdown-content">
+          <a href="#" (click)="funcaoTeste()">
+            <mat-icon>login</mat-icon>
+            Já sou cliente
+          </a>
+          <a href="#" (click)="funcaoTeste()">
+            <mat-icon>person_add</mat-icon>
+            Criar minha conta
+          </a>
+        </div>
       </div>
     </div>
 
     <div class="navbar-2">
       <div class="links">
-      <div class="dropdown-item">
-        <span class="dropdown-trigger">Pets</span>
-        <div class="dropdown-content">
-          @for (opcoes of listaPets(); track opcoes) {
-            <a href="#">{{ opcoes.value }}</a>
-          }
+        <div class="dropdown-item">
+          <span class="dropdown-trigger">Pets</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaPets(); track opcoes) {
+              <a href="#">{{ opcoes.value }}</a>
+            }
+          </div>
         </div>
-      </div>
 
-      <div class="dropdown-item">
-        <span class="dropdown-trigger">Lojas</span>
-        <div class="dropdown-content">
-          @for (opcoes of listaLojas(); track opcoes) {
-            <a href="#">{{ opcoes.value }}</a>
-          }
+        <div class="dropdown-item">
+          <span class="dropdown-trigger">Lojas</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaLojas(); track opcoes) {
+              <a href="#">{{ opcoes.value }}</a>
+            }
+          </div>
         </div>
-      </div>
 
-      <div class="dropdown-item">
-        <span class="dropdown-trigger">Agendamentos</span>
-        <div class="dropdown-content">
-          @for (opcoes of listaAgendamentos(); track opcoes) {
-            <a href="#">{{ opcoes.value }}</a>
-          }
+        <div class="dropdown-item">
+          <span class="dropdown-trigger">Agendamentos</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaAgendamentos(); track opcoes) {
+              <a href="#">{{ opcoes.value }}</a>
+            }
+          </div>
         </div>
-      </div>
 
-      <div class="dropdown-item">
-        <span class="dropdown-trigger">Marcas</span>
-        <div class="dropdown-content">
-          @for (opcoes of listaMarcas(); track opcoes) {
-            <a href="#">{{ opcoes.value }}</a>
-          }
+        <div class="dropdown-item">
+          <span class="dropdown-trigger">Marcas</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaMarcas(); track opcoes) {
+              <a href="#">{{ opcoes.value }}</a>
+            }
+          </div>
         </div>
-      </div>
 
-      <div class="dropdown-item">
-        <span class="dropdown-trigger">Serviços</span>
-        <div class="dropdown-content">
-          @for (opcoes of listaServicos(); track opcoes) {
-            <a href="#">{{ opcoes.value }}</a>
-          }
+        <div class="dropdown-item">
+          <span class="dropdown-trigger">Serviços</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaServicos(); track opcoes) {
+              <a href="#">{{ opcoes.value }}</a>
+            }
+          </div>
         </div>
-      </div>
 
-      <div class="dropdown-item">
-        <span class="dropdown-trigger">Mais</span>
-        <div class="dropdown-content">
-          @for (opcoes of listaMais(); track opcoes) {
-            <a href="#">{{ opcoes.value }}</a>
-          }
+        <div class="dropdown-item">
+          <span class="dropdown-trigger">Mais</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaMais(); track opcoes) {
+              <a href="#">{{ opcoes.value }}</a>
+            }
+          </div>
         </div>
-      </div>
 
-      <div class="dropdown-item help-section">
-        <mat-icon class="support-icon">support_agent</mat-icon>
-        <span class="dropdown-trigger">Ajuda</span>
-        <div class="dropdown-content">
-          @for (opcoes of listaAjuda(); track opcoes) {
-            <a href="#">{{ opcoes.value }}</a>
-          }
+        <div class="dropdown-item help-section">
+          <mat-icon class="support-icon">support_agent</mat-icon>
+          <span class="dropdown-trigger">Ajuda</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaAjuda(); track opcoes) {
+              <a href="#">{{ opcoes.value }}</a>
+            }
+          </div>
         </div>
       </div>
-    </div>
     </div>
   }
 </div>
