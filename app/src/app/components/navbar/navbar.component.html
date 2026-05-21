@@ -1,9 +1,9 @@
 <!-- MONITORES < 1114 PX -->
-@if (isMobileScreen) {
+@if (isMobileScreen()) {
   <div class="mobile">
     <div class="navbar">
       <mat-toolbar class="navbar">
-        @if (openMenu) {
+        @if (openMenu()) {
           <div class="menu-icon">
             <button (click)="drawer.toggle(); funcaoTeste()" mat-icon-button>
               <mat-icon>menu</mat-icon>
@@ -32,10 +32,10 @@
     <button (click)="funcaoTeste()" class="search"><mat-icon>search</mat-icon></button>
     <mat-drawer #drawer class="example-sidenav" mode="side">
       <p>Auto-resizing sidenav</p>
-      @if (showFiller) {
+      @if (showFiller()) {
         <p>Lorem, ipsum dolor sit amet consectetur.</p>
       }
-      <button (click)="showFiller = !showFiller" mat-raised-button>
+      <button (click)="showFiller.set(!showFiller())" mat-raised-button>
         Toggle extra text
       </button>
     </mat-drawer>
@@ -82,59 +82,50 @@
     </div>
   </mat-toolbar>
   <mat-toolbar class="navbar-2">
-    <!-- <div class="pegadas-esquerda">
-    <img src="../../assets/img/Pet Stores (75 × 75 px)/5.svg">
-  </div> -->
   <div class="links">
     <select class="select select-pet" matNativeControl required>
       <option value="" disabled selected hidden>Pets</option>
-      @for (opcoes of listaPets; track opcoes) {
+      @for (opcoes of listaPets(); track opcoes) {
         <option [value]="opcoes.value">{{ opcoes.value }}</option>
       }
     </select>
     <select class="select select-lojas" matNativeControl required>
       <option value="" disabled selected hidden>Opções lojas</option>
-      @for (opcoes of listaLojas; track opcoes) {
+      @for (opcoes of listaLojas(); track opcoes) {
         <option [value]="opcoes.value">{{ opcoes.value }}</option>
       }
     </select>
     <select class="select" matNativeControl required>
       <option value="" disabled selected hidden>Agendamentos</option>
-      @for (opcoes of listaAgendamentos; track opcoes) {
+      @for (opcoes of listaAgendamentos(); track opcoes) {
         <option [value]="opcoes.value">{{ opcoes.value }}</option>
       }
     </select>
     <select class="select" matNativeControl required>
       <option value="" disabled selected hidden>Marcas</option>
-      @for (opcoes of listaMarcas; track opcoes) {
+      @for (opcoes of listaMarcas(); track opcoes) {
         <option [value]="opcoes.value">{{ opcoes.value }}</option>
       }
     </select>
     <select class="select" matNativeControl required>
       <option value="" disabled selected hidden>Serviços</option>
-      @for (opcoes of listaServicos; track opcoes) {
+      @for (opcoes of listaServicos(); track opcoes) {
         <option [value]="opcoes.value">{{ opcoes.value }}</option>
       }
     </select>
     <select class="select" matNativeControl required>
       <option value="" disabled selected hidden>Mais</option>
-      @for (opcoes of listaMais; track opcoes) {
+      @for (opcoes of listaMais(); track opcoes) {
         <option [value]="opcoes.value">{{ opcoes.value }}</option>
       }
     </select>
     <mat-icon class="ajuda-icon">support_agent</mat-icon>
     <select class="select" matNativeControl required>
       <option value="" disabled selected hidden>Ajuda</option>
-      @for (opcoes of listaAjuda; track opcoes) {
+      @for (opcoes of listaAjuda(); track opcoes) {
         <option [value]="opcoes.value">{{ opcoes.value }}</option>
       }
     </select>
   </div>
-  <!-- <div class="pegadas-direita">
-  <img src="../../assets/img/Pet Stores (75 × 75 px)/6.svg">
-</div> -->
 </mat-toolbar>
 }
-
-
-<!-- MONITORES > 1114 PX -->

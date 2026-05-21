@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, signal } from '@angular/core';
 
 @Component({
     selector: 'app-navbar',
@@ -8,15 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  public isMobileScreen: boolean = false;
-  public showFiller: boolean = false;
-  public openMenu: boolean = true
-  public listaPets: any[] = [
+  public isMobileScreen = signal<boolean>(false);
+  public showFiller = signal<boolean>(false);
+  public openMenu = signal<boolean>(true);
+
+  public listaPets = signal([
     {value: 'Gato'},
     {value: 'Cachorro'},
     {value: 'Papagaio'}
-  ];
-  public listaLojas: any[] = [
+  ]);
+
+  public listaLojas = signal([
     {value: 'Melhores avaliações'},
     {value: 'Próximas de você'},
     {value: 'Lojas oficiais'},
@@ -26,63 +28,64 @@ export class NavbarComponent implements OnInit {
     {value: 'Veterinárias'},
     {value: 'Lojas agronomia'},
     {value: 'Lojas para pesca'}
-  ];
-  public listaAgendamentos: any[] = [
+  ]);
+
+  public listaAgendamentos = signal([
     {value: 'Meus agendamentos'},
     {value: 'Criar agendamento'}
-  ];
-  public listaMarcas: any[] = [
+  ]);
+
+  public listaMarcas = signal([
     {value: 'Rações'},
     {value: 'Medicamentos'},
     {value: 'Acessórios'},
     {value: 'Medicamentos'}
-  ];
-  public listaServicos: any[] = [
+  ]);
+
+  public listaServicos = signal([
     {value: 'Veterinários'},
     {value: 'Banho e tosa'},
     {value: 'Vacinação'},
     {value: 'Hotel para pet'},
     {value: 'Doações'},
     {value: 'Adote seu pet'}
-  ];
-  public listaMais: any[] = [
+  ]);
+
+  public listaMais = signal([
     {value: 'Doe filhotes'},
     {value: 'Seja vendedor'},
     {value: 'Eventos'},
     {value: 'Trabalhe conosco'},
     {value: 'Feira pets'},
-  ];
-  public listaAjuda: any[] = [
+  ]);
+
+  public listaAjuda = signal([
     {value: 'Entrega'},
     {value: 'Pedido'},
     {value: 'Conta'},
     {value: 'Denuncia'},
     {value: 'Pagamento'},
     {value: 'Outros'},
-  ];
+  ]);
 
   constructor() {}
 
   ngOnInit() {
     this.checkScreenSize();
-    window.addEventListener('resize', () => {
-      console.log(this.checkScreenSize());
+  }
 
-      this.checkScreenSize();
-    });
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkScreenSize();
   }
 
   checkScreenSize() {
-    this.isMobileScreen = window.innerWidth <= 1114;
+    this.isMobileScreen.set(window.innerWidth <= 1114);
   }
 
   funcaoTeste() {
     console.log('Abriu dialog . . .');
-    if (this.openMenu) {
-      this.openMenu = false
-    } else {
-      this.openMenu = true
-    }
+    this.openMenu.update(value => !value);
   }
 
 }
