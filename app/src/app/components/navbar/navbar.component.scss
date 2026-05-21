@@ -140,41 +140,81 @@
     width: 100%;
     gap: 30px; // Aumentado gap entre os dropdowns significativamente
 
-    .select {
-      background: transparent;
-      border: none;
-      color: $branco;
-      font-size: 0.85rem;
-      font-weight: 500;
-      padding: 5px 10px;
+    .dropdown-item {
+      position: relative;
+      display: flex;
+      align-items: center;
       cursor: pointer;
-      transition: all 0.3s ease;
-      letter-spacing: 0.5px;
+
+      .dropdown-trigger {
+        color: $branco;
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding: 15px 0;
+        transition: all 0.3s ease;
+        letter-spacing: 0.5px;
+
+        &::after {
+          content: 'expand_more';
+          font-family: 'Material Icons';
+          font-size: 16px;
+          vertical-align: middle;
+          margin-left: 5px;
+          transition: transform 0.3s ease;
+        }
+      }
+
+      .dropdown-content {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(10px);
+        @include glass-effect;
+        background: rgba($dark, 0.8); // Reduzido de 0.95 para 0.8 para maior translucidez
+        min-width: 200px;
+        border-radius: 12px;
+        padding: 10px 0;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        z-index: 1100;
+
+        a {
+          color: $branco;
+          padding: 12px 20px;
+          text-decoration: none;
+          display: block;
+          font-size: 0.85rem;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: rgba($secundaria, 0.2);
+            color: $secundaria;
+            padding-left: 25px;
+          }
+        }
+      }
 
       &:hover {
-        color: $secundaria;
-        transform: scale(1.05);
+        .dropdown-trigger {
+          color: $secundaria;
+          &::after { transform: rotate(180deg); }
+        }
+        .dropdown-content {
+          opacity: 1;
+          visibility: visible;
+          transform: translateX(-50%) translateY(0);
+        }
       }
     }
 
     .help-section {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 15px; // Aumentado o gap
-      color: $branco !important;
-      cursor: pointer;
-
+      gap: 8px;
       .support-icon {
-        color: $branco !important;
-        font-size: 22px;
-        width: 22px;
-        height: 22px;
-      }
-
-      .select {
-        padding: 0;
-        margin: 0;
+        color: $branco;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
       }
     }
   }

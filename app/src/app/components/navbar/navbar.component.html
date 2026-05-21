@@ -83,52 +83,70 @@
 
     <div class="navbar-2">
       <div class="links">
-        <select class="select" matNativeControl required>
-          <option value="" disabled selected hidden>Pets</option>
+      <div class="dropdown-item">
+        <span class="dropdown-trigger">Pets</span>
+        <div class="dropdown-content">
           @for (opcoes of listaPets(); track opcoes) {
-            <option [value]="opcoes.value">{{ opcoes.value }}</option>
+            <a href="#">{{ opcoes.value }}</a>
           }
-        </select>
-        <select class="select" matNativeControl required>
-          <option value="" disabled selected hidden>Lojas</option>
-          @for (opcoes of listaLojas(); track opcoes) {
-            <option [value]="opcoes.value">{{ opcoes.value }}</option>
-          }
-        </select>
-        <select class="select" matNativeControl required>
-          <option value="" disabled selected hidden>Agendamentos</option>
-          @for (opcoes of listaAgendamentos(); track opcoes) {
-            <option [value]="opcoes.value">{{ opcoes.value }}</option>
-          }
-        </select>
-        <select class="select" matNativeControl required>
-          <option value="" disabled selected hidden>Marcas</option>
-          @for (opcoes of listaMarcas(); track opcoes) {
-            <option [value]="opcoes.value">{{ opcoes.value }}</option>
-          }
-        </select>
-        <select class="select" matNativeControl required>
-          <option value="" disabled selected hidden>Serviços</option>
-          @for (opcoes of listaServicos(); track opcoes) {
-            <option [value]="opcoes.value">{{ opcoes.value }}</option>
-          }
-        </select>
-        <select class="select" matNativeControl required>
-          <option value="" disabled selected hidden>Mais</option>
-          @for (opcoes of listaMais(); track opcoes) {
-            <option [value]="opcoes.value">{{ opcoes.value }}</option>
-          }
-        </select>
-        <div class="nav-item help-section" (click)="funcaoTeste()">
-          <mat-icon class="support-icon">support_agent</mat-icon>
-          <select class="select" matNativeControl required>
-            <option value="" disabled selected hidden>Ajuda</option>
-            @for (opcoes of listaAjuda(); track opcoes) {
-              <option [value]="opcoes.value">{{ opcoes.value }}</option>
-            }
-          </select>
         </div>
       </div>
+
+      <div class="dropdown-item">
+        <span class="dropdown-trigger">Lojas</span>
+        <div class="dropdown-content">
+          @for (opcoes of listaLojas(); track opcoes) {
+            <a href="#">{{ opcoes.value }}</a>
+          }
+        </div>
+      </div>
+
+      <div class="dropdown-item">
+        <span class="dropdown-trigger">Agendamentos</span>
+        <div class="dropdown-content">
+          @for (opcoes of listaAgendamentos(); track opcoes) {
+            <a href="#">{{ opcoes.value }}</a>
+          }
+        </div>
+      </div>
+
+      <div class="dropdown-item">
+        <span class="dropdown-trigger">Marcas</span>
+        <div class="dropdown-content">
+          @for (opcoes of listaMarcas(); track opcoes) {
+            <a href="#">{{ opcoes.value }}</a>
+          }
+        </div>
+      </div>
+
+      <div class="dropdown-item">
+        <span class="dropdown-trigger">Serviços</span>
+        <div class="dropdown-content">
+          @for (opcoes of listaServicos(); track opcoes) {
+            <a href="#">{{ opcoes.value }}</a>
+          }
+        </div>
+      </div>
+
+      <div class="dropdown-item">
+        <span class="dropdown-trigger">Mais</span>
+        <div class="dropdown-content">
+          @for (opcoes of listaMais(); track opcoes) {
+            <a href="#">{{ opcoes.value }}</a>
+          }
+        </div>
+      </div>
+
+      <div class="dropdown-item help-section">
+        <mat-icon class="support-icon">support_agent</mat-icon>
+        <span class="dropdown-trigger">Ajuda</span>
+        <div class="dropdown-content">
+          @for (opcoes of listaAjuda(); track opcoes) {
+            <a href="#">{{ opcoes.value }}</a>
+          }
+        </div>
+      </div>
+    </div>
     </div>
   }
 </div>
