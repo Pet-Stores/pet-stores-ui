@@ -1,8 +1,9 @@
-@import '~@angular/material/theming';
+@import '@angular/material/theming';
 @import '../theme_variables.scss';
 
 
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 
 // $app-primary-color: ($app_brui);
