@@ -3,6 +3,6 @@
 
 @include mat.core();
 
-$app-brui: mat.define-light-theme($app-primary, $app-accent, $app-warn);
+$app-brui: mat.m2-define-light-theme($app-primary, $app-accent, $app-warn);
 
 @include mat.all-component-themes($app-brui);
