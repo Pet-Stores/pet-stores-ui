@@ -220,12 +220,13 @@
     margin: 0 40px;
     flex-grow: 1;
     max-width: 320px;
-    border: 1px solid transparent;
+    border: 1.5px solid rgba($principal, 0.5); // Borda fixa visível
     transition: all 0.3s ease;
 
     &:focus-within {
       background: rgba($ternaria, 0.4);
       border-color: $principal;
+      box-shadow: 0 0 10px rgba($principal, 0.1);
     }
 
     input {
