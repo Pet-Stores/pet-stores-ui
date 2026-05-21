@@ -16,3 +16,4 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | :--- | :--- | :--- | :--- |
 | 2026-05-19 | Sessão 01 | Síntese: MVP, Arquitetura, Comando Save | [sessions/2026-05-19-sessao-01.md](./sessions/2026-05-19-sessao-01.md) |
 | 2026-05-20 | Sessão 01 | Recuperação de Contexto e Protocolo Save | [sessions/2026-05-20-sessao-01.md](./sessions/2026-05-20-sessao-01.md) |
+| 2026-05-20 | Sessão 02 | Estratégia de Admin e Controle de Acesso | [sessions/2026-05-20-sessao-02.md](./sessions/2026-05-20-sessao-02.md) |
