@@ -118,7 +118,7 @@
 
 .navbar {
   @include glass-effect;
-  background-color: rgba(c.$secundaria, 0.85) !important;
+  background-color: c.$secundaria;
   border-radius: 20px;
   height: 85px;
   padding: 0 40px;

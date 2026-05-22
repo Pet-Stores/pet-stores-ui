@@ -1,0 +1,95 @@
+<app-navbar></app-navbar>
+
+<div class="cart-page-wrapper">
+  <div class="cart-main-content">
+    
+    <!-- Cabeçalho de Seleção Geral - Fixo no topo da lista -->
+    <div class="sticky-selection-header">
+      <div class="selection-control">
+        <mat-checkbox 
+          [checked]="isAllCartSelected()" 
+          (change)="toggleAllCart($event.checked)">
+          Selecionar todos os itens do carrinho
+        </mat-checkbox>
+      </div>
+    </div>
+
+    <!-- Grupos por Vendedor -->
+    <div class="seller-groups">
+      @for (group of groupedItems(); track group.seller) {
+        <div class="seller-group">
+          <div class="seller-header">
+            <mat-checkbox 
+              [checked]="group.allSelected" 
+              (change)="toggleSeller(group.seller, $event.checked)">
+              Produtos do vendedor: <strong>{{ group.seller }}</strong>
+            </mat-checkbox>
+          </div>
+
+          <!-- Itens do Vendedor -->
+          <div class="items-list">
+            @for (item of group.items; track item.id) {
+              <div class="cart-item-card">
+                <div class="item-selection">
+                  <mat-checkbox 
+                    [checked]="item.selected" 
+                    (change)="toggleItem(item.id)">
+                  </mat-checkbox>
+                </div>
+
+                <div class="item-content">
+                  <img [src]="item.image" [alt]="item.name" class="item-image">
+                  <div class="item-details">
+                    <h3 class="item-name">{{ item.name }}</h3>
+                    <div class="item-meta">
+                      <span class="item-price">{{ item.price | currency:'BRL':'symbol':'1.2-2' }}</span>
+                      <span class="item-quantity">Qtd: {{ item.quantity }}</span>
+                    </div>
+                  </div>
+                  <div class="item-actions">
+                    <button mat-icon-button color="warn" (click)="removeItem(item.id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-cart">
+          <mat-icon>shopping_cart</mat-icon>
+          <p>Seu carrinho está vazio.</p>
+          <button class="btn-premium" routerLink="/">Voltar às compras</button>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Painel Lateral de Resumo - Fixo -->
+  @if (cartItems().length > 0) {
+    <aside class="cart-summary-sidebar">
+      <div class="summary-card">
+        <h2 class="summary-title">Resumo da Compra</h2>
+        
+        <div class="summary-details">
+          <div class="summary-row">
+            <span>Subtotal ({{ selectedCount() }} itens)</span>
+            <span>{{ totalSelected() | currency:'BRL' }}</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total</span>
+            <span>{{ totalSelected() | currency:'BRL' }}</span>
+          </div>
+        </div>
+
+        <button class="btn-checkout btn-premium">
+          Finalizar Compra
+          <div class="btn-shine"></div>
+        </button>
+        
+        <p class="summary-info">Taxas e frete calculados no checkout</p>
+      </div>
+    </aside>
+  }
+</div>

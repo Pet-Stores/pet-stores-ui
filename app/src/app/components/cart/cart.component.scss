@@ -1,0 +1,284 @@
+@use "../../../styles/colors" as c;
+
+// Mixin para efeito de vidro
+@mixin glass-effect {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+.cart-page-wrapper {
+  display: flex;
+  max-width: 1400px;
+  margin: 240px auto 80px;
+  padding: 0 40px;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.cart-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+// Cabeçalho de Seleção Fixo (Sticky)
+.sticky-selection-header {
+  position: sticky;
+  top: 200px;
+  z-index: 500;
+  @include glass-effect;
+  background: c.$secundaria; // Usando a variável padronizada
+  padding: 20px 30px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(c.$principal, 0.1);
+  margin-bottom: 10px;
+
+  .selection-control {
+    ::ng-deep .mat-checkbox-label {
+      font-weight: 700;
+      color: c.$principal;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.seller-group {
+  margin-bottom: 40px;
+  @include glass-effect;
+  background: rgba(c.$secundaria, 0.1); 
+  border-radius: 25px;
+  overflow: hidden;
+  border: 1px solid rgba(c.$secundaria, 0.2);
+
+  .seller-header {
+    background: rgba(c.$secundaria, 0.15);
+    padding: 20px 30px;
+    border-bottom: 1px solid rgba(c.$secundaria, 0.2);
+    
+    ::ng-deep .mat-checkbox-label {
+      color: c.$principal;
+      font-size: 1.1rem;
+      strong { font-weight: 900; }
+    }
+  }
+}
+
+.items-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-item-card {
+  display: flex;
+  align-items: center;
+  background: rgba(c.$secundaria, 0.05);
+  padding: 30px;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(c.$secundaria, 0.1);
+
+  &:last-child { border-bottom: none; }
+
+  &:hover {
+    background: rgba(c.$secundaria, 0.2);
+    transform: scale(1.005);
+  }
+
+  .item-selection { margin-right: 25px; }
+
+  .item-content {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    gap: 30px;
+
+    .item-image {
+      width: 90px;
+      height: 90px;
+      background: white;
+      padding: 12px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .item-details {
+      flex-grow: 1;
+      .item-name { margin: 0 0 8px 0; font-size: 1.1rem; font-weight: 700; color: c.$principal; }
+      .item-meta {
+        display: flex;
+        gap: 25px;
+        font-size: 1rem;
+        font-weight: 500;
+        .item-price { color: c.$principal; font-weight: 800; }
+        .item-quantity { color: rgba(c.$principal, 0.6); }
+      }
+    }
+  }
+}
+
+// Sidebar de Resumo Fixa (Sticky)
+.cart-summary-sidebar {
+  width: 400px;
+  position: sticky;
+  top: 200px;
+  z-index: 600;
+}
+
+.summary-card {
+  @include glass-effect;
+  background: c.$secundaria; // Usando a variável padronizada
+  padding: 40px;
+  border-radius: 35px;
+  border: 2px solid rgba(c.$secundaria, 0.3);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+
+  .summary-title {
+    font-size: 1.6rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 30px;
+    color: c.$principal;
+    border-bottom: 2px solid rgba(c.$principal, 0.1);
+    padding-bottom: 20px;
+  }
+
+  .summary-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      color: rgba(c.$principal, 0.7);
+
+      &.total {
+        margin-top: 15px;
+        padding-top: 20px;
+        border-top: 2px dashed rgba(c.$principal, 0.2);
+        color: c.$principal;
+        font-size: 1.8rem;
+        font-weight: 900;
+      }
+    }
+  }
+
+  .btn-checkout {
+    width: 100%;
+    padding: 22px;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+
+  .summary-info {
+    text-align: center;
+    font-size: 0.85rem;
+    color: rgba(c.$principal, 0.5);
+    font-style: italic;
+  }
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 120px 30px;
+  @include glass-effect;
+  background: rgba(c.$secundaria, 0.1);
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+
+  mat-icon { font-size: 100px; width: 100px; height: 100px; color: rgba(c.$principal, 0.1); }
+  p { font-size: 1.6rem; color: rgba(c.$principal, 0.4); font-weight: 500; }
+}
+
+// Animação de Brilho Sweep (Efeito Metálico Fluido)
+@keyframes premium-shimmer {
+  0% { transform: translateX(-180%) skewX(-25deg); }
+  100% { transform: translateX(180%) skewX(-25deg); }
+}
+
+// Botão Premium com Efeito GTA VI Style
+.btn-premium {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, c.$principal 0%, #4e352a 50%, c.$principal 100%);
+  color: #FFE1BA; 
+  border: 1px solid rgba(255, 225, 186, 0.2);
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 900;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+
+  // Camada de Brilho Sweep (O "Shimmer" Suave)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; // Aumentado para um sweep mais suave
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0) 30%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0) 70%,
+      transparent 100%
+    );
+    transform: translateX(-180%) skewX(-25deg);
+    animation: premium-shimmer 3s infinite linear; // Removida a pausa (0-100% contínuo)
+  }
+
+  // Brilho extra no hover
+  .btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: all 0.6s;
+  }
+
+  &:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 225, 186, 0.5);
+
+    .btn-shine { left: 100%; }
+
+    &::before {
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 45%,
+        rgba(255, 255, 255, 0.6) 50%,
+        rgba(255, 255, 255, 0.3) 55%,
+        transparent 100%
+      );
+    }
+  }
+
+  &:active { transform: scale(0.98); }
+}
+
+
+// Responsividade
+@media (max-width: 1100px) {
+  .cart-page-wrapper { flex-direction: column; align-items: stretch; margin-top: 160px; }
+  .cart-summary-sidebar { width: 100%; position: static; }
+  .sticky-selection-header { top: 120px; }
+}

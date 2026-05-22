@@ -1,19 +1,27 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
 
 import { HomeComponent } from './components/home/home.component';
 import { DesignSystemComponent } from './components/design-system/design-system.component';
+import { CartComponent } from './components/cart/cart.component';
+
+registerLocaleData(localePt);
 
 const routes = [
   { path: '', component: HomeComponent },
-  { path: 'design-system', component: DesignSystemComponent }
+  { path: 'design-system', component: DesignSystemComponent },
+  { path: 'cart', component: CartComponent }
 ];
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideAnimations()
+    provideAnimations(),
+    { provide: LOCALE_ID, useValue: 'pt-BR' }
   ]
 };

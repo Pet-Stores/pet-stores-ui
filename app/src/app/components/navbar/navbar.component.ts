@@ -3,6 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatInputModule } from '@angular/material/input';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-navbar',
@@ -13,7 +14,8 @@ import { MatInputModule } from '@angular/material/input';
       MatIconModule,
       MatButtonModule,
       MatSidenavModule,
-      MatInputModule
+      MatInputModule,
+      RouterModule
     ]
 })
 export class NavbarComponent implements OnInit, OnDestroy {
