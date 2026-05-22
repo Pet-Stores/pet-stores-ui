@@ -20,8 +20,11 @@
         </div>
 
         <div class="icons" style="margin-left: auto;">
-          <button mat-icon-button>
+          <button mat-icon-button routerLink="/cart" class="cart-btn">
             <mat-icon>shopping_cart</mat-icon>
+            @if (cartCount().length > 0) {
+              <span class="cart-badge">{{ cartCount().length }}</span>
+            }
           </button>
         </div>
       </div>
@@ -70,8 +73,13 @@
         <span>Favoritos</span>
       </div>
 
-      <div class="nav-item" routerLink="/cart">
-        <mat-icon>shopping_cart</mat-icon>
+      <div class="nav-item cart-item" routerLink="/cart">
+        <div class="cart-icon-wrapper">
+          <mat-icon>shopping_cart</mat-icon>
+          @if (cartCount().length > 0) {
+            <span class="cart-badge">{{ cartCount().length }}</span>
+          }
+        </div>
         <span>Carrinho</span>
       </div>
 

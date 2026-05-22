@@ -1,9 +1,10 @@
-import { Component, HostListener, OnInit, OnDestroy, signal } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, signal, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
+import { CartService } from '../../services/cart.service';
 
 @Component({
     selector: 'app-navbar',
@@ -19,6 +20,10 @@ import { RouterModule } from '@angular/router';
     ]
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+  // Injeção do CartService
+  private cartService = inject(CartService);
+  // Expondo a lista de itens do carrinho como um sinal para o template
+  public cartCount = this.cartService.cartItems;
 
   public isMobileScreen = signal<boolean>(false);
   public showFiller = signal<boolean>(false);
