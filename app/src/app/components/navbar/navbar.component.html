@@ -22,8 +22,8 @@
         <div class="icons" style="margin-left: auto;">
           <button mat-icon-button routerLink="/cart" class="cart-btn">
             <mat-icon>shopping_cart</mat-icon>
-            @if (cartCount().length > 0) {
-              <span class="cart-badge">{{ cartCount().length }}</span>
+            @if (cartItems().length > 0) {
+              <span class="cart-badge">{{ cartItems().length }}</span>
             }
           </button>
         </div>
@@ -73,14 +73,35 @@
         <span>Favoritos</span>
       </div>
 
-      <div class="nav-item cart-item" routerLink="/cart">
+      <div class="nav-item cart-item" routerLink="/cart" [class.no-dropdown]="router.url === '/cart'">
         <div class="cart-icon-wrapper">
           <mat-icon>shopping_cart</mat-icon>
-          @if (cartCount().length > 0) {
-            <span class="cart-badge">{{ cartCount().length }}</span>
+          @if (cartItems().length > 0) {
+            <span class="cart-badge">{{ cartItems().length }}</span>
           }
         </div>
         <span>Carrinho</span>
+
+        <!-- Dropdown de Preview do Carrinho -->
+        @if (router.url !== '/cart' && cartItems().length > 0) {
+          <div class="cart-preview-dropdown">
+            <div class="preview-header">Seu Carrinho</div>
+            <div class="preview-items">
+              @for (item of cartItems(); track item.id) {
+                <div class="preview-item">
+                  <img [src]="item.image" [alt]="item.name" class="item-img">
+                  <div class="item-info">
+                    <span class="item-title">{{ item.name }}</span>
+                    <span class="item-price">{{ item.price | currency:'BRL' }}</span>
+                  </div>
+                </div>
+              }
+            </div>
+            <div class="preview-footer">
+              <button class="btn-go-to-cart">Ver carrinho completo</button>
+            </div>
+          </div>
+        }
       </div>
 
       <!-- ITEM DE PERFIL -->

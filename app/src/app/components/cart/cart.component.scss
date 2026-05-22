@@ -1,6 +1,6 @@
 @use "../../../styles/colors" as c;
 
-// Mixin para efeito de vidro
+// Reutilizando mixin de vidro
 @mixin glass-effect {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(12px) saturate(180%);
@@ -22,175 +22,209 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 30px;
 }
 
-// Cabeçalho de Seleção Fixo (Sticky)
+// Cabeçalho de Seleção Geral
 .sticky-selection-header {
   position: sticky;
   top: 200px;
   z-index: 500;
   @include glass-effect;
-  background: c.$secundaria; // Usando a variável padronizada
+  background: c.$secundaria; 
   padding: 20px 30px;
   border-radius: 20px;
   border: 1.5px solid rgba(c.$principal, 0.1);
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 
-  .selection-control {
-    ::ng-deep .mat-checkbox-label {
-      font-weight: 700;
-      color: c.$principal;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      font-size: 0.9rem;
-    }
+  ::ng-deep .mat-checkbox-label {
+    font-weight: 700;
+    color: c.$principal;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 }
 
 .seller-group {
   margin-bottom: 40px;
   @include glass-effect;
-  background: rgba(c.$secundaria, 0.1); 
-  border-radius: 25px;
+  background: rgba(c.$secundaria, 0.1);
+  border-radius: 30px;
   overflow: hidden;
   border: 1px solid rgba(c.$secundaria, 0.2);
 
   .seller-header {
-    background: rgba(c.$secundaria, 0.15);
+    background: rgba(c.$secundaria, 0.2);
     padding: 20px 30px;
     border-bottom: 1px solid rgba(c.$secundaria, 0.2);
-    
-    ::ng-deep .mat-checkbox-label {
-      color: c.$principal;
-      font-size: 1.1rem;
-      strong { font-weight: 900; }
-    }
+    strong { font-weight: 900; color: c.$principal; }
   }
-}
-
-.items-list {
-  display: flex;
-  flex-direction: column;
 }
 
 .cart-item-card {
   display: flex;
   align-items: center;
-  background: rgba(c.$secundaria, 0.05);
   padding: 30px;
-  transition: all 0.3s ease;
   border-bottom: 1px solid rgba(c.$secundaria, 0.1);
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s;
 
   &:last-child { border-bottom: none; }
-
-  &:hover {
-    background: rgba(c.$secundaria, 0.2);
-    transform: scale(1.005);
-  }
+  &:hover { background: rgba(255, 255, 255, 0.5); }
 
   .item-selection { margin-right: 25px; }
+}
 
-  .item-content {
+.item-content-flex {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 30px;
+  min-height: 100px;
+
+  .product-img {
+    width: 100px;
+    height: 100px;
+    background: white;
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  }
+
+  .product-info-col {
+    flex: 1;
     display: flex;
-    align-items: center;
-    flex-grow: 1;
-    gap: 30px;
+    flex-direction: column;
+    gap: 15px;
 
-    .item-image {
-      width: 90px;
-      height: 90px;
-      background: white;
-      padding: 12px;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    .item-details {
-      flex-grow: 1;
-      .item-name { margin: 0 0 8px 0; font-size: 1.1rem; font-weight: 700; color: c.$principal; }
-      .item-meta {
-        display: flex;
-        gap: 25px;
-        font-size: 1rem;
-        font-weight: 500;
-        .item-price { color: c.$principal; font-weight: 800; }
-        .item-quantity { color: rgba(c.$principal, 0.6); }
-      }
+    .product-title {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: c.$principal;
+      // Garante que o título apareça
+      display: block !important;
+      visibility: visible !important;
     }
   }
 }
 
-// Sidebar de Resumo Fixa (Sticky)
-.cart-summary-sidebar {
-  width: 400px;
+.product-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+
+  .price-block {
+    display: flex;
+    flex-direction: column;
+    min-width: 160px;
+    // Garante que o preço apareça
+    display: flex !important;
+    visibility: visible !important;
+
+    .price-total {
+      color: c.$principal;
+      font-weight: 900;
+      font-size: 1.3rem;
+    }
+
+    .price-unit {
+      font-size: 0.85rem;
+      color: rgba(c.$principal, 0.6);
+      font-weight: 600;
+    }
+  }
+}
+
+.qty-selector-wrapper {
+  display: flex;
+  align-items: center;
+  background: rgba(c.$principal, 0.08);
+  padding: 6px;
+  border-radius: 50px;
+  border: 1px solid rgba(c.$principal, 0.1);
+
+  .qty-control-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: white;
+    color: c.$principal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+    &:hover:not(:disabled) { background: c.$principal; color: #FFE1BA; }
+    &:disabled { opacity: 0.4; cursor: not-allowed; }
+    mat-icon { font-size: 20px; width: 20px; height: 20px; }
+  }
+
+  .qty-display {
+    min-width: 45px;
+    text-align: center;
+    font-weight: 900;
+    color: c.$principal;
+    font-size: 1.1rem;
+  }
+}
+
+// Sidebar de Resumo
+.cart-sidebar {
+  width: 420px;
   position: sticky;
   top: 200px;
   z-index: 600;
 }
 
-.summary-card {
+.summary-box {
   @include glass-effect;
-  background: c.$secundaria; // Usando a variável padronizada
+  background: c.$secundaria; 
   padding: 40px;
-  border-radius: 35px;
-  border: 2px solid rgba(c.$secundaria, 0.3);
+  border-radius: 40px;
+  border: 2px solid rgba(c.$principal, 0.1);
   box-shadow: 0 20px 60px rgba(0,0,0,0.1);
 
-  .summary-title {
-    font-size: 1.6rem;
+  .summary-headline {
+    font-size: 1.7rem;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 30px;
     color: c.$principal;
-    border-bottom: 2px solid rgba(c.$principal, 0.1);
+    margin-bottom: 30px;
+    border-bottom: 2px solid rgba(c.$principal, 0.05);
     padding-bottom: 20px;
-  }
-
-  .summary-details {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-bottom: 40px;
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      font-weight: 600;
-      color: rgba(c.$principal, 0.7);
-
-      &.total {
-        margin-top: 15px;
-        padding-top: 20px;
-        border-top: 2px dashed rgba(c.$principal, 0.2);
-        color: c.$principal;
-        font-size: 1.8rem;
-        font-weight: 900;
-      }
-    }
-  }
-
-  .btn-checkout {
-    width: 100%;
-    padding: 22px;
-    font-size: 1.3rem;
-    margin-bottom: 20px;
-  }
-
-  .summary-info {
-    text-align: center;
-    font-size: 0.85rem;
-    color: rgba(c.$principal, 0.5);
-    font-style: italic;
   }
 }
 
-.empty-cart {
+.summary-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 40px;
+
+  .stat-line {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    color: rgba(c.$principal, 0.7);
+
+    &.highlight {
+      margin-top: 10px;
+      padding-top: 20px;
+      border-top: 2px dashed rgba(c.$principal, 0.15);
+      color: c.$principal;
+      font-size: 1.8rem;
+      font-weight: 900;
+    }
+  }
+}
+
+.empty-cart-view {
   text-align: center;
-  padding: 120px 30px;
+  padding: 120px 40px;
   @include glass-effect;
-  background: rgba(c.$secundaria, 0.1);
   border-radius: 40px;
   display: flex;
   flex-direction: column;
@@ -198,87 +232,51 @@
   gap: 25px;
 
   mat-icon { font-size: 100px; width: 100px; height: 100px; color: rgba(c.$principal, 0.1); }
-  p { font-size: 1.6rem; color: rgba(c.$principal, 0.4); font-weight: 500; }
+  p { font-size: 1.6rem; color: rgba(c.$principal, 0.4); font-weight: 600; }
 }
 
-// Animação de Brilho Sweep (Efeito Metálico Fluido)
+// Animação e Botão Premium (GTA Style)
 @keyframes premium-shimmer {
   0% { transform: translateX(-180%) skewX(-25deg); }
   100% { transform: translateX(180%) skewX(-25deg); }
 }
 
-// Botão Premium com Efeito GTA VI Style
 .btn-premium {
   position: relative;
   overflow: hidden;
+  width: 100%;
+  padding: 22px;
   background: linear-gradient(135deg, c.$principal 0%, #4e352a 50%, c.$principal 100%);
   color: #FFE1BA; 
-  border: 1px solid rgba(255, 225, 186, 0.2);
+  border: none;
   border-radius: 50px;
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 900;
+  font-size: 1.2rem;
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 
-  // Camada de Brilho Sweep (O "Shimmer" Suave)
   &::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%; // Aumentado para um sweep mais suave
-    height: 100%;
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      rgba(255, 255, 255, 0) 30%,
-      rgba(255, 255, 255, 0.15) 50%,
-      rgba(255, 255, 255, 0) 70%,
-      transparent 100%
-    );
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 70%, transparent 100%);
     transform: translateX(-180%) skewX(-25deg);
-    animation: premium-shimmer 3s infinite linear; // Removida a pausa (0-100% contínuo)
-  }
-
-  // Brilho extra no hover
-  .btn-shine {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    transition: all 0.6s;
+    animation: premium-shimmer 3s infinite linear; 
   }
 
   &:hover {
     transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-    border-color: rgba(255, 225, 186, 0.5);
-
-    .btn-shine { left: 100%; }
-
-    &::before {
-      background: linear-gradient(
-        to right,
-        transparent 0%,
-        rgba(255, 255, 255, 0.3) 45%,
-        rgba(255, 255, 255, 0.6) 50%,
-        rgba(255, 255, 255, 0.3) 55%,
-        transparent 100%
-      );
-    }
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
   }
-
-  &:active { transform: scale(0.98); }
 }
 
+.footer-note { text-align: center; font-size: 0.85rem; color: rgba(c.$principal, 0.5); font-style: italic; margin-top: 20px; }
 
-// Responsividade
 @media (max-width: 1100px) {
   .cart-page-wrapper { flex-direction: column; align-items: stretch; margin-top: 160px; }
-  .cart-summary-sidebar { width: 100%; position: static; }
+  .cart-sidebar { width: 100%; position: static; }
   .sticky-selection-header { top: 120px; }
 }

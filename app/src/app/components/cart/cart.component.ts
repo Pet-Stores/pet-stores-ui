@@ -46,4 +46,12 @@ export class CartComponent {
   removeItem(id: number) {
     this.cartService.removeItem(id);
   }
+
+  incrementQuantity(id: number) {
+    this.cartService.incrementQuantity(id);
+  }
+
+  decrementQuantity(id: number) {
+    this.cartService.decrementQuantity(id);
+  }
 }
