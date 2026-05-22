@@ -54,7 +54,7 @@
     left: 50%;
     transform: translateX(-50%) translateY(10px);
     @include glass-effect;
-    background: rgba(c.$dark, 0.8); 
+    background: rgba(c.$dark, 0.8);
     min-width: 220px;
     border-radius: 12px;
     padding: 10px 0;
@@ -141,7 +141,7 @@
     &.no-dropdown:hover .cart-preview-dropdown {
       display: none !important;
     }
-    
+
     .cart-icon-wrapper {
       position: relative;
       display: flex;
@@ -156,7 +156,7 @@
       top: -8px;
       right: -8px;
       background: c.$principal;
-      color: #FFE1BA;
+      color: c.$ternaria;
       font-size: 0.65rem;
       font-weight: 900;
       min-width: 18px;
@@ -165,7 +165,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1.5px solid c.$secundaria;
+      border: 1.5px solid c.$ternaria;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 
@@ -194,7 +194,7 @@
         text-transform: uppercase;
         letter-spacing: 1px;
         font-size: 0.8rem;
-        color: #FFE1BA; // Champagne sólido para destaque
+        color: c.$secundaria; // Champagne sólido para destaque
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       }
 
@@ -255,7 +255,7 @@
                 .item-price {
                   font-size: 0.8rem;
                   font-weight: 800;
-                  color: #FFE1BA; 
+                  color: c.$secundaria;
                   line-height: 1.1;
                 }
 
@@ -282,7 +282,7 @@
       .preview-footer {
         padding: 15px 20px;
         border-top: 1px solid rgba(255, 255, 255, 0.05);
-        
+
         .btn-go-to-cart {
           width: 100%;
           background: c.$secundaria; // Botão Champagne para contraste
@@ -295,7 +295,10 @@
           text-transform: uppercase;
           cursor: pointer;
           transition: all 0.3s;
-          &:hover { filter: brightness(1.1); transform: translateY(-2px); }
+          &:hover {
+            background-color: c.$branco;
+            transform: translateY(-2px);
+          }
         }
       }
     }
@@ -331,11 +334,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
     .dropdown-content {
       position: absolute;
       top: 110%;
-      right: 0; 
+      right: 0;
       left: auto;
       transform: translateY(15px);
       @include glass-effect;
@@ -433,7 +436,7 @@
   padding: 0 20px;
   position: relative;
   z-index: 100; // Menor que a navbar principal
-  
+
   .links {
     display: flex;
     justify-content: center;
