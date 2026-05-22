@@ -92,7 +92,13 @@
                   <img [src]="item.image" [alt]="item.name" class="item-img">
                   <div class="item-info">
                     <span class="item-title">{{ item.name }}</span>
-                    <span class="item-price">{{ item.price | currency:'BRL' }}</span>
+                    <div class="item-meta-preview">
+                      <div class="price-stack">
+                        <span class="item-price">{{ (item.price * item.quantity) | currency:'BRL' }}</span>
+                        <span class="item-unit">{{ item.price | currency:'BRL' }} / un.</span>
+                      </div>
+                      <span class="item-qty">Qtd: {{ item.quantity }}</span>
+                    </div>
                   </div>
                 </div>
               }
