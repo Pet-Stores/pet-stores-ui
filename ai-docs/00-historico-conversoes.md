@@ -24,4 +24,6 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | 2026-05-20 | Sessão 03 | Modernização para Angular 19 e Signals | [sessions/2026-05-20-sessao-03.md](./sessions/2026-05-20-sessao-03.md) |
 | 2026-05-21 | Sessão 04 | Design Floating Glass e UI/UX Premium | [sessions/2026-05-21-sessao-04.md](./sessions/2026-05-21-sessao-04.md) |
 | 2026-05-21 | Sessão 05 | Migração Standalone Total e Purificação de Código | [sessions/2026-05-21-sessao-05.md](./sessions/2026-05-21-sessao-05.md) |
-| 2026-05-21 | Sessão 06 | Nova feature Do Preview ao Checkout (Jornada de Compra) | [sessions/2026-05-21-sessao-06.md](./sessions/2026-05-21-sessao-06.md) | 
+| 2026-05-21 | Sessão 06 | Nova feature Do Preview ao Checkout (Jornada de Compra) | [sessions/2026-05-21-sessao-06.md](./sessions/2026-05-21-sessao-06.md) |
+| 2026-05-24 | Sessão 01 | Refinamento de Scroll e Sticky Layout no Carrinho | [sessions/2026-05-24-sessao-01.md](./sessions/2026-05-24-sessao-01.md) |
+ -21-sessao-06.md) | 
