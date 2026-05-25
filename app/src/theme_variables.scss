@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@import "./styles/colors.scss";
+@use "./styles/colors" as c;
 
 /* For use in src/lib/core/theming/_palette.scss */
 $app-brui: (
@@ -36,13 +36,13 @@ $app-brui: (
 );
 
 
-$app-primary: mat.define-palette($app-brui, 500);
-$app-accent: mat.define-palette($app-brui, 500);
+$app-primary: mat.m2-define-palette($app-brui, 500);
+$app-accent: mat.m2-define-palette($app-brui, 500);
 
 // warn palette is optional (defaults to red).
-$app-warn: mat.define-palette(mat.$red-palette);
+$app-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
 // Custom Sass colors vars (will be available in all the project)
-$primary: mat.get-color-from-palette($app-primary);
-$accent: mat.get-color-from-palette($app-accent);
-$warn: mat.get-color-from-palette($app-warn);
+$primary: mat.m2-get-color-from-palette($app-primary);
+$accent: mat.m2-get-color-from-palette($app-accent);
+$warn: mat.m2-get-color-from-palette($app-warn);

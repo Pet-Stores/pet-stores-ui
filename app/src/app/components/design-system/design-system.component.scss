@@ -1,0 +1,293 @@
+@use "src/styles/colors" as c;
+
+.ds-container {
+  max-width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 60px 20px;
+  font-family: 'Roboto', sans-serif;
+  /* Background Principal agora é $principal (#3C2A20) */
+  background-color: c.$principal;
+  color: #fff; /* Texto geral sobre fundo escuro */
+  position: relative;
+  overflow-x: hidden;
+}
+
+.ds-header {
+  text-align: center;
+  margin-bottom: 80px;
+  padding: 60px 40px;
+  /* Background da Seção agora é $secundaria (#FFE1BA) - Tom claro */
+  background: c.$secundaria;
+  border-radius: 32px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  color: c.$principal; /* Texto escuro sobre fundo claro */
+  
+  .logo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    
+    .ds-logo {
+      height: 120px;
+      width: auto;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+    }
+    
+    h1 {
+      font-size: 3.5rem;
+      margin: 0;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 6px;
+      color: c.$principal; /* Título escuro */
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+  }
+  
+  .ds-subtitle {
+    font-size: 1.3rem;
+    color: rgba(c.$principal, 0.8);
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+}
+
+.ds-nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 80px;
+  padding: 10px;
+  position: sticky;
+  top: 20px;
+  z-index: 100;
+  
+  a {
+    text-decoration: none;
+    color: c.$principal;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 12px 25px;
+    border-radius: 50px;
+    background: rgba(c.$secundaria, 0.9);
+    border: 1px solid rgba(c.$principal, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    
+    &:hover {
+      background: c.$principal;
+      color: c.$secundaria;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+  }
+}
+
+.ds-section {
+  max-width: 1100px;
+  margin: 0 auto 120px auto;
+  padding: 60px;
+  /* Background da Seção agora é $secundaria (#FFE1BA) - Tom claro */
+  background: c.$secundaria;
+  border-radius: 40px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+  color: c.$principal; /* Texto escuro para contraste */
+  
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 50px;
+    color: c.$principal;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    
+    &::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(to right, rgba(c.$principal, 0.2), transparent);
+    }
+  }
+
+  p {
+    color: rgba(c.$principal, 0.9);
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+}
+
+/* Colors Section */
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 40px;
+}
+
+.color-card {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  background: rgba(255, 255, 255, 0.4);
+  padding: 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(c.$principal, 0.05);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.6);
+    transform: translateX(10px);
+  }
+}
+
+.color-swatch {
+  width: 90px;
+  height: 90px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.color-info {
+  .color-name { font-weight: 700; font-size: 1.2rem; color: c.$principal; }
+  .color-hex { font-family: monospace; font-size: 1.1rem; color: rgba(c.$principal, 0.7); display: block; margin: 5px 0; }
+  .color-usage { font-size: 0.9rem; color: rgba(c.$principal, 0.6); font-style: italic; }
+}
+
+/* Typography */
+.typo-container {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 60px;
+  border-radius: 32px;
+}
+
+.font-display { font-size: 4.5rem; font-weight: 900; color: c.$principal; line-height: 1; margin: 0; }
+.font-headline { font-size: 2.8rem; font-weight: 700; color: rgba(c.$principal, 0.9); margin: 0; }
+.font-body { font-size: 1.2rem; line-height: 1.8; color: rgba(c.$principal, 0.85); }
+.typo-meta { font-size: 0.9rem; color: rgba(c.$principal, 0.6); margin-top: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Imagery */
+.asset-card {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 40px;
+  border-radius: 32px;
+  border: 1px solid rgba(c.$principal, 0.05);
+  text-align: center;
+  
+  .asset-preview {
+    max-width: 200px;
+    margin: 30px 0;
+  }
+  
+  .icon-previews img {
+    width: 60px;
+    height: 60px;
+    background: white;
+    padding: 12px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: all 0.3s;
+    &:hover { transform: scale(1.1); }
+  }
+}
+
+/* Premium Effects (Destaque no fundo claro) */
+.effect-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  align-items: center;
+  background: c.$principal; /* Mantemos o demo em fundo escuro para o brilho saltar */
+  padding: 100px 40px;
+  border-radius: 50px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-text {
+  font-size: 4rem;
+  font-weight: 900;
+  text-align: center;
+  background: linear-gradient(
+    to right,
+    rgba(255,255,255,0.4) 20%,
+    #fff 40%,
+    #fff 60%,
+    rgba(255,255,255,0.4) 80%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: silver-shimmer 4s linear infinite;
+  text-shadow: 0 0 20px rgba(255,255,255,0.1);
+}
+
+@keyframes silver-shimmer {
+  to { background-position: 200% center; }
+}
+
+.btn-premium {
+  position: relative;
+  overflow: hidden;
+  background: c.$secundaria;
+  color: c.$principal;
+  border: 2px solid c.$secundaria;
+  padding: 25px 80px;
+  font-size: 1.4rem;
+  font-weight: 900;
+  border-radius: 100px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  .btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      transparent,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    );
+    transition: all 0.8s;
+  }
+  
+  &:hover {
+    transform: translateY(-8px);
+    background: transparent;
+    color: c.$secundaria;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    .btn-shine { left: 100%; }
+  }
+  
+  &:active { transform: scale(0.95); }
+}
+
+.ds-footer {
+  text-align: center;
+  margin-top: 150px;
+  padding-bottom: 80px;
+  color: c.$secundaria;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
