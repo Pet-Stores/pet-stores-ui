@@ -52,6 +52,35 @@ export class AuthService {
     }
   }
 
+  /**
+   * TODO: Integrar com o Backend (Autenticação)
+   * 
+   * Endpoint esperado: POST /api/auth/login
+   * 
+   * Dados a enviar (Payload/Request):
+   * {
+   *   "identifier": "johnny@gmail.com" | "+5541995341904", // E-mail ou número de telefone formatado
+   *   "password": "senha_do_usuario"
+   * }
+   * 
+   * Formato de retorno esperado (Response - HTTP 200):
+   * {
+   *   "token": "JWT_ACCESS_TOKEN_STRING",
+   *   "user": {
+   *     "id": "string",
+   *     "firstName": "string",
+   *     "fullName": "string",
+   *     "email": "string",
+   *     "phone": "string",
+   *     "profileImage": "string (URL)"
+   *   }
+   * }
+   * 
+   * Erros previstos (HTTP 401 / 400):
+   * {
+   *   "error": "Credenciais inválidas." // Mensagem opaca para evitar enumeração
+   * }
+   */
   login(identifier: string, password: string): boolean {
     if (password !== '123456') return false;
 
@@ -68,11 +97,38 @@ export class AuthService {
     return false;
   }
 
+  /**
+   * TODO: Integrar com o Backend (Logout)
+   * 
+   * Endpoint esperado: POST /api/auth/logout
+   * 
+   * Dados a enviar:
+   * - Cabeçalho HTTP: Authorization: Bearer JWT_ACCESS_TOKEN_STRING
+   * 
+   * Formato de retorno esperado (Response - HTTP 204):
+   * (Sem conteúdo no corpo)
+   */
   logout(): void {
     this._currentUser.set(null);
     localStorage.removeItem('user');
   }
 
+  /**
+   * TODO: Integrar com o Backend (Esqueceu sua Senha)
+   * 
+   * Endpoint esperado: POST /api/auth/forgot-password
+   * 
+   * Dados a enviar (Payload/Request):
+   * {
+   *   "identifier": "johnny@gmail.com" | "+5541995341904"
+   * }
+   * 
+   * Formato de retorno esperado (Response - HTTP 200/202):
+   * {
+   *   "success": true,
+   *   "message": "Instruções enviadas se a conta estiver ativa." // Mensagem opaca (Anti-enumeration)
+   * }
+   */
   requestPasswordReset(identifier: string): boolean {
     if (!identifier || identifier.trim() === '') {
       return false;
