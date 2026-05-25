@@ -11,7 +11,8 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | 2026-05-20 | Tarefa 03 | Design System e Efeitos Premium | [features/03-implementacao-design-system.md](./features/03-implementacao-design-system.md) |
 | 2026-05-20 | Tarefa 04 | Refatoração Angular 19 e Segurança | [features/04-refatoracao-angular-19-vulnerabilidades.md](./features/04-refatoracao-angular-19-vulnerabilidades.md) |
 | 2026-05-21 | Tarefa 05 | Modernização UI Navbar e Glassmorphism | [features/05-modernizacao-ui-navbar.md](./features/05-modernizacao-ui-navbar.md) |
-| 2026-05-21 | Tarefa 06 | Refatoração Standalone e Sass Moderno | [features/06-refatoracao-total-standalone-angular-19.md](./features/06-refatoracao-total-standalone-angular-19.md) |
+| 2026-05-21 | Tarefa 06 | Refatoração Standalone e Sass Moderno | [features/07-carrinho-premium-e-ux-reativa.md](./features/07-carrinho-premium-e-ux-reativa.md) |
+| 2026-05-21 | Tarefa 07 | Implementação do Carrinho de Compras Premium e UX Reativa | [features/06-refatoracao-total-standalone-angular-19.md](./features/06-refatoracao-total-standalone-angular-19.md) |
 
 ## 💬 Sessões (Resumos de Conversa)
 
@@ -23,3 +24,6 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | 2026-05-20 | Sessão 03 | Modernização para Angular 19 e Signals | [sessions/2026-05-20-sessao-03.md](./sessions/2026-05-20-sessao-03.md) |
 | 2026-05-21 | Sessão 04 | Design Floating Glass e UI/UX Premium | [sessions/2026-05-21-sessao-04.md](./sessions/2026-05-21-sessao-04.md) |
 | 2026-05-21 | Sessão 05 | Migração Standalone Total e Purificação de Código | [sessions/2026-05-21-sessao-05.md](./sessions/2026-05-21-sessao-05.md) |
+| 2026-05-21 | Sessão 06 | Nova feature Do Preview ao Checkout (Jornada de Compra) | [sessions/2026-05-21-sessao-06.md](./sessions/2026-05-21-sessao-06.md) |
+| 2026-05-24 | Sessão 01 | Refinamento de Scroll e Sticky Layout no Carrinho | [sessions/2026-05-24-sessao-01.md](./sessions/2026-05-24-sessao-01.md) |
+ -21-sessao-06.md) | 

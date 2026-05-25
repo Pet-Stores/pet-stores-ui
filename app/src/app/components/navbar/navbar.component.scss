@@ -54,7 +54,7 @@
     left: 50%;
     transform: translateX(-50%) translateY(10px);
     @include glass-effect;
-    background: rgba(c.$dark, 0.8); 
+    background: rgba(c.$dark, 0.8);
     min-width: 220px;
     border-radius: 12px;
     padding: 10px 0;
@@ -104,7 +104,7 @@
 
 // Navbar Flutuante
 .navbar-container {
-  position: fixed;
+  position: absolute;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
@@ -118,7 +118,7 @@
 
 .navbar {
   @include glass-effect;
-  background-color: rgba(c.$secundaria, 0.85) !important;
+  background-color: c.$secundaria;
   border-radius: 20px;
   height: 85px;
   padding: 0 40px;
@@ -132,6 +132,182 @@
   &:hover {
     border-color: rgba(c.$secundaria, 0.4);
     box-shadow: 0 12px 45px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  // Estilo do Badge de Carrinho
+  .cart-item {
+    position: relative;
+
+    &.no-dropdown:hover .cart-preview-dropdown {
+      display: none !important;
+    }
+
+    .cart-icon-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 4px;
+
+      mat-icon { margin-bottom: 0; }
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: c.$principal;
+      color: c.$ternaria;
+      font-size: 0.65rem;
+      font-weight: 900;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid c.$ternaria;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    // Dropdown de Preview do Carrinho
+    .cart-preview-dropdown {
+      position: absolute;
+      top: 110%;
+      right: -20px;
+      @include glass-effect;
+      background: rgba(c.$dark, 0.95); // Padronizado com Perfil
+      min-width: 320px;
+      max-width: 350px;
+      border-radius: 20px;
+      padding: 0;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(15px);
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      z-index: 3000;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+      border: 1.5px solid rgba(255, 225, 186, 0.1);
+
+      .preview-header {
+        padding: 15px 20px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.8rem;
+        color: c.$secundaria; // Champagne sólido para destaque
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .preview-items {
+        max-height: 300px;
+        overflow-y: auto;
+        padding: 10px 0;
+
+        &::-webkit-scrollbar { width: 6px; }
+        &::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+
+        .preview-item {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          padding: 12px 20px;
+          transition: background 0.2s;
+
+          &:hover { background: rgba(255, 255, 255, 0.05); }
+
+          .item-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: white;
+            padding: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+          }
+
+          .item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            overflow: hidden;
+            flex: 1;
+
+            .item-title {
+              font-size: 0.85rem;
+              font-weight: 500;
+              color: c.$branco;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+
+            .item-meta-preview {
+              display: flex;
+              align-items: flex-end;
+              justify-content: space-between;
+              gap: 15px;
+              margin-top: 4px;
+
+              .price-stack {
+                display: flex;
+                flex-direction: column;
+                gap: 1px;
+
+                .item-price {
+                  font-size: 0.8rem;
+                  font-weight: 800;
+                  color: c.$secundaria;
+                  line-height: 1.1;
+                }
+
+                .item-unit {
+                  font-size: 0.65rem;
+                  font-weight: 500;
+                  color: rgba(255, 255, 255, 0.5); // Cor discreta
+                }
+              }
+
+              .item-qty {
+                font-size: 0.7rem;
+                font-weight: 600;
+                color: rgba(255, 255, 255, 0.6);
+                background: rgba(255, 255, 255, 0.08);
+                padding: 2px 8px;
+                border-radius: 4px;
+              }
+            }
+          }
+        }
+      }
+
+      .preview-footer {
+        padding: 15px 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+
+        .btn-go-to-cart {
+          width: 100%;
+          background: c.$secundaria; // Botão Champagne para contraste
+          color: c.$principal;
+          border: none;
+          padding: 10px;
+          border-radius: 12px;
+          font-weight: 900;
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: all 0.3s;
+          &:hover {
+            background-color: c.$branco;
+            transform: translateY(-2px);
+          }
+        }
+      }
+    }
+
+    &:hover .cart-preview-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
   }
 
   .nav-item {
@@ -158,11 +334,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
     .dropdown-content {
       position: absolute;
       top: 110%;
-      right: 0; 
+      right: 0;
       left: auto;
       transform: translateY(15px);
       @include glass-effect;
@@ -260,7 +436,7 @@
   padding: 0 20px;
   position: relative;
   z-index: 100; // Menor que a navbar principal
-  
+
   .links {
     display: flex;
     justify-content: center;
