@@ -50,7 +50,7 @@
       </mat-form-field>
 
       <div class="forgot-password">
-        <a href="#">Esqueceu sua senha?</a>
+        <a href="javascript:void(0)" (click)="goToForgotPassword($event)">Esqueceu sua senha?</a>
       </div>
 
       <button mat-flat-button color="primary" class="login-btn premium-shine" type="submit" [disabled]="loginForm.invalid">

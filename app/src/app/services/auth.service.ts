@@ -72,4 +72,14 @@ export class AuthService {
     this._currentUser.set(null);
     localStorage.removeItem('user');
   }
+
+  requestPasswordReset(identifier: string): boolean {
+    if (!identifier || identifier.trim() === '') {
+      return false;
+    }
+    // Lógica mock de envio de recuperação. Retorna true para simular sucesso
+    // e manter a resposta opaca (segurança anti-enumeração de contas).
+    console.log(`[AuthService] Link de recuperação solicitado para: ${identifier}`);
+    return true;
+  }
 }

@@ -18,7 +18,7 @@ interface CountryData {
 }
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-forgot-password',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,20 +30,18 @@ interface CountryData {
     MatIconModule,
     MatSnackBarModule
   ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.scss']
 })
-export class LoginComponent {
+export class ForgotPasswordComponent {
   private fb = inject(FormBuilder);
-  public dialogRef = inject(MatDialogRef<LoginComponent>);
+  public dialogRef = inject(MatDialogRef<ForgotPasswordComponent>);
   private authService = inject(AuthService);
   private snackBar = inject(MatSnackBar);
 
-  loginForm: FormGroup;
-  hidePassword = true;
-  loginError = signal<string | null>(null);
+  forgotForm: FormGroup;
   
-  // Lista de países suportados
+  // Lista de países suportados (idêntico ao LoginComponent)
   private countries: CountryData[] = [
     { code: 'BR', prefix: '+55', flag: '🇧🇷', mask: '+55 (00) 00000-0000', regex: /^\+?55/ },
     { code: 'US', prefix: '+1', flag: '🇺🇸', mask: '+1 (000) 000-0000', regex: /^\+?1/ },
@@ -57,18 +55,12 @@ export class LoginComponent {
   selectedCountry = signal<CountryData>(this.countries[0]); // Default BR
 
   constructor() {
-    this.loginForm = this.fb.group({
-      emailOrPhone: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+    this.forgotForm = this.fb.group({
+      emailOrPhone: ['', [Validators.required]]
     });
 
-    this.loginForm.get('emailOrPhone')?.valueChanges.subscribe(value => {
+    this.forgotForm.get('emailOrPhone')?.valueChanges.subscribe(value => {
       this.detectInputType(value);
-      this.loginError.set(null);
-    });
-    
-    this.loginForm.get('password')?.valueChanges.subscribe(() => {
-      this.loginError.set(null);
     });
   }
 
@@ -77,7 +69,7 @@ export class LoginComponent {
       this.isPhoneMode.set(false);
       this.selectedCountry.set(this.countries[0]); // Reset to BR
       if (value !== '') {
-        this.loginForm.get('emailOrPhone')?.setValue('', { emitEvent: false });
+        this.forgotForm.get('emailOrPhone')?.setValue('', { emitEvent: false });
       }
       return;
     }
@@ -100,7 +92,7 @@ export class LoginComponent {
         const matchingPrefix = this.countries.find(c => value.startsWith(c.prefix.replace('+', '')));
         if (matchingPrefix) {
           const newValue = '+' + value;
-          this.loginForm.get('emailOrPhone')?.setValue(newValue, { emitEvent: false });
+          this.forgotForm.get('emailOrPhone')?.setValue(newValue, { emitEvent: false });
           this.applyPhoneMask(newValue);
           return;
         }
@@ -159,33 +151,30 @@ export class LoginComponent {
     }
 
     if (finalValue !== value) {
-      this.loginForm.get('emailOrPhone')?.setValue(finalValue, { emitEvent: false });
+      this.forgotForm.get('emailOrPhone')?.setValue(finalValue, { emitEvent: false });
     }
   }
 
   onSubmit(): void {
-    if (this.loginForm.valid) {
-      const { emailOrPhone, password } = this.loginForm.value;
-      const success = this.authService.login(emailOrPhone, password);
+    if (this.forgotForm.valid) {
+      const { emailOrPhone } = this.forgotForm.value;
+      
+      // Envia o link fictício via AuthService (simulação)
+      this.authService.requestPasswordReset(emailOrPhone);
 
-      if (success) {
-        this.snackBar.open('Login realizado com sucesso!', 'Fechar', {
-          duration: 4000,
+      // Exibição de snackbar verde de sucesso com mensagem opaca
+      this.snackBar.open(
+        'Se os dados informados estiverem cadastrados, você receberá um link de recuperação em instantes.', 
+        'Fechar', 
+        {
+          duration: 6000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
           panelClass: ['success-snackbar']
-        });
-        this.dialogRef.close(true);
-      } else {
-        // Mensagem genérica por segurança (Best Practice)
-        this.snackBar.open('E-mail, telefone ou senha incorretos.', 'Tentar novamente', {
-          duration: 5000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
-        this.loginError.set('Credenciais inválidas.');
-      }
+        }
+      );
+      
+      this.dialogRef.close();
     }
   }
 
@@ -193,16 +182,8 @@ export class LoginComponent {
     this.dialogRef.close();
   }
 
-  loginWithGoogle(): void {
-    console.log('Login with Google initiated');
-  }
-
-  goToForgotPassword(event: Event): void {
+  goToLogin(event: Event): void {
     event.preventDefault();
-    this.dialogRef.close('forgot-password');
-  }
-
-  goToRegister(): void {
-    this.dialogRef.close('register');
+    this.dialogRef.close('login');
   }
 }

@@ -9,6 +9,7 @@ import { RouterModule, Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { LoginComponent } from '../auth/login/login.component';
+import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
 
 @Component({
     selector: 'app-navbar',
@@ -164,11 +165,32 @@ export class NavbarComponent implements OnInit, OnDestroy {
   openLoginModal() {
     if (this.authService.isLoggedIn()) return;
     
-    this.dialog.open(LoginComponent, {
+    const dialogRef = this.dialog.open(LoginComponent, {
       width: '100%',
       maxWidth: '450px',
       panelClass: 'custom-modal-container',
       autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'forgot-password') {
+        this.openForgotPasswordModal();
+      }
+    });
+  }
+
+  openForgotPasswordModal() {
+    const dialogRef = this.dialog.open(ForgotPasswordComponent, {
+      width: '100%',
+      maxWidth: '450px',
+      panelClass: 'custom-modal-container',
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'login') {
+        this.openLoginModal();
+      }
     });
   }
 
