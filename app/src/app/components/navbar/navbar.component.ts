@@ -4,8 +4,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterModule, Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
+import { AuthService } from '../../services/auth.service';
+import { LoginComponent } from '../auth/login/login.component';
 
 @Component({
     selector: 'app-navbar',
@@ -18,6 +21,7 @@ import { CartService } from '../../services/cart.service';
       MatButtonModule,
       MatSidenavModule,
       MatInputModule,
+      MatDialogModule,
       RouterModule
     ]
 })
@@ -25,6 +29,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   // Injeção de dependências
   private cartService = inject(CartService);
   public router = inject(Router);
+  private dialog = inject(MatDialog);
+  public authService = inject(AuthService);
 
   // Expondo a lista de itens do carrinho
   public cartItems = this.cartService.cartItems;
@@ -153,6 +159,21 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   checkScreenSize() {
     this.isMobileScreen.set(window.innerWidth <= 1114);
+  }
+
+  openLoginModal() {
+    if (this.authService.isLoggedIn()) return;
+    
+    this.dialog.open(LoginComponent, {
+      width: '100%',
+      maxWidth: '450px',
+      panelClass: 'custom-modal-container',
+      autoFocus: false
+    });
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   funcaoTeste() {
