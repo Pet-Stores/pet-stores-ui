@@ -177,7 +177,14 @@ export class LoginComponent {
         });
         this.dialogRef.close(true);
       } else {
-        this.loginError.set('Credenciais inválidas. Tente novamente.');
+        // Mensagem genérica por segurança (Best Practice)
+        this.snackBar.open('E-mail, telefone ou senha incorretos.', 'Tentar novamente', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar']
+        });
+        this.loginError.set('Credenciais inválidas.');
       }
     }
   }

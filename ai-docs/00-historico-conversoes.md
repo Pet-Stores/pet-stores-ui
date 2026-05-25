@@ -13,6 +13,7 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | 2026-05-21 | Tarefa 05 | Modernização UI Navbar e Glassmorphism | [features/05-modernizacao-ui-navbar.md](./features/05-modernizacao-ui-navbar.md) |
 | 2026-05-21 | Tarefa 06 | Refatoração Standalone e Sass Moderno | [features/07-carrinho-premium-e-ux-reativa.md](./features/07-carrinho-premium-e-ux-reativa.md) |
 | 2026-05-21 | Tarefa 07 | Implementação do Carrinho de Compras Premium e UX Reativa | [features/06-refatoracao-total-standalone-angular-19.md](./features/06-refatoracao-total-standalone-angular-19.md) |
+| 2026-05-24 | Feature 09 | Sistema de Autenticação e Login Premium | [features/09-autenticacao-e-login-premium.md](./features/09-autenticacao-e-login-premium.md) |
 
 ## 💬 Sessões (Resumos de Conversa)
 
@@ -26,4 +27,4 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | 2026-05-21 | Sessão 05 | Migração Standalone Total e Purificação de Código | [sessions/2026-05-21-sessao-05.md](./sessions/2026-05-21-sessao-05.md) |
 | 2026-05-21 | Sessão 06 | Nova feature Do Preview ao Checkout (Jornada de Compra) | [sessions/2026-05-21-sessao-06.md](./sessions/2026-05-21-sessao-06.md) |
 | 2026-05-24 | Sessão 01 | Refinamento de Scroll e Sticky Layout no Carrinho | [sessions/2026-05-24-sessao-01.md](./sessions/2026-05-24-sessao-01.md) |
- -21-sessao-06.md) | 
+| 2026-05-24 | Sessão 02 | Implementação de Login Premium e Segurança Hardened | [sessions/2026-05-24-sessao-02.md](./sessions/2026-05-24-sessao-02.md) |

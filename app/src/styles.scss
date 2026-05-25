@@ -40,5 +40,31 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 }
 
+/* Warning Snackbar Styling */
+.warning-snackbar {
+  --mdc-snackbar-container-color: #f59e0b !important;
+  --mdc-snackbar-supporting-text-color: #ffffff !important;
+  --mat-snack-bar-button-color: #ffffff !important;
+  
+  .mdc-snackbar__surface {
+    border-radius: 12px !important;
+    padding: 8px 16px !important;
+    box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3) !important;
+  }
+}
+
+/* Error Snackbar Styling (Security generic error) */
+.error-snackbar {
+  --mdc-snackbar-container-color: #ef4444 !important;
+  --mdc-snackbar-supporting-text-color: #ffffff !important;
+  --mat-snack-bar-button-color: #ffffff !important;
+  
+  .mdc-snackbar__surface {
+    border-radius: 12px !important;
+    padding: 8px 16px !important;
+    box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3) !important;
+  }
+}
+
 
 
