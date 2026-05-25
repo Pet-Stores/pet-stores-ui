@@ -111,19 +111,42 @@
       </div>
 
       <!-- ITEM DE PERFIL -->
-      <div class="nav-item user-profile-dropdown">
-        <mat-icon>account_circle</mat-icon>
-        <span>Perfil</span>
+      <div class="nav-item user-profile-dropdown" [class.is-logged-in]="authService.isLoggedIn()">
+        @if (authService.isLoggedIn()) {
+          <div class="profile-img-container">
+            <img [src]="authService.currentUser()?.profileImage" 
+                 [alt]="authService.userFirstName()"
+                 onerror="this.src='https://ui-avatars.com/api/?name=Johnny&background=3C2A20&color=fff'">
+          </div>
+        } @else {
+          <mat-icon>account_circle</mat-icon>
+        }
+        <span>{{ authService.userFirstName() }}</span>
         
         <div class="dropdown-content">
-          <a href="#" (click)="funcaoTeste()">
-            <mat-icon>login</mat-icon>
-            Já sou cliente
-          </a>
-          <a href="#" (click)="funcaoTeste()">
-            <mat-icon>person_add</mat-icon>
-            Criar minha conta
-          </a>
+          @if (!authService.isLoggedIn()) {
+            <a href="javascript:void(0)" (click)="openLoginModal()">
+              <mat-icon>login</mat-icon>
+              Já sou cliente
+            </a>
+            <a href="#" (click)="funcaoTeste()">
+              <mat-icon>person_add</mat-icon>
+              Criar minha conta
+            </a>
+          } @else {
+            <a href="javascript:void(0)" (click)="funcaoTeste()">
+              <mat-icon>person</mat-icon>
+              Minha Conta
+            </a>
+            <a href="javascript:void(0)" (click)="funcaoTeste()">
+              <mat-icon>shopping_bag</mat-icon>
+              Meus Pedidos
+            </a>
+            <a href="javascript:void(0)" (click)="logout()" class="logout-link">
+              <mat-icon>logout</mat-icon>
+              Sair
+            </a>
+          }
         </div>
       </div>
     </div>
