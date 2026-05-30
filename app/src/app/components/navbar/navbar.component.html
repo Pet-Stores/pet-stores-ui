@@ -68,9 +68,38 @@
         <span>Pedidos</span>
       </div>
 
-      <div class="nav-item" (click)="funcaoTeste()">
-        <mat-icon>favorite</mat-icon>
+      <div class="nav-item favorites-item">
+        <div class="favorite-icon-wrapper">
+          <mat-icon>favorite</mat-icon>
+          @if (favoritesCount() > 0) {
+            <span class="favorite-badge">{{ favoritesCount() }}</span>
+          }
+        </div>
         <span>Favoritos</span>
+
+        <!-- Dropdown de Preview de Favoritos -->
+        @if (favoritesCount() > 0) {
+          <div class="favorites-preview-dropdown">
+            <div class="preview-header">Seus Favoritos</div>
+            <div class="preview-items">
+              @for (item of favoriteItems(); track item.id) {
+                <div class="preview-item">
+                  <img [src]="item.image" [alt]="item.name" class="item-img">
+                  <div class="item-info">
+                    <span class="item-title">{{ item.name }}</span>
+                    <span class="item-price">{{ item.price | currency:'BRL' }}</span>
+                  </div>
+                  <button mat-icon-button class="btn-remove" (click)="favoritesService.removeFavorite(item.id)">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+                </div>
+              }
+            </div>
+            <div class="preview-footer">
+              <button class="btn-clear" (click)="favoritesService.clearFavorites()">Limpar favoritos</button>
+            </div>
+          </div>
+        }
       </div>
 
       <div class="nav-item cart-item" routerLink="/cart" [class.no-dropdown]="router.url === '/cart'">

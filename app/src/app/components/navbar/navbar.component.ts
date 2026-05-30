@@ -8,6 +8,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterModule, Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
+import { FavoritesService } from '../../services/favorites.service';
 import { LoginComponent } from '../auth/login/login.component';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
 import { RegisterComponent } from '../auth/register/register.component';
@@ -33,9 +34,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public router = inject(Router);
   private dialog = inject(MatDialog);
   public authService = inject(AuthService);
+  public favoritesService = inject(FavoritesService);
 
-  // Expondo a lista de itens do carrinho
+  // Expondo dados reativos
   public cartItems = this.cartService.cartItems;
+  public favoriteItems = this.favoritesService.favoriteItems;
+  public favoritesCount = this.favoritesService.favoritesCount;
 
   public isMobileScreen = signal<boolean>(false);
   public showFiller = signal<boolean>(false);

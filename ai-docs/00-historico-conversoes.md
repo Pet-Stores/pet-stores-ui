@@ -16,6 +16,7 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | 2026-05-24 | Feature 09 | Sistema de Autenticação e Login Premium | [features/09-autenticacao-e-login-premium.md](./features/09-autenticacao-e-login-premium.md) |
 | 2026-05-25 | Feature 10 | Recuperação de Senha (Esqueceu sua senha) | [features/10-recuperacao-de-senha.md](./features/10-recuperacao-de-senha.md) |
 | 2026-05-25 | Feature 11 | Cadastro Multi-Perfil (Register) | [features/11-cadastro-multi-perfil.md](./features/11-cadastro-multi-perfil.md) |
+| 2026-05-25 | Feature 12 | Sistema de Favoritos Reativo | [features/12-sistema-de-favoritos.md](./features/12-sistema-de-favoritos.md) |
 
 
 ## 💬 Sessões (Resumos de Conversa)
@@ -24,6 +25,7 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | :--- | :--- | :--- | :--- |
 | 2026-05-25 | Sessão 01 | Recuperação de Senha e Ajuste de Budgets | [sessions/2026-05-25-sessao-01.md](./sessions/2026-05-25-sessao-01.md) |
 | 2026-05-25 | Sessão 02 | Implementação de Cadastro Multi-Perfil e UX Premium | [sessions/2026-05-25-sessao-02.md](./sessions/2026-05-25-sessao-02.md) |
+| 2026-05-25 | Sessão 03 | Sistema de Favoritos e Correção de Build | [sessions/2026-05-25-sessao-03.md](./sessions/2026-05-25-sessao-03.md) |
 
 | 2026-05-20 | Sessão 01 | Recuperação de Contexto e Protocolo Save | [sessions/2026-05-20-sessao-01.md](./sessions/2026-05-20-sessao-01.md) |
 | 2026-05-20 | Sessão 02 | Estratégia de Admin e Controle de Acesso | [sessions/2026-05-20-sessao-02.md](./sessions/2026-05-20-sessao-02.md) |
@@ -33,4 +35,3 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | 2026-05-21 | Sessão 06 | Nova feature Do Preview ao Checkout (Jornada de Compra) | [sessions/2026-05-21-sessao-06.md](./sessions/2026-05-21-sessao-06.md) |
 | 2026-05-24 | Sessão 01 | Refinamento de Scroll e Sticky Layout no Carrinho | [sessions/2026-05-24-sessao-01.md](./sessions/2026-05-24-sessao-01.md) |
 | 2026-05-24 | Sessão 02 | Implementação de Login Premium e Segurança Hardened | [sessions/2026-05-24-sessao-02.md](./sessions/2026-05-24-sessao-02.md) |
-| 2026-05-25 | Sessão 01 | Recuperação de Senha e Ajuste de Budgets | [sessions/2026-05-25-sessao-01.md](./sessions/2026-05-25-sessao-01.md) |
