@@ -15,13 +15,16 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | 2026-05-21 | Tarefa 07 | Implementação do Carrinho de Compras Premium e UX Reativa | [features/06-refatoracao-total-standalone-angular-19.md](./features/06-refatoracao-total-standalone-angular-19.md) |
 | 2026-05-24 | Feature 09 | Sistema de Autenticação e Login Premium | [features/09-autenticacao-e-login-premium.md](./features/09-autenticacao-e-login-premium.md) |
 | 2026-05-25 | Feature 10 | Recuperação de Senha (Esqueceu sua senha) | [features/10-recuperacao-de-senha.md](./features/10-recuperacao-de-senha.md) |
+| 2026-05-25 | Feature 11 | Cadastro Multi-Perfil (Register) | [features/11-cadastro-multi-perfil.md](./features/11-cadastro-multi-perfil.md) |
 
 
 ## 💬 Sessões (Resumos de Conversa)
 
 | Data | Registro | Principais Temas | Arquivo |
 | :--- | :--- | :--- | :--- |
-| 2026-05-19 | Sessão 01 | Síntese: MVP, Arquitetura, Comando Save | [sessions/2026-05-19-sessao-01.md](./sessions/2026-05-19-sessao-01.md) |
+| 2026-05-25 | Sessão 01 | Recuperação de Senha e Ajuste de Budgets | [sessions/2026-05-25-sessao-01.md](./sessions/2026-05-25-sessao-01.md) |
+| 2026-05-25 | Sessão 02 | Implementação de Cadastro Multi-Perfil e UX Premium | [sessions/2026-05-25-sessao-02.md](./sessions/2026-05-25-sessao-02.md) |
+
 | 2026-05-20 | Sessão 01 | Recuperação de Contexto e Protocolo Save | [sessions/2026-05-20-sessao-01.md](./sessions/2026-05-20-sessao-01.md) |
 | 2026-05-20 | Sessão 02 | Estratégia de Admin e Controle de Acesso | [sessions/2026-05-20-sessao-02.md](./sessions/2026-05-20-sessao-02.md) |
 | 2026-05-20 | Sessão 03 | Modernização para Angular 19 e Signals | [sessions/2026-05-20-sessao-03.md](./sessions/2026-05-20-sessao-03.md) |

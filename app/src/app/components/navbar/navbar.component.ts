@@ -10,6 +10,7 @@ import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { LoginComponent } from '../auth/login/login.component';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
+import { RegisterComponent } from '../auth/register/register.component';
 
 @Component({
     selector: 'app-navbar',
@@ -175,6 +176,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'forgot-password') {
         this.openForgotPasswordModal();
+      } else if (result === 'register') {
+        this.openRegisterModal();
       }
     });
   }
@@ -183,6 +186,21 @@ export class NavbarComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ForgotPasswordComponent, {
       width: '100%',
       maxWidth: '450px',
+      panelClass: 'custom-modal-container',
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'login') {
+        this.openLoginModal();
+      }
+    });
+  }
+
+  openRegisterModal() {
+    const dialogRef = this.dialog.open(RegisterComponent, {
+      width: '100%',
+      maxWidth: '650px',
       panelClass: 'custom-modal-container',
       autoFocus: false
     });
