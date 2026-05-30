@@ -98,6 +98,60 @@ export class AuthService {
   }
 
   /**
+   * TODO: Integrar com o Backend (Cadastro de Usuário)
+   * 
+   * Endpoint esperado: POST /api/auth/register
+   * 
+   * Dados a enviar (Payload/Request):
+   * {
+   *   "profileType": "buyer" | "seller" | "delivery_person",
+   *   "fullName": "string",
+   *   "identifier": "string (email or phone)",
+   *   "password": "string",
+   *   "extraData": {
+   *      // Se seller:
+   *      "storeName": "string",
+   *      "cnpj": "string",
+   *      "address": { ... },
+   *      "documents": ["url_ficticia_1", "url_ficticia_2"]
+   *      // Se delivery_person:
+   *      "cpf": "string",
+   *      "vehicleType": "bicycle" | "moto" | "car",
+   *      "plate": "string",
+   *      "documents": ["url_ficticia_1", "url_ficticia_2"]
+   *   }
+   * }
+   * 
+   * Formato de retorno esperado (Response - HTTP 201):
+   * {
+   *   "success": true,
+   *   "user": { ...Dados do Usuário Criado... }
+   * }
+   */
+  register(userData: any): boolean {
+    console.log('[AuthService] Realizando cadastro mock:', userData);
+    
+    // Simula a criação de um novo usuário baseado nos dados básicos
+    const newUser: User = {
+      id: Math.random().toString(36).substring(2, 9),
+      firstName: userData.fullName.split(' ')[0],
+      fullName: userData.fullName,
+      email: userData.identifier.includes('@') ? userData.identifier : undefined,
+      phone: !userData.identifier.includes('@') ? userData.identifier : undefined,
+      profileImage: '../../assets/img/perfil-image.jpeg'
+    };
+
+    // Adiciona ao mock local para permitir login imediato (opcional na lógica de mock)
+    this.mockUsers.push(newUser);
+    
+    // Loga o usuário automaticamente após o cadastro (comum em MVPs)
+    this._currentUser.set(newUser);
+    localStorage.setItem('user', JSON.stringify(newUser));
+
+    return true;
+  }
+
+  /**
    * TODO: Integrar com o Backend (Logout)
    * 
    * Endpoint esperado: POST /api/auth/logout
