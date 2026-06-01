@@ -1,4 +1,4 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, effect } from '@angular/core';
 
 export interface FavoriteItem {
   id: number;
@@ -18,11 +18,18 @@ export class FavoritesService {
   private _favoriteItems = signal<FavoriteItem[]>([]);
 
   public favoriteItems = this._favoriteItems.asReadonly();
-
   public favoritesCount = computed(() => this._favoriteItems().length);
 
   constructor() {
-    // Carregar favoritos do localStorage ao iniciar
+    this.initFavorites();
+
+    // Efeito para salvar no localStorage sempre que os favoritos mudarem
+    effect(() => {
+      localStorage.setItem('favorites', JSON.stringify(this._favoriteItems()));
+    });
+  }
+
+  private initFavorites() {
     const savedFavorites = localStorage.getItem('favorites');
     if (savedFavorites) {
       try {
@@ -34,27 +41,14 @@ export class FavoritesService {
   }
 
   /**
-   * Persiste os favoritos no localStorage
-   */
-  private saveToStorage() {
-    localStorage.setItem('favorites', JSON.stringify(this._favoriteItems()));
-  }
-
-  /**
-   * Adiciona ou remove um item dos favoritos (Toggle)
+   * TODO: Integração Backend - Toggle Favorito
+   * Endpoint: POST /api/favorites/toggle/{productId}
    */
   public toggleFavorite(item: FavoriteItem) {
     this._favoriteItems.update(items => {
       const exists = items.find(i => i.id === item.id);
-      let newItems;
-      if (exists) {
-        newItems = items.filter(i => i.id !== item.id);
-      } else {
-        newItems = [...items, item];
-      }
-      return newItems;
+      return exists ? items.filter(i => i.id !== item.id) : [...items, item];
     });
-    this.saveToStorage();
   }
 
   /**
@@ -65,26 +59,24 @@ export class FavoritesService {
   }
 
   /**
-   * Remove um item específico
+   * TODO: Integração Backend - Remover Favorito
+   * Endpoint: DELETE /api/favorites/{productId}
    */
   public removeFavorite(id: number) {
     this._favoriteItems.update(items => items.filter(item => item.id !== id));
-    this.saveToStorage();
   }
 
   /**
-   * Limpa todos os favoritos
+   * TODO: Integração Backend - Limpar Favoritos
+   * Endpoint: DELETE /api/favorites/clear
    */
   public clearFavorites() {
     this._favoriteItems.set([]);
-    localStorage.removeItem('favorites');
   }
 
   /**
-   * TODO: Integrar com o Backend (Sincronizar Favoritos)
-   * 
-   * Endpoint esperado: GET /api/favorites
-   * Endpoint esperado: POST /api/favorites/{productId}
-   * Endpoint esperado: DELETE /api/favorites/{productId}
+   * TODO: Integração Backend - Sincronizar Favoritos (Initial Load)
+   * Endpoint: GET /api/favorites
    */
+  public syncFavoritesFromBackend() {}
 }

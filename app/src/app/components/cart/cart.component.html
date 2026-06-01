@@ -38,10 +38,10 @@
                 </div>
 
                 <div class="item-content-flex">
-                  <img [src]="item.image" [alt]="item.name" class="product-img">
+                  <img [src]="item.image" [alt]="item.name" class="product-img" [routerLink]="['/product', item.id]">
                   
                   <div class="product-info-col">
-                    <h3 class="product-title">{{ item.name }}</h3>
+                    <h3 class="product-title" [routerLink]="['/product', item.id]">{{ item.name }}</h3>
                     
                     <div class="product-meta-row">
                       <!-- Bloco de Preços -->

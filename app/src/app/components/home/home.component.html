@@ -14,14 +14,14 @@
               <mat-icon>{{ isFavorite(product.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
             </button>
           </div>
-          <div class="card-image">
-            <img [src]="product.image" [alt]="product.name">
+          <div class="card-image" [routerLink]="['/product', product.id]">
+            <img [src]="product.images[0]" [alt]="product.name">
           </div>
           <div class="card-body">
             <span class="seller">{{ product.sellerName }}</span>
-            <h3>{{ product.name }}</h3>
+            <h3 [routerLink]="['/product', product.id]">{{ product.name }}</h3>
             <p class="price">{{ product.price | currency:'BRL' }}</p>
-            <button mat-raised-button color="primary" class="buy-btn">ADICIONAR</button>
+            <button mat-raised-button color="primary" class="buy-btn" [routerLink]="['/product', product.id]">VER DETALHES</button>
           </div>
         </div>
       }

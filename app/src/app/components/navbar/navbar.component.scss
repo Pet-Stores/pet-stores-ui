@@ -172,7 +172,7 @@
     }
 
     .preview-items {
-      max-height: 300px;
+      max-height: 400px;
       overflow-y: auto;
       padding: 10px 0;
 
@@ -185,14 +185,17 @@
         gap: 15px;
         padding: 12px 20px;
         transition: background 0.2s;
+        cursor: pointer;
+
         &:hover { background: rgba(255, 255, 255, 0.05); }
 
         .item-img {
-          width: 45px;
-          height: 45px;
+          width: 50px;
+          height: 50px;
           border-radius: 10px;
           background: white;
           padding: 5px;
+          object-fit: contain;
         }
 
         .item-info {
@@ -204,6 +207,7 @@
 
           .item-title {
             font-size: 0.85rem;
+            font-weight: 500;
             color: c.$branco;
             white-space: nowrap;
             overflow: hidden;
@@ -214,13 +218,7 @@
             font-size: 0.9rem;
             font-weight: 800;
             color: c.$secundaria;
-          }
-
-          .price-stack {
-            display: flex;
-            flex-direction: column;
-            .item-price { font-size: 0.8rem; font-weight: 800; color: c.$secundaria; }
-            .item-unit { font-size: 0.65rem; color: rgba(255, 255, 255, 0.5); }
+            margin-top: 2px;
           }
 
           .item-meta-preview {
@@ -228,13 +226,30 @@
             align-items: flex-end;
             justify-content: space-between;
             margin-top: 4px;
-            .item-qty { font-size: 0.7rem; color: rgba(255, 255, 255, 0.6); background: rgba(255, 255, 255, 0.08); padding: 2px 8px; border-radius: 4px; }
+
+            .price-stack {
+              display: flex;
+              flex-direction: column;
+              .item-price { font-size: 0.8rem; font-weight: 800; color: c.$secundaria; line-height: 1.1; }
+              .item-unit { font-size: 0.65rem; color: rgba(255, 255, 255, 0.5); }
+            }
+
+            .item-qty {
+              font-size: 0.7rem;
+              font-weight: 600;
+              color: rgba(255, 255, 255, 0.6);
+              background: rgba(255, 255, 255, 0.08);
+              padding: 2px 8px;
+              border-radius: 4px;
+            }
           }
         }
 
         .btn-remove {
           color: rgba(255, 255, 255, 0.4);
-          &:hover { color: #ff5252; }
+          transition: all 0.2s;
+          &:hover { color: #ff5252; background: rgba(255, 82, 82, 0.1); }
+          mat-icon { font-size: 20px; width: 20px; height: 20px; }
         }
       }
     }
@@ -242,16 +257,23 @@
     .preview-footer {
       padding: 15px 20px;
       border-top: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(0,0,0,0.1);
+
       .btn-go-to-cart {
         width: 100%;
         background: c.$secundaria;
         color: c.$principal;
         border: none;
-        padding: 10px;
+        padding: 12px;
         border-radius: 12px;
         font-weight: 900;
+        font-size: 0.8rem;
+        text-transform: uppercase;
         cursor: pointer;
+        transition: all 0.3s;
+        &:hover { background-color: c.$branco; transform: translateY(-2px); }
       }
+
       .btn-clear {
         width: 100%;
         background: transparent;
@@ -259,8 +281,13 @@
         color: c.$secundaria;
         padding: 10px;
         border-radius: 12px;
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
         cursor: pointer;
-        &:hover { background: rgba(c.$secundaria, 0.1); }
+        transition: all 0.2s;
+        &:hover { background: rgba(c.$secundaria, 0.1); border-color: c.$secundaria; }
       }
     }
   }
@@ -301,6 +328,7 @@
         align-items: center;
         gap: 12px;
         text-decoration: none;
+        font-size: 0.9rem;
         &:hover { background: rgba(255, 255, 255, 0.1); }
         &.logout-link { color: #ff5f5f; border-top: 1px solid rgba(255, 255, 255, 0.05); }
       }
@@ -316,33 +344,45 @@
   height: 55px;
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 40px;
   position: relative;
   z-index: 100;
-  .links { display: flex; justify-content: center; width: 100%; gap: 30px; color: c.$branco; }
+  .links { display: flex; justify-content: center; width: 100%; gap: 45px; color: c.$branco; }
   .dropdown-item {
     position: relative;
+    display: flex;
+    align-items: center;
     cursor: pointer;
-    .dropdown-trigger { padding: 15px 0; &::after { content: 'expand_more'; font-family: 'Material Icons'; margin-left: 5px; } }
+
+    .dropdown-trigger { 
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 15px 0; 
+      transition: all 0.3s ease;
+      &::after { content: 'expand_more'; font-family: 'Material Icons'; margin-left: 5px; } 
+    }
     .dropdown-content {
       position: absolute;
-      top: 100%;
       left: 50%;
+      top: 100%;
       transform: translateX(-50%) translateY(10px);
       @include glass-effect;
-      background: rgba(c.$dark, 0.8);
+      background: rgba(c.$dark, 0.95); // Ajustado para 0.95 para coincidir com a navbar superior
       min-width: 200px;
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
-      a { color: c.$branco; padding: 12px 20px; display: block; text-decoration: none; &:hover { background: rgba(c.$secundaria, 0.2); } }
+      a { color: c.$branco; padding: 12px 20px; display: block; text-decoration: none; font-size: 0.85rem; &:hover { background: rgba(c.$secundaria, 0.2); } }
     }
-    &:hover .dropdown-content { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+    &:hover {
+      .dropdown-trigger { color: c.$secundaria; }
+      .dropdown-content { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+    }
   }
 }
 
 @media (max-width: 1114px) {
   .navbar-container { top: 10px; width: 96%; }
-  .navbar { height: 70px; padding: 0 15px; .logo img { height: 50px; } }
+  .navbar { height: 70px; padding: 0 15px; border-radius: 15px; .logo img { height: 50px; } }
   .pesquisar-mobile .search-container { @include glass-effect; background: rgba(c.$ternaria, 0.9); border-radius: 10px; }
 }
