@@ -18,6 +18,7 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | 2026-05-25 | Feature 11 | Cadastro Multi-Perfil (Register) | [features/11-cadastro-multi-perfil.md](./features/11-cadastro-multi-perfil.md) |
 | 2026-05-25 | Feature 12 | Sistema de Favoritos Reativo | [features/12-sistema-de-favoritos.md](./features/12-sistema-de-favoritos.md) |
 | 2026-05-25 | Feature 13 | Detalhes do Produto e UX Omnichannel | [features/13-detalhes-produto-v1.md](./features/13-detalhes-produto-v1.md) |
+| 2026-08-26 | Feature 14 | Tela de Pedidos (Histórico e Tracking) | [features/14-tela-de-pedidos-historico-e-tracking.md](./features/14-tela-de-pedidos-historico-e-tracking.md) |
 
 
 ## 💬 Sessões (Resumos de Conversa)
@@ -37,3 +38,4 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | 2026-05-21 | Sessão 06 | Nova feature Do Preview ao Checkout (Jornada de Compra) | [sessions/2026-05-21-sessao-06.md](./sessions/2026-05-21-sessao-06.md) |
 | 2026-05-24 | Sessão 01 | Refinamento de Scroll e Sticky Layout no Carrinho | [sessions/2026-05-24-sessao-01.md](./sessions/2026-05-24-sessao-01.md) |
 | 2026-05-24 | Sessão 02 | Implementação de Login Premium e Segurança Hardened | [sessions/2026-05-24-sessao-02.md](./sessions/2026-05-24-sessao-02.md) |
+| 2026-08-26 | Sessão 01 | Feature 14 — Tela de Pedidos, Badge e Dropdown Preview na Navbar | [sessions/2026-08-26-sessao-01.md](./sessions/2026-08-26-sessao-01.md) |
