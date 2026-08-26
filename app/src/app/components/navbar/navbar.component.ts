@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, OnDestroy, signal, inject } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, signal, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,6 +9,7 @@ import { RouterModule, Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { FavoritesService } from '../../services/favorites.service';
+import { OrderService } from '../../services/order.service';
 import { LoginComponent } from '../auth/login/login.component';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
 import { RegisterComponent } from '../auth/register/register.component';
@@ -35,12 +36,34 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private dialog = inject(MatDialog);
   public authService = inject(AuthService);
   public favoritesService = inject(FavoritesService);
+  public orderService = inject(OrderService);
 
   // Expondo dados reativos
   public cartItems = this.cartService.cartItems;
   public cartItemsCount = this.cartService.totalItemsCount;
   public favoriteItems = this.favoritesService.favoriteItems;
   public favoritesCount = this.favoritesService.favoritesCount;
+  public activeOrders = this.orderService.activeOrders;
+  public activeOrdersCount = computed(() => this.orderService.activeOrders().length);
+  public pipelineSteps = this.orderService.getPipelineSteps();
+
+  public getPipelineProgressPercent(currentStepIndex: number): number {
+    switch (currentStepIndex) {
+      case 0: return 12;
+      case 1: return 42;
+      case 2: return 75;
+      case 3: return 100;
+      default: return 0;
+    }
+  }
+
+  public isStepCompleted(stepIndex: number, currentStepIndex: number): boolean {
+    return stepIndex < currentStepIndex;
+  }
+
+  public isStepActive(stepIndex: number, currentStepIndex: number): boolean {
+    return stepIndex === currentStepIndex;
+  }
 
   public isMobileScreen = signal<boolean>(false);
   public showFiller = signal<boolean>(false);
@@ -160,7 +183,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   typeEffect() {
     const currentPhrase = this.phrases[this.currentPhraseIndex];
-    
+
     if (this.isDeleting) {
       this.animatedPlaceholder.set(currentPhrase.substring(0, this.currentCharIndex - 1));
       this.currentCharIndex--;
@@ -198,7 +221,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   openLoginModal() {
     if (this.authService.isLoggedIn()) return;
-    
+
     const dialogRef = this.dialog.open(LoginComponent, {
       width: '100%',
       maxWidth: '450px',

@@ -1,0 +1,338 @@
+<app-navbar></app-navbar>
+
+<div class="orders-page-wrapper">
+
+  <!-- Cabeçalho Principal da Página -->
+  <header class="orders-main-header">
+    <div class="header-text-block">
+      <h1 class="page-title">
+        <mat-icon class="title-icon">receipt_long</mat-icon>
+        Meus Pedidos
+      </h1>
+      <p class="page-subtitle">Acompanhe suas entregas em tempo real e consulte seu histórico completo de compras.</p>
+    </div>
+
+    <div class="header-badges-block">
+      @if (activeOrders().length > 0) {
+        <div class="stat-pill pulse-green">
+          <span class="pulse-dot"></span>
+          <strong>{{ activeOrders().length }}</strong> em andamento
+        </div>
+      }
+      <div class="stat-pill">
+        <mat-icon>history</mat-icon>
+        <strong>{{ pastOrders().length }}</strong> compras no histórico
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- FEATURE 2: PEDIDOS EM ANDAMENTO (ACTIVE ORDERS PIPELINE)                  -->
+  <!-- ========================================================================= -->
+  @if (activeOrders().length > 0) {
+    <section class="active-orders-section">
+      <div class="section-title-bar">
+        <div class="section-title-flex">
+          <span class="live-indicator">
+            <span class="live-dot"></span>
+            Acompanhamento em Tempo Real
+          </span>
+          <h2 class="section-heading">Pedidos em Andamento</h2>
+        </div>
+      </div>
+
+      <!-- Grupos de Pedidos Ativos por Vendedor -->
+      <div class="active-groups-list">
+        @for (group of groupedActiveOrders(); track group.groupKey) {
+          <div class="active-seller-container">
+
+            <!-- Cabeçalho do Vendedor -->
+            <div class="active-seller-header">
+              <div class="seller-identity">
+                <mat-icon class="seller-icon">storefront</mat-icon>
+                <span>Vendido e entregue por: <strong>{{ group.title }}</strong></span>
+              </div>
+              <div class="seller-orders-badge">
+                {{ group.totalOrdersCount }} {{ group.totalOrdersCount === 1 ? 'pedido em trânsito' : 'pedidos em trânsito' }}
+              </div>
+            </div>
+
+            <!-- Lista de Pedidos Ativos da Loja -->
+            <div class="active-cards-stack">
+              @for (order of group.orders; track order.id) {
+                <div class="active-order-card">
+
+                  <!-- Topo do Card: Informações de Cabeçalho -->
+                  <div class="card-top-info">
+                    <div class="order-id-group">
+                      <span class="order-badge-number">#{{ order.orderNumber }}</span>
+                      <span class="order-date-time">{{ order.date | date:'dd/MM/yyyy • HH:mm' }}</span>
+                    </div>
+
+                    <div class="order-meta-badges">
+                      <div class="eta-pill">
+                        <mat-icon>schedule</mat-icon>
+                        <span>Previsão: <strong>{{ order.estimatedDelivery }}</strong></span>
+                      </div>
+                      <div class="status-pill" [ngClass]="getStatusInfo(order.status).cssClass">
+                        <mat-icon>{{ getStatusInfo(order.status).icon }}</mat-icon>
+                        <span>{{ getStatusInfo(order.status).label }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- ======================================================= -->
+                  <!-- PIPELINE VISUAL DE FLUXO DO PEDIDO                      -->
+                  <!-- ======================================================= -->
+                  <div class="pipeline-tracker-box">
+                    <div class="pipeline-track-wrapper">
+                      <!-- Linha de fundo cinza -->
+                      <div class="track-bg-line"></div>
+
+                      <!-- Linha de preenchimento verde dinâmica -->
+                      <div class="track-fill-line" [style.width.%]="getPipelineProgressPercent(order.currentStepIndex)"></div>
+
+                      <!-- Nós das 4 Etapas -->
+                      <div class="pipeline-steps-grid">
+                        @for (step of pipelineSteps; track step.index) {
+                          <div class="step-node"
+                               [class.completed]="isStepCompleted(step.index, order.currentStepIndex)"
+                               [class.active]="isStepActive(step.index, order.currentStepIndex)"
+                               [class.upcoming]="step.index > order.currentStepIndex">
+
+                            <div class="step-circle">
+                              @if (isStepCompleted(step.index, order.currentStepIndex)) {
+                                <mat-icon class="circle-icon">check</mat-icon>
+                              } @else {
+                                <mat-icon class="circle-icon">{{ step.icon }}</mat-icon>
+                              }
+                              @if (isStepActive(step.index, order.currentStepIndex)) {
+                                <div class="circle-sonar-pulse"></div>
+                              }
+                            </div>
+
+                            <div class="step-info-label">
+                              <span class="step-title">{{ step.label }}</span>
+                              <span class="step-sub">{{ step.description }}</span>
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Lista de Produtos do Pedido Ativo -->
+                  <div class="active-items-preview">
+                    <div class="preview-label">Itens deste pedido:</div>
+                    <div class="items-mini-grid">
+                      @for (item of order.items; track item.id) {
+                        <div class="item-mini-chip">
+                          <img [src]="item.image" [alt]="item.name" class="mini-img" [routerLink]="['/product', item.productId]">
+                          <div class="mini-details">
+                            <span class="mini-name" [routerLink]="['/product', item.productId]">{{ item.name }}</span>
+                            <span class="mini-meta">{{ item.quantity }}x {{ item.price | currency:'BRL' }} @if (item.variation) { • {{ item.variation }} }</span>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+
+                  <!-- Rodapé do Card: Endereço, Totais e Ações -->
+                  <div class="card-bottom-actions">
+                    <div class="delivery-address-snippet">
+                      <mat-icon class="loc-icon">location_on</mat-icon>
+                      <div class="address-text">
+                        <span>Entrega em: <strong>{{ order.deliveryAddress.street }}, {{ order.deliveryAddress.number }}</strong> - {{ order.deliveryAddress.neighborhood }}</span>
+                        <span class="zip-text">CEP: {{ order.deliveryAddress.zipCode }} ({{ order.deliveryAddress.city }}/{{ order.deliveryAddress.state }})</span>
+                      </div>
+                    </div>
+
+                    <div class="order-financials">
+                      <span class="total-label">Total Pago</span>
+                      <span class="total-value">{{ order.total | currency:'BRL' }}</span>
+                    </div>
+
+                    <div class="actions-buttons-cluster">
+                      @if (order.trackingCode) {
+                        <span class="tracking-code-pill">
+                          <mat-icon>pin</mat-icon>
+                          {{ order.trackingCode }}
+                        </span>
+                      }
+                      <button class="btn-reorder-active" (click)="handleReorder(order)">
+                        <mat-icon>shopping_cart</mat-icon>
+                        Comprar Novamente
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  <!-- ========================================================================= -->
+  <!-- FEATURE 1: HISTÓRICO DE PEDIDOS COM FILTRO DINÂMICO                      -->
+  <!-- ========================================================================= -->
+  <section class="history-orders-section">
+
+    <!-- Barra de Título e Seletor de Agrupamento -->
+    <div class="history-header-toolbar">
+      <div class="toolbar-title-block">
+        <h2 class="history-title">Histórico de Pedidos</h2>
+        <p class="history-subtitle">Consulte comprovantes e volte a comprar seus itens favoritos.</p>
+      </div>
+
+      <!-- Filtro Segmentado de Agrupamento (Vendedor ou Ano) -->
+      <div class="grouping-segmented-control">
+        <span class="filter-label">Agrupar por:</span>
+        <div class="tabs-slider-pill">
+          <button
+            type="button"
+            class="filter-tab-btn"
+            [class.active]="groupingMode() === 'seller'"
+            (click)="changeGrouping('seller')">
+            <mat-icon>storefront</mat-icon>
+            <span>Vendedor / Loja</span>
+          </button>
+
+          <button
+            type="button"
+            class="filter-tab-btn"
+            [class.active]="groupingMode() === 'year'"
+            (click)="changeGrouping('year')">
+            <mat-icon>calendar_today</mat-icon>
+            <span>Ano / Data</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grupos do Histórico -->
+    <div class="history-groups-stack">
+      @for (group of groupedPastOrders(); track group.groupKey) {
+        <div class="history-group-wrapper">
+
+          <!-- Cabeçalho do Grupo do Histórico -->
+          <div class="history-group-header">
+            <div class="group-title-col">
+              <div class="group-title-row">
+                <mat-icon class="group-icon">
+                  {{ groupingMode() === 'seller' ? 'storefront' : 'calendar_month' }}
+                </mat-icon>
+                <h3 class="group-title-text">{{ group.title }}</h3>
+              </div>
+              @if (group.subTitle) {
+                <span class="group-subtitle-text">{{ group.subTitle }}</span>
+              }
+            </div>
+
+            <div class="group-totals-col">
+              <span class="total-caption">Total no grupo</span>
+              <span class="total-number">{{ group.totalAmount | currency:'BRL' }}</span>
+            </div>
+          </div>
+
+          <!-- Cards de Pedidos Passados dentro do Grupo -->
+          <div class="history-cards-list">
+            @for (order of group.orders; track order.id) {
+              <div class="history-order-card">
+
+                <!-- Barra Superior do Pedido no Histórico -->
+                <div class="history-card-top">
+                  <div class="order-id-date">
+                    <span class="order-number">#{{ order.orderNumber }}</span>
+                    <span class="order-date">
+                      <mat-icon>event</mat-icon>
+                      {{ order.date | date:'dd/MM/yyyy' }}
+                    </span>
+                    @if (groupingMode() === 'year') {
+                      <span class="seller-inline-badge">
+                        <mat-icon>store</mat-icon>
+                        {{ order.seller }}
+                      </span>
+                    }
+                  </div>
+
+                  <div class="order-status-price">
+                    <span class="status-chip status-delivered">
+                      <mat-icon>check_circle</mat-icon>
+                      Entregue
+                    </span>
+                    <span class="order-total-price">{{ order.total | currency:'BRL' }}</span>
+                  </div>
+                </div>
+
+                <!-- Lista de Produtos Comprados -->
+                <div class="history-items-list">
+                  @for (item of order.items; track item.id) {
+                    <div class="history-item-row">
+                      <img [src]="item.image" [alt]="item.name" class="product-thumb" [routerLink]="['/product', item.productId]">
+
+                      <div class="product-info-column">
+                        <a class="product-name-link" [routerLink]="['/product', item.productId]">{{ item.name }}</a>
+                        <div class="product-specs">
+                          <span>Qtd: <strong>{{ item.quantity }}</strong></span>
+                          <span>•</span>
+                          <span>{{ item.price | currency:'BRL' }} cada</span>
+                          @if (item.variation) {
+                            <span>•</span>
+                            <span class="variation-tag">{{ item.variation }}</span>
+                          }
+                        </div>
+                      </div>
+
+                      <div class="item-subtotal-column">
+                        <span class="subtotal-val">{{ (item.price * item.quantity) | currency:'BRL' }}</span>
+                      </div>
+                    </div>
+                  }
+                </div>
+
+                <!-- Barra Inferior de Pagamento e Ações -->
+                <div class="history-card-bottom">
+                  <div class="payment-info-line">
+                    <mat-icon class="pay-icon">credit_card</mat-icon>
+                    <span>{{ order.paymentMethod.details }}</span>
+                  </div>
+
+                  <div class="history-action-buttons">
+                    <button class="btn-invoice-link" type="button">
+                      <mat-icon>receipt</mat-icon>
+                      Ver Comprovante
+                    </button>
+
+                    <button class="btn-reorder-premium" type="button" (click)="handleReorder(order)">
+                      <mat-icon>replay</mat-icon>
+                      Comprar Novamente
+                      <div class="shimmer-effect"></div>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            }
+          </div>
+
+        </div>
+      } @empty {
+        <div class="empty-history-view">
+          <mat-icon class="empty-icon">receipt_long</mat-icon>
+          <h3>Nenhum pedido encontrado</h3>
+          <p>Você ainda não possui pedidos registrados neste filtro.</p>
+          <button class="btn-shop-now" routerLink="/">
+            <mat-icon>shopping_bag</mat-icon>
+            Explorar Produtos
+          </button>
+        </div>
+      }
+    </div>
+
+  </section>
+
+</div>
+

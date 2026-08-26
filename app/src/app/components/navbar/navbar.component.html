@@ -14,7 +14,7 @@
             </button>
           }
         </div>
-        
+
         <div class="logo">
           <img routerLink="/" src="../../assets/img/PetStores(200×200px)/1.svg" alt="Pet Stores Logo">
         </div>
@@ -63,9 +63,93 @@
         <mat-icon class="search-icon" (click)="funcaoTeste()">search</mat-icon>
       </div>
 
-      <div class="nav-item" (click)="funcaoTeste()">
-        <mat-icon>local_shipping</mat-icon>
+      <div class="nav-item orders-item" routerLink="/orders" [class.no-dropdown]="router.url === '/orders'">
+        <div class="order-icon-wrapper">
+          <mat-icon>local_shipping</mat-icon>
+          @if (activeOrdersCount() > 0) {
+            <span class="order-badge">{{ activeOrdersCount() }}</span>
+          }
+        </div>
         <span>Pedidos</span>
+
+        <!-- Dropdown de Preview de Pedidos em Andamento -->
+        @if (router.url !== '/orders' && activeOrdersCount() > 0) {
+          <div class="orders-preview-dropdown" (click)="$event.stopPropagation()">
+            <div class="preview-header">
+              <div class="header-status-dot">
+                <span class="live-dot"></span>
+                <span>Pedidos em Andamento</span>
+              </div>
+              <span class="badge-count">{{ activeOrdersCount() }}</span>
+            </div>
+
+            <div class="preview-items">
+              @for (order of activeOrders(); track order.id) {
+                <div class="order-preview-card" (click)="router.navigate(['/orders'])">
+                  <div class="card-header-mini">
+                    <span class="order-code">#{{ order.orderNumber }}</span>
+                    <span class="seller-tag">{{ order.seller }}</span>
+                  </div>
+
+                  <div class="order-eta-mini">
+                    <mat-icon>schedule</mat-icon>
+                    <span>{{ order.estimatedDelivery }}</span>
+                  </div>
+
+                  <!-- Mini Pipeline -->
+                  <div class="mini-pipeline-box">
+                    <div class="mini-track-wrapper">
+                      <div class="mini-track-bg"></div>
+                      <div class="mini-track-fill" [style.width.%]="getPipelineProgressPercent(order.currentStepIndex)"></div>
+
+                      <div class="mini-steps-grid">
+                        @for (step of pipelineSteps; track step.index) {
+                          <div class="mini-step-item" 
+                               [class.completed]="isStepCompleted(step.index, order.currentStepIndex)"
+                               [class.active]="isStepActive(step.index, order.currentStepIndex)"
+                               [class.upcoming]="step.index > order.currentStepIndex">
+                            <div class="mini-circle">
+                              @if (isStepCompleted(step.index, order.currentStepIndex)) {
+                                <mat-icon class="m-icon">check</mat-icon>
+                              } @else if (isStepActive(step.index, order.currentStepIndex)) {
+                                <mat-icon class="m-icon">{{ step.icon }}</mat-icon>
+                              } @else {
+                                <span class="step-num">{{ step.index + 1 }}</span>
+                              }
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    </div>
+
+                    <div class="current-step-badge">
+                      <mat-icon class="step-status-icon">{{ pipelineSteps[order.currentStepIndex].icon }}</mat-icon>
+                      <span>{{ pipelineSteps[order.currentStepIndex].label }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Mini Itens -->
+                  <div class="mini-items-row">
+                    @for (item of order.items; track item.id) {
+                      <div class="mini-item-thumb">
+                        <img [src]="item.image" [alt]="item.name">
+                        <span class="qty-badge">{{ item.quantity }}</span>
+                      </div>
+                    }
+                    <div class="order-mini-total">
+                      <span class="total-label">Total</span>
+                      <span class="total-price">{{ order.total | currency:'BRL' }}</span>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div class="preview-footer">
+              <button class="btn-go-to-orders" routerLink="/orders">Acompanhar Pedidos</button>
+            </div>
+          </div>
+        }
       </div>
 
       <div class="nav-item favorites-item">
@@ -143,7 +227,7 @@
       <div class="nav-item user-profile-dropdown" [class.is-logged-in]="authService.isLoggedIn()">
         @if (authService.isLoggedIn()) {
           <div class="profile-img-container">
-            <img [src]="authService.currentUser()?.profileImage" 
+            <img [src]="authService.currentUser()?.profileImage"
                  [alt]="authService.userFirstName()"
                  onerror="this.src='https://ui-avatars.com/api/?name=Johnny&background=3C2A20&color=fff'">
           </div>
@@ -151,7 +235,7 @@
           <mat-icon>account_circle</mat-icon>
         }
         <span>{{ authService.userFirstName() }}</span>
-        
+
         <div class="dropdown-content">
           @if (!authService.isLoggedIn()) {
             <a href="javascript:void(0)" (click)="openLoginModal()">
@@ -167,7 +251,7 @@
               <mat-icon>person</mat-icon>
               Minha Conta
             </a>
-            <a href="javascript:void(0)" (click)="funcaoTeste()">
+            <a routerLink="/orders">
               <mat-icon>shopping_bag</mat-icon>
               Meus Pedidos
             </a>

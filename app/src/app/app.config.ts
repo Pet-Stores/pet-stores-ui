@@ -9,6 +9,7 @@ import { HomeComponent } from './components/home/home.component';
 import { DesignSystemComponent } from './components/design-system/design-system.component';
 import { CartComponent } from './components/cart/cart.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { OrdersComponent } from './components/orders/orders.component';
 
 registerLocaleData(localePt);
 
@@ -16,7 +17,9 @@ const routes = [
   { path: '', component: HomeComponent },
   { path: 'design-system', component: DesignSystemComponent },
   { path: 'cart', component: CartComponent },
-  { path: 'product/:id', component: ProductDetailComponent }
+  { path: 'product/:id', component: ProductDetailComponent },
+  { path: 'orders', component: OrdersComponent },
+  { path: 'pedidos', redirectTo: 'orders', pathMatch: 'full' as const }
 ];
 
 export const appConfig: ApplicationConfig = {
