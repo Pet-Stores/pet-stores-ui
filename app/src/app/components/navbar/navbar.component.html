@@ -22,8 +22,8 @@
         <div class="icons" style="margin-left: auto;">
           <button mat-icon-button routerLink="/cart" class="cart-btn">
             <mat-icon>shopping_cart</mat-icon>
-            @if (cartItems().length > 0) {
-              <span class="cart-badge">{{ cartItems().length }}</span>
+            @if (cartItemsCount() > 0) {
+              <span class="cart-badge">{{ cartItemsCount() }}</span>
             }
           </button>
         </div>
@@ -83,13 +83,13 @@
             <div class="preview-header">Seus Favoritos</div>
             <div class="preview-items">
               @for (item of favoriteItems(); track item.id) {
-                <div class="preview-item">
+                <div class="preview-item" (click)="router.navigate(['/product', item.id])">
                   <img [src]="item.image" [alt]="item.name" class="item-img">
                   <div class="item-info">
                     <span class="item-title">{{ item.name }}</span>
                     <span class="item-price">{{ item.price | currency:'BRL' }}</span>
                   </div>
-                  <button mat-icon-button class="btn-remove" (click)="favoritesService.removeFavorite(item.id)">
+                  <button mat-icon-button class="btn-remove" (click)="$event.stopPropagation(); favoritesService.removeFavorite(item.id)">
                     <mat-icon>delete_outline</mat-icon>
                   </button>
                 </div>
@@ -105,8 +105,8 @@
       <div class="nav-item cart-item" routerLink="/cart" [class.no-dropdown]="router.url === '/cart'">
         <div class="cart-icon-wrapper">
           <mat-icon>shopping_cart</mat-icon>
-          @if (cartItems().length > 0) {
-            <span class="cart-badge">{{ cartItems().length }}</span>
+          @if (cartItemsCount() > 0) {
+            <span class="cart-badge">{{ cartItemsCount() }}</span>
           }
         </div>
         <span>Carrinho</span>
@@ -117,7 +117,7 @@
             <div class="preview-header">Seu Carrinho</div>
             <div class="preview-items">
               @for (item of cartItems(); track item.id) {
-                <div class="preview-item">
+                <div class="preview-item" (click)="router.navigate(['/product', item.id])">
                   <img [src]="item.image" [alt]="item.name" class="item-img">
                   <div class="item-info">
                     <span class="item-title">{{ item.name }}</span>
@@ -133,7 +133,7 @@
               }
             </div>
             <div class="preview-footer">
-              <button class="btn-go-to-cart">Ver carrinho completo</button>
+              <button class="btn-go-to-cart" routerLink="/cart">Ver carrinho completo</button>
             </div>
           </div>
         }
@@ -182,11 +182,31 @@
 
     <div class="navbar-2">
       <div class="links">
+        <!-- OFERTAS -->
+        <div class="dropdown-item">
+          <span class="dropdown-trigger">Ofertas</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaOfertas(); track opcoes) {
+              <a href="javascript:void(0)">{{ opcoes.value }}</a>
+            }
+          </div>
+        </div>
+
+        <!-- CUPONS -->
+        <div class="dropdown-item">
+          <span class="dropdown-trigger">Cupons</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaCupons(); track opcoes) {
+              <a href="javascript:void(0)">{{ opcoes.value }}</a>
+            }
+          </div>
+        </div>
+
         <div class="dropdown-item">
           <span class="dropdown-trigger">Pets</span>
           <div class="dropdown-content">
             @for (opcoes of listaPets(); track opcoes) {
-              <a href="#">{{ opcoes.value }}</a>
+              <a href="javascript:void(0)">{{ opcoes.value }}</a>
             }
           </div>
         </div>
@@ -195,7 +215,7 @@
           <span class="dropdown-trigger">Lojas</span>
           <div class="dropdown-content">
             @for (opcoes of listaLojas(); track opcoes) {
-              <a href="#">{{ opcoes.value }}</a>
+              <a href="javascript:void(0)">{{ opcoes.value }}</a>
             }
           </div>
         </div>
@@ -204,7 +224,7 @@
           <span class="dropdown-trigger">Agendamentos</span>
           <div class="dropdown-content">
             @for (opcoes of listaAgendamentos(); track opcoes) {
-              <a href="#">{{ opcoes.value }}</a>
+              <a href="javascript:void(0)">{{ opcoes.value }}</a>
             }
           </div>
         </div>
@@ -213,35 +233,36 @@
           <span class="dropdown-trigger">Marcas</span>
           <div class="dropdown-content">
             @for (opcoes of listaMarcas(); track opcoes) {
-              <a href="#">{{ opcoes.value }}</a>
+              <a href="javascript:void(0)">{{ opcoes.value }}</a>
+            }
+          </div>
+        </div>
+
+        <!-- SEJA VENDEDOR -->
+        <div class="dropdown-item seller-highlight">
+          <span class="dropdown-trigger">Vender</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaVendedor(); track opcoes) {
+              <a href="javascript:void(0)">{{ opcoes.value }}</a>
+            }
+          </div>
+        </div>
+
+        <!-- ENTREGADOR -->
+        <div class="dropdown-item seller-highlight">
+          <span class="dropdown-trigger">Entregar</span>
+          <div class="dropdown-content">
+            @for (opcoes of listaEntregador(); track opcoes) {
+              <a href="javascript:void(0)">{{ opcoes.value }}</a>
             }
           </div>
         </div>
 
         <div class="dropdown-item">
-          <span class="dropdown-trigger">Serviços</span>
-          <div class="dropdown-content">
-            @for (opcoes of listaServicos(); track opcoes) {
-              <a href="#">{{ opcoes.value }}</a>
-            }
-          </div>
-        </div>
-
-        <div class="dropdown-item">
-          <span class="dropdown-trigger">Mais</span>
-          <div class="dropdown-content">
-            @for (opcoes of listaMais(); track opcoes) {
-              <a href="#">{{ opcoes.value }}</a>
-            }
-          </div>
-        </div>
-
-        <div class="dropdown-item help-section">
-          <mat-icon class="support-icon">support_agent</mat-icon>
           <span class="dropdown-trigger">Ajuda</span>
           <div class="dropdown-content">
             @for (opcoes of listaAjuda(); track opcoes) {
-              <a href="#">{{ opcoes.value }}</a>
+              <a href="javascript:void(0)">{{ opcoes.value }}</a>
             }
           </div>
         </div>

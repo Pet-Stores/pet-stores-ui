@@ -8,13 +8,15 @@ import localePt from '@angular/common/locales/pt';
 import { HomeComponent } from './components/home/home.component';
 import { DesignSystemComponent } from './components/design-system/design-system.component';
 import { CartComponent } from './components/cart/cart.component';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 
 registerLocaleData(localePt);
 
 const routes = [
   { path: '', component: HomeComponent },
   { path: 'design-system', component: DesignSystemComponent },
-  { path: 'cart', component: CartComponent }
+  { path: 'cart', component: CartComponent },
+  { path: 'product/:id', component: ProductDetailComponent }
 ];
 
 export const appConfig: ApplicationConfig = {

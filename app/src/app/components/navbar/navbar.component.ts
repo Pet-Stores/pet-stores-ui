@@ -38,6 +38,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   // Expondo dados reativos
   public cartItems = this.cartService.cartItems;
+  public cartItemsCount = this.cartService.totalItemsCount;
   public favoriteItems = this.favoritesService.favoriteItems;
   public favoritesCount = this.favoritesService.favoritesCount;
 
@@ -114,6 +115,34 @@ export class NavbarComponent implements OnInit, OnDestroy {
     {value: 'Denuncia'},
     {value: 'Pagamento'},
     {value: 'Outros'},
+  ]);
+
+  public listaOfertas = signal([
+    {value: 'Ofertas do Dia'},
+    {value: 'Seleção Premium'},
+    {value: 'Outlet Pet'},
+    {value: 'Assinatura Pet'},
+  ]);
+
+  public listaCupons = signal([
+    {value: 'Meus Cupons'},
+    {value: 'Cupons Primeira Compra'},
+    {value: 'Frete Grátis'},
+    {value: 'Indique e Ganhe'},
+  ]);
+
+  public listaVendedor = signal([
+    {value: 'Quero Vender'},
+    {value: 'Portal do Parceiro'},
+    {value: 'Vantagens PS'},
+    {value: 'Taxas e Prazos'},
+  ]);
+
+  public listaEntregador = signal([
+    {value: 'Quero Entregar'},
+    {value: 'App do Entregador'},
+    {value: 'Meus Ganhos'},
+    {value: 'Equipamentos'},
   ]);
 
   constructor() {}
