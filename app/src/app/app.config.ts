@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { LOCALE_ID } from '@angular/core';
@@ -10,6 +10,7 @@ import { DesignSystemComponent } from './components/design-system/design-system.
 import { CartComponent } from './components/cart/cart.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { OrdersComponent } from './components/orders/orders.component';
+import { StoresMapComponent } from './components/stores-map/stores-map.component';
 
 registerLocaleData(localePt);
 
@@ -19,7 +20,9 @@ const routes = [
   { path: 'cart', component: CartComponent },
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'orders', component: OrdersComponent },
-  { path: 'pedidos', redirectTo: 'orders', pathMatch: 'full' as const }
+  { path: 'pedidos', redirectTo: 'orders', pathMatch: 'full' as const },
+  { path: 'stores', component: StoresMapComponent },
+  { path: 'lojas', redirectTo: 'stores', pathMatch: 'full' as const }
 ];
 
 export const appConfig: ApplicationConfig = {

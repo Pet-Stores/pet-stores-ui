@@ -53,10 +53,143 @@
         <img routerLink="/" src="../../assets/img/Pet Stores (200 × 200 px).svg" alt="Pet Stores Logo">
       </div>
 
-      <div class="nav-item" (click)="funcaoTeste()" style="margin-left: 20px;">
-        <mat-icon>location_on</mat-icon>
-        <span>Lojas</span>
+      <div class="nav-item stores-item" (click)="goToStores()" [class.no-dropdown]="router.url === '/stores'" style="margin-left: 20px;">
+        <div class="store-icon-wrapper">
+          <mat-icon>location_on</mat-icon>
+        </div>
+        <div class="store-label-group">
+          <span>Lojas</span>
+          @if (hasCep()) {
+            <small class="store-sublabel">{{ userLocation()?.neighborhood || userLocation()?.city || 'Região' }}</small>
+          }
+        </div>
+
+        <!-- Dropdown de Lojas / CEP -->
+        @if (router.url !== '/stores') {
+          <div class="stores-preview-dropdown" (click)="$event.stopPropagation()">
+            <!-- Cenário 1: Usuário NÃO tem CEP definido -->
+            @if (!hasCep()) {
+              <div class="cep-setup-box">
+                <div class="cep-setup-header">
+                  <mat-icon class="header-icon">place</mat-icon>
+                  <div>
+                    <h4>Encontre lojas parceiras</h4>
+                    <p>Informe seu CEP para ver lojas e petshops perto de você</p>
+                  </div>
+                </div>
+
+                <div class="cep-input-group">
+                  <input
+                    type="text"
+                    maxlength="9"
+                    placeholder="00000-000"
+                    [value]="cepInput()"
+                    (input)="formatCep($any($event.target).value)"
+                    (keyup.enter)="onCepSearch()"
+                    [disabled]="isLoadingLocation()"
+                  />
+                  <button
+                    class="btn-search-cep"
+                    (click)="onCepSearch()"
+                    [disabled]="isLoadingLocation() || cepInput().length < 8"
+                  >
+                    @if (isLoadingLocation()) {
+                      <mat-icon class="spin-icon">sync</mat-icon>
+                    } @else {
+                      <mat-icon>arrow_forward</mat-icon>
+                    }
+                  </button>
+                </div>
+
+                @if (cepError()) {
+                  <div class="cep-error-msg">
+                    <mat-icon>error_outline</mat-icon>
+                    <span>{{ cepError() }}</span>
+                  </div>
+                }
+
+                <div class="divider-text">
+                  <span>ou</span>
+                </div>
+
+                <button class="btn-geo-location" (click)="onUseMyLocation()" [disabled]="isLoadingLocation()">
+                  <mat-icon>my_location</mat-icon>
+                  <span>Usar minha localização atual</span>
+                </button>
+              </div>
+            } @else {
+              <!-- Cenário 2: Usuário JÁ tem CEP definido -->
+              <div class="stores-list-box">
+                <div class="preview-header">
+                  <div class="header-location">
+                    <mat-icon>near_me</mat-icon>
+                    <div>
+                      <span class="location-title">Lojas na sua região</span>
+                      <small class="location-details">
+                        {{ userLocation()?.neighborhood ? userLocation()?.neighborhood + ', ' : '' }}{{ userLocation()?.city }}
+                        @if (userLocation()?.cep) {
+                          ({{ userLocation()?.cep }})
+                        }
+                      </small>
+                    </div>
+                  </div>
+                  <button class="btn-change-cep" (click)="storeService.clearLocation()">
+                    Trocar
+                  </button>
+                </div>
+
+                <div class="stores-items-scroll">
+                  @if (isLoadingStores()) {
+                    <div class="stores-loading">
+                      <mat-icon class="spin-icon">sync</mat-icon>
+                      <span>Buscando lojas parceiras...</span>
+                    </div>
+                  } @else if (topStores().length === 0) {
+                    <div class="empty-stores">
+                      <mat-icon>storefront</mat-icon>
+                      <p>Nenhuma loja parceira encontrada no raio de busca.</p>
+                    </div>
+                  } @else {
+                    @for (store of topStores(); track store.id) {
+                      <div class="store-preview-item" (click)="goToStores()">
+                        <div class="store-info">
+                          <div class="store-title-row">
+                            <strong class="store-name">{{ store.name }}</strong>
+                            @if (store.openNow) {
+                              <span class="badge-open">Aberto</span>
+                            } @else {
+                              <span class="badge-closed">Fechado</span>
+                            }
+                          </div>
+                          <span class="store-addr">{{ store.address }} - {{ store.neighborhood }}</span>
+                          <div class="store-meta">
+                            <span class="store-distance">
+                              <mat-icon>directions_car</mat-icon>
+                              {{ store.distance ? (store.distance | number:'1.1-1') + ' km' : 'Próximo' }}
+                            </span>
+                            <span class="store-rating">
+                              <mat-icon>star</mat-icon>
+                              {{ store.rating }} ({{ store.reviewCount }})
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  }
+                </div>
+
+                <div class="preview-footer">
+                  <button type="button" class="btn-go-to-stores" (click)="goToStores()">
+                    <mat-icon>map</mat-icon>
+                    Ver todas no mapa interativo
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        }
       </div>
+
 
       <div class="search-container">
         <input matInput [placeholder]="animatedPlaceholder()">
@@ -104,7 +237,7 @@
 
                       <div class="mini-steps-grid">
                         @for (step of pipelineSteps; track step.index) {
-                          <div class="mini-step-item" 
+                          <div class="mini-step-item"
                                [class.completed]="isStepCompleted(step.index, order.currentStepIndex)"
                                [class.active]="isStepActive(step.index, order.currentStepIndex)"
                                [class.upcoming]="step.index > order.currentStepIndex">

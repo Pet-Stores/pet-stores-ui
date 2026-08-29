@@ -1,0 +1,248 @@
+<app-navbar></app-navbar>
+
+<div class="stores-page-container">
+  <!-- Header da Página -->
+  <header class="stores-main-header">
+    <div class="header-text-block">
+      <h1 class="page-title">
+        <mat-icon class="title-icon">location_on</mat-icon>
+        Lojas Parceiras Próximas a Você
+      </h1>
+      <p class="page-subtitle">
+        Petshops, clínicas veterinárias e centros estéticos credenciados com entrega rápida ou retirada na sua região.
+      </p>
+    </div>
+
+    <!-- Badges de Status -->
+    <div class="header-badges-block">
+      <div class="stat-pill pulse-green">
+        <span class="pulse-dot"></span>
+        <strong>{{ displayedStores().length }}</strong> parceiros disponíveis
+      </div>
+      @if (userLocation()?.city) {
+        <div class="stat-pill">
+          <mat-icon>near_me</mat-icon>
+          <span>{{ userLocation()?.neighborhood ? userLocation()?.neighborhood + ', ' : '' }}{{ userLocation()?.city }}</span>
+        </div>
+      }
+    </div>
+  </header>
+
+  <!-- Barra de Busca de Localização (CEP / GPS) com Design System Padrão -->
+  <div class="location-search-card">
+    <div class="search-fields-row">
+      <div class="search-container cep-search-container">
+        <mat-icon class="search-icon-leading">place</mat-icon>
+        <input
+          type="text"
+          maxlength="9"
+          placeholder="Digite seu CEP (ex: 83404-190)"
+          [value]="cepInput()"
+          (input)="formatCep($any($event.target).value)"
+          (keyup.enter)="onCepSubmit()"
+          [disabled]="isLoadingLocation()"
+        />
+        @if (isLoadingLocation()) {
+          <mat-icon class="spin-icon search-icon">sync</mat-icon>
+        } @else {
+          <mat-icon class="search-icon" (click)="onCepSubmit()">search</mat-icon>
+        }
+      </div>
+
+      <div class="or-divider">ou</div>
+
+      <button
+        class="btn-gps-action"
+        (click)="onUseGeolocation()"
+        [disabled]="isLoadingLocation()"
+      >
+        <mat-icon>my_location</mat-icon>
+        <span>Usar meu GPS</span>
+      </button>
+    </div>
+
+    <!-- Feedback de Localização ou Erro -->
+    @if (cepError()) {
+      <div class="location-feedback error">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ cepError() }}</span>
+      </div>
+    } @else if (userLocation()) {
+      <div class="location-feedback success">
+        <mat-icon>check_circle</mat-icon>
+        <span>
+          Localização ativa: <strong>{{ userLocation()?.neighborhood ? userLocation()?.neighborhood + ', ' : '' }}{{ userLocation()?.city }} - {{ userLocation()?.state }}</strong>
+          @if (userLocation()?.cep) {
+            ({{ userLocation()?.cep }})
+          }
+        </span>
+      </div>
+    }
+  </div>
+
+  <!-- Barra de Filtros e Categorias -->
+  <div class="filters-bar">
+    <div class="categories-scroll">
+      @for (cat of categories; track cat.id) {
+        <button
+          class="filter-chip"
+          [class.active]="selectedCategory() === cat.id"
+          (click)="onSelectCategory(cat.id)"
+        >
+          <mat-icon>{{ cat.icon }}</mat-icon>
+          <span>{{ cat.label }}</span>
+        </button>
+      }
+    </div>
+
+    <div class="right-filters">
+      <!-- Raio de busca -->
+      <div class="radius-selector">
+        <mat-icon>radar</mat-icon>
+        <span>Raio:</span>
+        <div class="radius-buttons">
+          <button [class.active]="radiusKm() === 5" (click)="onSelectRadius(5)">5 km</button>
+          <button [class.active]="radiusKm() === 15" (click)="onSelectRadius(15)">15 km</button>
+          <button [class.active]="radiusKm() === 30" (click)="onSelectRadius(30)">30 km</button>
+        </div>
+      </div>
+
+      <!-- Busca textual com Design System -->
+      <div class="search-container text-search-container">
+        <input
+          type="text"
+          placeholder="Buscar por loja ou rua..."
+          [ngModel]="searchQuery()"
+          (ngModelChange)="searchQuery.set($event)"
+        />
+        <mat-icon class="search-icon">search</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <!-- Layout Principal: Lista de Lojas + Mapa -->
+  <div class="stores-content-grid">
+    <!-- Coluna Esquerda: Lista de Lojas -->
+    <div class="stores-list-panel">
+      <div class="panel-header">
+        <div class="results-count">
+          <strong>{{ displayedStores().length }}</strong> lojas encontradas
+        </div>
+        @if (isLoadingStores()) {
+          <div class="mini-spinner">
+            <mat-icon class="spin-icon">sync</mat-icon>
+          </div>
+        }
+      </div>
+
+      <div class="stores-cards-list">
+        @if (isLoadingStores()) {
+          <div class="stores-state-box">
+            <mat-icon class="spin-icon">sync</mat-icon>
+            <p>Carregando lojas parceiras...</p>
+          </div>
+        } @else if (displayedStores().length === 0) {
+          <div class="stores-state-box">
+            <mat-icon>storefront</mat-icon>
+            <h4>Nenhuma loja encontrada</h4>
+            <p>Tente aumentar o raio de busca ou selecionar outra categoria.</p>
+          </div>
+        } @else {
+          @for (store of displayedStores(); track store.id) {
+            <div
+              class="store-card"
+              [class.is-selected]="selectedStore()?.id === store.id"
+              (click)="focusStoreOnMap(store)"
+            >
+              <div class="card-top-row">
+                <div class="store-badge-group">
+                  <span class="partner-badge">
+                    <mat-icon>verified</mat-icon>
+                    Parceiro Oficial
+                  </span>
+                  @if (store.openNow) {
+                    <span class="status-badge open">Aberto Agora</span>
+                  } @else {
+                    <span class="status-badge closed">Fechado</span>
+                  }
+                </div>
+
+                @if (store.distance !== undefined) {
+                  <span class="distance-pill">
+                    <mat-icon>directions_car</mat-icon>
+                    {{ store.distance | number:'1.1-1' }} km
+                  </span>
+                }
+              </div>
+
+              <h3 class="store-name">{{ store.name }}</h3>
+
+              <p class="store-address">
+                <mat-icon>location_on</mat-icon>
+                <span>{{ store.address }} — {{ store.neighborhood }}, {{ store.city }}</span>
+              </p>
+
+              <div class="store-meta-grid">
+                <div class="meta-item">
+                  <mat-icon class="icon-star">star</mat-icon>
+                  <strong>{{ store.rating }}</strong>
+                  <small>({{ store.reviewCount }} avaliações)</small>
+                </div>
+                <div class="meta-item">
+                  <mat-icon>schedule</mat-icon>
+                  <span>{{ store.openHours }}</span>
+                </div>
+                <div class="meta-item">
+                  <mat-icon>call</mat-icon>
+                  <span>{{ store.phone }}</span>
+                </div>
+              </div>
+
+              <!-- Tags de categorias -->
+              <div class="store-tags">
+                @for (catId of store.categories; track catId) {
+                  <span class="cat-tag">
+                    <mat-icon>{{ storeService.getCategoryIcon(catId) }}</mat-icon>
+                    {{ storeService.getCategoryLabel(catId) }}
+                  </span>
+                }
+              </div>
+
+              <div class="card-actions">
+                <button class="btn-focus-map" (click)="focusStoreOnMap(store); $event.stopPropagation()">
+                  <mat-icon>place</mat-icon>
+                  Ver no Mapa
+                </button>
+                <button class="btn-contact-store" (click)="$event.stopPropagation()">
+                  <mat-icon>chat</mat-icon>
+                  Falar com a Loja
+                </button>
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+
+    <!-- Coluna Direita: Mapa Interativo Leaflet -->
+    <div class="map-panel">
+      <div #mapContainer class="leaflet-map-wrapper"></div>
+
+      <!-- Floating Map Helper / Legenda -->
+      <div class="map-floating-legend">
+        <div class="legend-item">
+          <span class="dot-legend user"></span>
+          <span>Você</span>
+        </div>
+        <div class="legend-item">
+          <span class="dot-legend open"></span>
+          <span>Loja Aberta</span>
+        </div>
+        <div class="legend-item">
+          <span class="dot-legend closed"></span>
+          <span>Loja Fechada</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
