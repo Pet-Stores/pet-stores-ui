@@ -6,10 +6,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { FavoritesService } from '../../services/favorites.service';
 import { OrderService } from '../../services/order.service';
+import { StoreService } from '../../services/store.service';
 import { LoginComponent } from '../auth/login/login.component';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
 import { RegisterComponent } from '../auth/register/register.component';
@@ -21,6 +23,7 @@ import { RegisterComponent } from '../auth/register/register.component';
     standalone: true,
     imports: [
       CommonModule,
+      FormsModule,
       MatIconModule,
       MatButtonModule,
       MatSidenavModule,
@@ -37,6 +40,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   public favoritesService = inject(FavoritesService);
   public orderService = inject(OrderService);
+  public storeService = inject(StoreService);
 
   // Expondo dados reativos
   public cartItems = this.cartService.cartItems;
@@ -46,6 +50,35 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public activeOrders = this.orderService.activeOrders;
   public activeOrdersCount = computed(() => this.orderService.activeOrders().length);
   public pipelineSteps = this.orderService.getPipelineSteps();
+
+  // Lojas / localização
+  public hasCep = this.storeService.hasCep;
+  public userLocation = this.storeService.userLocation;
+  public topStores = this.storeService.topNearbyStores;
+  public isLoadingLocation = this.storeService.isLoadingLocation;
+  public isLoadingStores = this.storeService.isLoadingStores;
+  public cepError = this.storeService.cepError;
+  public cepInput = signal<string>('');
+
+  async onCepSearch(): Promise<void> {
+    await this.storeService.searchByCep(this.cepInput());
+  }
+
+  async onUseMyLocation(): Promise<void> {
+    await this.storeService.getUserGeolocation();
+  }
+
+  formatCep(value: string): void {
+    const digits = value.replace(/\D/g, '').substring(0, 8);
+    const formatted = digits.length > 5
+      ? `${digits.substring(0, 5)}-${digits.substring(5)}`
+      : digits;
+    this.cepInput.set(formatted);
+  }
+
+  public goToStores(): void {
+    this.router.navigate(['/stores']);
+  }
 
   public getPipelineProgressPercent(currentStepIndex: number): number {
     switch (currentStepIndex) {
