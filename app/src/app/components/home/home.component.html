@@ -1,13 +1,16 @@
 <app-navbar></app-navbar>
 
 <div class="home-container">
+  <!-- Carrossel de Destaques & Promoções Pet Stores -->
+  <app-hero-carousel></app-hero-carousel>
+
   <section class="products-showcase">
     <h2>Destaques para seu Pet</h2>
     <div class="products-grid">
       @for (product of products(); track product.id) {
         <div class="product-card">
           <div class="card-header">
-            <button mat-icon-button 
+            <button mat-icon-button
                     [class.is-favorite]="isFavorite(product.id)"
                     (click)="toggleFavorite(product)"
                     class="fav-btn">
