@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { HeroCarouselComponent } from '../hero-carousel/hero-carousel.component';
 import { FavoritesService } from '../../services/favorites.service';
 import { ProductService, Product } from '../../services/product.service';
 
@@ -12,7 +13,7 @@ import { ProductService, Product } from '../../services/product.service';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
     standalone: true,
-    imports: [CommonModule, MatButtonModule, MatIconModule, RouterModule, NavbarComponent]
+    imports: [CommonModule, MatButtonModule, MatIconModule, RouterModule, NavbarComponent, HeroCarouselComponent]
 })
 export class HomeComponent {
   private favoritesService = inject(FavoritesService);
