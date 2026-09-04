@@ -1,1 +1,33 @@
 <app-navbar></app-navbar>
+
+<div class="home-container">
+  <!-- Carrossel de Destaques & Promoções Pet Stores -->
+  <app-hero-carousel></app-hero-carousel>
+
+  <section class="products-showcase">
+    <h2>Destaques para seu Pet</h2>
+    <div class="products-grid">
+      @for (product of products(); track product.id) {
+        <div class="product-card">
+          <div class="card-header">
+            <button mat-icon-button
+                    [class.is-favorite]="isFavorite(product.id)"
+                    (click)="toggleFavorite(product)"
+                    class="fav-btn">
+              <mat-icon>{{ isFavorite(product.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+            </button>
+          </div>
+          <div class="card-image" [routerLink]="['/product', product.id]">
+            <img [src]="product.images[0]" [alt]="product.name">
+          </div>
+          <div class="card-body">
+            <span class="seller">{{ product.sellerName }}</span>
+            <h3 [routerLink]="['/product', product.id]">{{ product.name }}</h3>
+            <p class="price">{{ product.price | currency:'BRL' }}</p>
+            <button mat-raised-button color="primary" class="buy-btn" [routerLink]="['/product', product.id]">VER DETALHES</button>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+</div>

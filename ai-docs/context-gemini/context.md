@@ -31,6 +31,23 @@ Este documento serve como a "Bússola do Projeto" para garantir que o desenvolvi
 ## 5. Fluxo de Trabalho e Documentação
 *   **Registro de Tarefas:** Cada etapa concluída deve ser relatada na pasta `prompts/` seguindo a numeração sequencial.
 *   **Sincronização:** Este arquivo (`context.md`) deve ser lido no início de grandes tarefas para garantir alinhamento estratégico.
+*   **Sincronização:** Toda vez que o usuário dar o comando save isolado, deve ser feita as seguintes etapas: 1- atualizar o arquivo ai-docs/features com a feature atual seguindo a sequencia numerica e nome do que está sendo feito. 2- atualizar ai-docs/sessions com a conversa da sessão que originou a feature. 3- atualziar ai-docs/historico-conversoes seguindo o mesmo padrao já estabelecido no doc. 4- disponibilizar ao usuário uma mensagem de commit que condiz com a feature que estava trabalhando. Resumindo, O que o comando save faz?
+
+- Criar/atualizar o arquivo de feature
+
+- Em ai-docs/features/XX‑<nome‑da‑atividade>.md (seguindo a numeração sequencial).
+- - O documento descreve o que foi implementado e como foi feito.
+- - Criar/atualizar o arquivo de sessão
+
+- Em ai-docs/sessions/YYYY‑MM‑DD‑sessao‑YY.md (data da sessão).
+- - Contém um resumo executivo da conversa que originou a feature (decisões, desafios, próximos passos).
+- - Atualizar o histórico de conversas
+
+- No arquivo ai-docs/00-historico-conversoes.md adicionando as linhas que apontam para a nova feature e a nova sessão, no mesmo formato já usado (tabela de Features e de Sessões).
+
+- Gerar a mensagem de commit
+- - Fornecer ao usuário uma sugestão de mensagem de commit em inglês, resumindo a feature (ex.: feat: add premium hero carousel component with 5 themed slides, integrate into Home page, fix duplicate imports in HomeComponent).
+
 
 ---
 **Última Atualização:** 19 de Maio de 2026

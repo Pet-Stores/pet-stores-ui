@@ -1,0 +1,243 @@
+<app-navbar></app-navbar>
+
+@if (product(); as p) {
+  <div class="product-page-container">
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumbs">
+      <a routerLink="/">Home</a>
+      <mat-icon>chevron_right</mat-icon>
+      <a href="javascript:void(0)">{{ p.category }}</a>
+      <mat-icon>chevron_right</mat-icon>
+      <span>{{ p.name }}</span>
+    </nav>
+
+    <div class="main-content">
+      <!-- GALERIA DE IMAGENS E VÍDEO -->
+      <div class="gallery-section">
+        <div class="thumbnails">
+          @for (img of p.images; track img) {
+            <div class="thumb-item" 
+                 [class.active]="selectedImage() === img && !isShowingVideo()"
+                 (click)="selectImage(img)">
+              <img [src]="img" [alt]="p.name">
+            </div>
+          }
+          @if (p.videoUrl) {
+            <div class="thumb-item video-thumb" 
+                 [class.active]="isShowingVideo()"
+                 (click)="selectVideo()">
+              <mat-icon>play_circle_outline</mat-icon>
+              <span>VÍDEO</span>
+            </div>
+          }
+        </div>
+
+        <div class="display-container">
+          @if (isShowingVideo()) {
+            <div class="main-video">
+              <iframe [src]="safeVideoUrl()" 
+                      frameborder="0" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                      allowfullscreen>
+              </iframe>
+            </div>
+          } @else {
+            <div class="main-image-wrapper" 
+                 (mousemove)="onMouseMove($event)"
+                 (mouseenter)="toggleZoom(true)"
+                 (mouseleave)="toggleZoom(false)"
+                 (click)="openLightbox()">
+
+              <img [src]="selectedImage()" 
+                   [alt]="p.name" 
+                   #mainImage
+                   class="base-image">
+
+              <!-- LENTE DO ZOOM (INDICADOR) -->
+              @if (isZooming()) {
+                <div class="magnifier-lens" [ngStyle]="lensStyle()"></div>
+              }
+
+              @if (p.discountBadge) {
+                <div class="discount-tag">{{ p.discountBadge }}</div>
+              }
+              <div class="click-hint"><mat-icon>zoom_out_map</mat-icon> Clique para expandir</div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- INFORMAÇÕES E CTAs -->
+      <div class="info-section">
+        <!-- VISUALIZADOR DO ZOOM LATERAL (Aparece ao lado da imagem no desktop) -->
+        @if (isZooming()) {
+          <div class="zoom-viewer-panel" [ngStyle]="zoomViewerStyle()"></div>
+        }
+
+        <div class="seller-badge">
+          <mat-icon>verified</mat-icon>
+          <span>{{ p.sellerName }}</span>
+          <div class="rating">
+            <mat-icon>star</mat-icon>
+            <span>{{ p.sellerRating }}</span>
+          </div>
+        </div>
+
+        <h1>{{ p.name }}</h1>
+        
+        <p class="short-desc">{{ p.shortDescription }}</p>
+
+        <div class="price-container">
+          <div class="price-box">
+            @if (p.originalPrice) {
+              <span class="old-price">{{ p.originalPrice | currency:'BRL' }}</span>
+            }
+            <span class="current-price">{{ p.price | currency:'BRL' }}</span>
+          </div>
+          <div class="installments">ou 10x de {{ (p.price / 10) | currency:'BRL' }} sem juros</div>
+        </div>
+
+        <div class="purchase-actions">
+          <div class="quantity-selector">
+            <button (click)="decrementQty()"><mat-icon>remove</mat-icon></button>
+            <span>{{ quantity() }}</span>
+            <button (click)="incrementQty()"><mat-icon>add</mat-icon></button>
+          </div>
+
+          <button mat-raised-button 
+                  class="btn-fav" 
+                  [class.active]="isFavorite()"
+                  (click)="toggleFavorite()">
+            <mat-icon>{{ isFavorite() ? 'favorite' : 'favorite_border' }}</mat-icon>
+          </button>
+        </div>
+
+        <div class="cta-buttons">
+          <button mat-raised-button color="primary" class="btn-buy premium-shine" (click)="buyNow()">
+            COMPRAR AGORA
+          </button>
+          <button mat-stroked-button class="btn-cart" (click)="addToCart()">
+            <mat-icon>add_shopping_cart</mat-icon>
+            ADICIONAR AO CARRINHO
+          </button>
+        </div>
+
+        <div class="trust-badges">
+          <div class="badge">
+            <mat-icon>local_shipping</mat-icon>
+            <div><strong>Frete Grátis</strong><span>Acima de R$ 199</span></div>
+          </div>
+          <div class="badge">
+            <mat-icon>security</mat-icon>
+            <div><strong>Compra Segura</strong><span>Proteção total</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="extra-info-tabs">
+      <mat-tab-group animationDuration="500ms">
+        <mat-tab label="DESCRIÇÃO">
+          <div class="tab-content">
+            <div class="desc-text">{{ p.description }}</div>
+            <ul class="features-list">
+              @for (feat of p.features; track feat) {
+                <li><mat-icon>check_circle_outline</mat-icon> {{ feat }}</li>
+              }
+            </ul>
+          </div>
+        </mat-tab>
+        
+        <mat-tab label="ESPECIFICAÇÕES">
+          <div class="tab-content">
+            <table class="spec-table">
+              @for (spec of p.specifications; track spec.label) {
+                <tr>
+                  <td class="label">{{ spec.label }}</td>
+                  <td class="value">{{ spec.value }}</td>
+                </tr>
+              }
+            </table>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="AVALIAÇÕES ({{ p.reviews.length }})">
+          <div class="tab-content">
+            <div class="reviews-list">
+              @for (rev of p.reviews; track rev.user) {
+                <div class="review-card">
+                  <div class="rev-header">
+                    <strong>{{ rev.user }}</strong>
+                    <div class="stars">
+                      @for (i of [1,2,3,4,5]; track i) {
+                        <mat-icon [class.filled]="i <= rev.rating">star</mat-icon>
+                      }
+                    </div>
+                  </div>
+                  <p>{{ rev.comment }}</p>
+                  <small>{{ rev.date | date:'dd/MM/yyyy' }}</small>
+                </div>
+              } @empty {
+                <p class="no-reviews">Ainda não há avaliações.</p>
+              }
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <!-- RELACIONADOS -->
+    <section class="related-section">
+      <h3>Quem viu este produto também se interessou por:</h3>
+      <div class="related-grid">
+        @for (rel of relatedProducts(); track rel.id) {
+          <div class="rel-card" [routerLink]="['/product', rel.id]">
+            <img [src]="rel.images[0]" [alt]="rel.name">
+            <h4>{{ rel.name }}</h4>
+            <span class="price">{{ rel.price | currency:'BRL' }}</span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- STICKY MOBILE CTA -->
+    <div class="sticky-cta-mobile">
+      <div class="mobile-price"><span>{{ p.price | currency:'BRL' }}</span></div>
+      <button mat-raised-button color="primary" class="premium-shine" (click)="buyNow()">
+        COMPRAR AGORA
+      </button>
+    </div>
+  </div>
+}
+
+<!-- LIGHTBOX -->
+@if (isLightboxOpen()) {
+  <div class="lightbox-overlay" (click)="closeLightbox()">
+    <button class="close-btn" (click)="closeLightbox()"><mat-icon>close</mat-icon></button>
+    <div class="lightbox-content" (click)="$event.stopPropagation()">
+      <button class="nav-btn prev" (click)="prevLightboxImage($event)" *ngIf="product()!.images.length > 1">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      
+      <div class="image-container">
+        <img [src]="product()!.images[currentLightboxIndex()]" [alt]="product()!.name">
+        <div class="counter">{{ currentLightboxIndex() + 1 }} / {{ product()!.images.length }}</div>
+      </div>
+      
+      <button class="nav-btn next" (click)="nextLightboxImage($event)" *ngIf="product()!.images.length > 1">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+
+    <div class="lightbox-thumbs" (click)="$event.stopPropagation()">
+      @for (img of product()!.images; track img; let i = $index) {
+        <div class="thumb" 
+             [class.active]="currentLightboxIndex() === i"
+             (click)="currentLightboxIndex.set(i)">
+          <img [src]="img" alt="Thumbnail">
+        </div>
+      }
+    </div>
+  </div>
+}

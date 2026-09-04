@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, OnDestroy, signal, inject } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, signal, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -6,10 +6,15 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
+import { FavoritesService } from '../../services/favorites.service';
+import { OrderService } from '../../services/order.service';
+import { StoreService } from '../../services/store.service';
 import { LoginComponent } from '../auth/login/login.component';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
+import { RegisterComponent } from '../auth/register/register.component';
 
 @Component({
     selector: 'app-navbar',
@@ -18,6 +23,7 @@ import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password
     standalone: true,
     imports: [
       CommonModule,
+      FormsModule,
       MatIconModule,
       MatButtonModule,
       MatSidenavModule,
@@ -32,9 +38,65 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public router = inject(Router);
   private dialog = inject(MatDialog);
   public authService = inject(AuthService);
+  public favoritesService = inject(FavoritesService);
+  public orderService = inject(OrderService);
+  public storeService = inject(StoreService);
 
-  // Expondo a lista de itens do carrinho
+  // Expondo dados reativos
   public cartItems = this.cartService.cartItems;
+  public cartItemsCount = this.cartService.totalItemsCount;
+  public favoriteItems = this.favoritesService.favoriteItems;
+  public favoritesCount = this.favoritesService.favoritesCount;
+  public activeOrders = this.orderService.activeOrders;
+  public activeOrdersCount = computed(() => this.orderService.activeOrders().length);
+  public pipelineSteps = this.orderService.getPipelineSteps();
+
+  // Lojas / localização
+  public hasCep = this.storeService.hasCep;
+  public userLocation = this.storeService.userLocation;
+  public topStores = this.storeService.topNearbyStores;
+  public isLoadingLocation = this.storeService.isLoadingLocation;
+  public isLoadingStores = this.storeService.isLoadingStores;
+  public cepError = this.storeService.cepError;
+  public cepInput = signal<string>('');
+
+  async onCepSearch(): Promise<void> {
+    await this.storeService.searchByCep(this.cepInput());
+  }
+
+  async onUseMyLocation(): Promise<void> {
+    await this.storeService.getUserGeolocation();
+  }
+
+  formatCep(value: string): void {
+    const digits = value.replace(/\D/g, '').substring(0, 8);
+    const formatted = digits.length > 5
+      ? `${digits.substring(0, 5)}-${digits.substring(5)}`
+      : digits;
+    this.cepInput.set(formatted);
+  }
+
+  public goToStores(): void {
+    this.router.navigate(['/stores']);
+  }
+
+  public getPipelineProgressPercent(currentStepIndex: number): number {
+    switch (currentStepIndex) {
+      case 0: return 12;
+      case 1: return 42;
+      case 2: return 75;
+      case 3: return 100;
+      default: return 0;
+    }
+  }
+
+  public isStepCompleted(stepIndex: number, currentStepIndex: number): boolean {
+    return stepIndex < currentStepIndex;
+  }
+
+  public isStepActive(stepIndex: number, currentStepIndex: number): boolean {
+    return stepIndex === currentStepIndex;
+  }
 
   public isMobileScreen = signal<boolean>(false);
   public showFiller = signal<boolean>(false);
@@ -111,6 +173,34 @@ export class NavbarComponent implements OnInit, OnDestroy {
     {value: 'Outros'},
   ]);
 
+  public listaOfertas = signal([
+    {value: 'Ofertas do Dia'},
+    {value: 'Seleção Premium'},
+    {value: 'Outlet Pet'},
+    {value: 'Assinatura Pet'},
+  ]);
+
+  public listaCupons = signal([
+    {value: 'Meus Cupons'},
+    {value: 'Cupons Primeira Compra'},
+    {value: 'Frete Grátis'},
+    {value: 'Indique e Ganhe'},
+  ]);
+
+  public listaVendedor = signal([
+    {value: 'Quero Vender'},
+    {value: 'Portal do Parceiro'},
+    {value: 'Vantagens PS'},
+    {value: 'Taxas e Prazos'},
+  ]);
+
+  public listaEntregador = signal([
+    {value: 'Quero Entregar'},
+    {value: 'App do Entregador'},
+    {value: 'Meus Ganhos'},
+    {value: 'Equipamentos'},
+  ]);
+
   constructor() {}
 
   ngOnInit() {
@@ -126,7 +216,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   typeEffect() {
     const currentPhrase = this.phrases[this.currentPhraseIndex];
-    
+
     if (this.isDeleting) {
       this.animatedPlaceholder.set(currentPhrase.substring(0, this.currentCharIndex - 1));
       this.currentCharIndex--;
@@ -164,7 +254,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   openLoginModal() {
     if (this.authService.isLoggedIn()) return;
-    
+
     const dialogRef = this.dialog.open(LoginComponent, {
       width: '100%',
       maxWidth: '450px',
@@ -175,6 +265,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'forgot-password') {
         this.openForgotPasswordModal();
+      } else if (result === 'register') {
+        this.openRegisterModal();
       }
     });
   }
@@ -183,6 +275,21 @@ export class NavbarComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ForgotPasswordComponent, {
       width: '100%',
       maxWidth: '450px',
+      panelClass: 'custom-modal-container',
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'login') {
+        this.openLoginModal();
+      }
+    });
+  }
+
+  openRegisterModal() {
+    const dialogRef = this.dialog.open(RegisterComponent, {
+      width: '100%',
+      maxWidth: '650px',
       panelClass: 'custom-modal-container',
       autoFocus: false
     });

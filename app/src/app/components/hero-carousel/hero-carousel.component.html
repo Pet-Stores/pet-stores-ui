@@ -1,0 +1,206 @@
+<section
+  class="hero-carousel-container"
+  aria-roledescription="carousel"
+  aria-label="Destaques, Promoções e Serviços Pet Stores"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+  (touchstart)="onTouchStart($event)"
+  (touchmove)="onTouchMove($event)"
+  (touchend)="onTouchEnd()"
+  tabindex="0"
+>
+  <!-- Trilha do Carrossel com transição suave -->
+  <div class="carousel-track">
+    @for (slide of slides; track slide.id; let i = $index) {
+      <article
+        class="carousel-slide"
+        [class.is-active]="i === currentIndex()"
+        [class.is-prev]="i === (currentIndex() - 1 + slides.length) % slides.length"
+        [class.is-next]="i === (currentIndex() + 1) % slides.length"
+        [style.background]="slide.theme.bgGradient"
+        [attr.aria-hidden]="i !== currentIndex()"
+        [attr.aria-label]="slide.title + ' - ' + slide.highlightText"
+      >
+        <!-- Elementos de iluminação e profundidade de fundo -->
+        <div
+          class="bg-ambient-glow"
+          [style.background]="slide.theme.glowColor"
+        ></div>
+        <div class="bg-pattern-overlay"></div>
+
+        <!-- Conteúdo do Slide em 2 Colunas -->
+        <div class="slide-content-grid">
+
+          <!-- COLUNA ESQUERDA: Textos, Badges e CTAs -->
+          <div class="slide-text-col">
+
+            <!-- Linha de Badges de Topo -->
+            <div class="badge-row">
+              <div class="stat-pill" [ngClass]="'pill-' + slide.badgeType">
+                <span class="pulse-dot"></span>
+                <mat-icon class="badge-icon">{{ slide.badgeIcon }}</mat-icon>
+                <strong>{{ slide.badge }}</strong>
+              </div>
+
+              <span class="category-tag">
+                {{ slide.tag }}
+              </span>
+            </div>
+
+            <!-- Título Principal com Destaque Tipográfico -->
+            <div class="title-group">
+              <h2 class="slide-title">
+                <span class="title-main">{{ slide.title }}</span>
+                <span
+                  class="title-highlight"
+                  [style.color]="slide.theme.accentColor"
+                >
+                  {{ slide.highlightText }}
+                </span>
+              </h2>
+              <p class="slide-subtitle">{{ slide.subtitle }}</p>
+            </div>
+
+            <!-- Descrição Acolhedora -->
+            <p class="slide-description">{{ slide.description }}</p>
+
+            <!-- Grupo de Ações (CTAs) -->
+            <div class="slide-actions-row">
+              <a
+                class="btn-cta-primary"
+                [routerLink]="slide.ctaRoute"
+                [style.background]="slide.theme.accentColor"
+              >
+                <span>{{ slide.ctaText }}</span>
+                <mat-icon class="btn-icon">arrow_forward</mat-icon>
+                <div class="btn-shimmer-effect"></div>
+              </a>
+
+              @if (slide.ctaSecondaryText) {
+                <a
+                  class="btn-cta-secondary"
+                  [routerLink]="slide.ctaSecondaryRoute"
+                  [style.color]="slide.theme.accentColor"
+                  [style.borderColor]="slide.theme.accentColor + '33'"
+                >
+                  <span>{{ slide.ctaSecondaryText }}</span>
+                </a>
+              }
+            </div>
+
+          </div>
+
+          <!-- COLUNA DIREITA: Showcase Visual com Imagem & Badges Flutuantes -->
+          <div class="slide-visual-col">
+            <div class="visual-card-wrapper">
+
+              <!-- Halo central de luz -->
+              <div
+                class="image-backdrop-glow"
+                [style.background]="slide.theme.glowColor"
+              ></div>
+
+              <!-- Imagem do Produto / Mock Principal -->
+              @if (slide.image) {
+                <div class="main-image-container">
+                  <img
+                    [src]="slide.image"
+                    [alt]="slide.imageAlt || slide.title"
+                    class="showcase-img"
+                    loading="lazy"
+                  />
+                </div>
+              }
+
+              <!-- Badges Flutuantes com Informações Extras -->
+              @if (slide.floatingBadges && slide.floatingBadges.length > 0) {
+                @for (fBadge of slide.floatingBadges; track fBadge.text) {
+                  <div
+                    class="floating-info-card"
+                    [ngClass]="'pos-' + fBadge.position"
+                  >
+                    <div
+                      class="fbadge-icon-box"
+                      [style.color]="slide.theme.accentColor"
+                    >
+                      <mat-icon>{{ fBadge.icon }}</mat-icon>
+                    </div>
+                    <div class="fbadge-text-box">
+                      <span class="fbadge-title">{{ fBadge.text }}</span>
+                      @if (fBadge.subtext) {
+                        <span class="fbadge-subtitle">{{ fBadge.subtext }}</span>
+                      }
+                    </div>
+                  </div>
+                }
+              }
+
+            </div>
+          </div>
+
+        </div>
+      </article>
+    }
+  </div>
+
+  <!-- Botões de Navegação Lateral (Setas com Glassmorphism) -->
+  <button
+    type="button"
+    class="carousel-nav-btn nav-prev"
+    (click)="prev()"
+    aria-label="Slide anterior"
+  >
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+
+  <button
+    type="button"
+    class="carousel-nav-btn nav-next"
+    (click)="next()"
+    aria-label="Próximo slide"
+  >
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+
+  <!-- Rodapé do Carrossel: Contador & Indicadores em Pílulas com Timer -->
+  <div class="carousel-bottom-bar">
+
+    <!-- Contador Numérico Estilizado -->
+    <div class="slide-counter-badge">
+      <span class="current-num">0{{ currentIndex() + 1 }}</span>
+      <span class="divider">/</span>
+      <span class="total-num">0{{ slides.length }}</span>
+    </div>
+
+    <!-- Navegação por Dots / Pílulas Dinâmicas -->
+    <div class="carousel-indicators-track" role="tablist">
+      @for (slide of slides; track slide.id; let i = $index) {
+        <button
+          type="button"
+          class="indicator-pill"
+          [class.is-active]="i === currentIndex()"
+          (click)="goTo(i)"
+          role="tab"
+          [attr.aria-selected]="i === currentIndex()"
+          [attr.aria-label]="'Ir para o slide ' + (i + 1) + ': ' + slide.title"
+        >
+          <!-- Barra de progresso animada quando o slide está ativo -->
+          @if (i === currentIndex()) {
+            <span
+              class="pill-progress-fill"
+              [class.is-paused]="isPaused()"
+            ></span>
+          }
+        </button>
+      }
+    </div>
+
+    <!-- Indicador de Status (Autoplay / Pausado) -->
+    <div class="autoplay-status-hint">
+      <mat-icon class="status-icon">{{ isPaused() ? 'pause' : 'play_arrow' }}</mat-icon>
+      <span class="status-text">{{ isPaused() ? 'Pausado' : 'Auto' }}</span>
+    </div>
+
+  </div>
+</section>
+
