@@ -6,11 +6,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* Custom Dialog Styling */
 .custom-modal-container {
+  margin: 0 auto !important;
+
   .mat-mdc-dialog-container {
     padding: 0 !important;
     border-radius: 24px !important;
     overflow: hidden !important;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  .mat-mdc-dialog-surface {
+    padding: 0 !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
   }
 }
 
@@ -32,7 +40,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --mdc-snackbar-container-color: #10b981 !important;
   --mdc-snackbar-supporting-text-color: #ffffff !important;
   --mat-snack-bar-button-color: #ffffff !important;
-  
+
   .mdc-snackbar__surface {
     border-radius: 12px !important;
     padding: 8px 16px !important;
@@ -45,7 +53,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --mdc-snackbar-container-color: #f59e0b !important;
   --mdc-snackbar-supporting-text-color: #ffffff !important;
   --mat-snack-bar-button-color: #ffffff !important;
-  
+
   .mdc-snackbar__surface {
     border-radius: 12px !important;
     padding: 8px 16px !important;
@@ -58,7 +66,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --mdc-snackbar-container-color: #ef4444 !important;
   --mdc-snackbar-supporting-text-color: #ffffff !important;
   --mat-snack-bar-button-color: #ffffff !important;
-  
+
   .mdc-snackbar__surface {
     border-radius: 12px !important;
     padding: 8px 16px !important;

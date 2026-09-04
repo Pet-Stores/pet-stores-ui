@@ -1,6 +1,6 @@
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -8,7 +8,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService, Pet } from '../../../services/auth.service';
+
+export interface CatalogedSpecies {
+  id: string;
+  name: string;
+  scientificName?: string;
+  icon: string;
+}
 
 @Component({
   selector: 'app-register',
@@ -33,11 +40,29 @@ export class RegisterComponent {
   private authService = inject(AuthService);
   private snackBar = inject(MatSnackBar);
 
+  // Catálogo oficial de espécies
+  public readonly catalogedSpecies: CatalogedSpecies[] = [
+    { id: 'dog', name: 'Cão / Cachorro', scientificName: 'Canis lupus familiaris', icon: 'pets' },
+    { id: 'cat', name: 'Gato', scientificName: 'Felis catus', icon: 'pets' },
+    { id: 'bird', name: 'Pássaro / Ave', scientificName: 'Calopsita, Canário, etc.', icon: 'flutter_dash' },
+    { id: 'fish', name: 'Peixe Ornamental', scientificName: 'Betta, Tetra, Acará, etc.', icon: 'water' },
+    { id: 'rodent', name: 'Roedor', scientificName: 'Hamster, Porquinho-da-Índia, etc.', icon: 'cruelty_free' },
+    { id: 'rabbit', name: 'Coelho / Lebre', scientificName: 'Lagomorpha', icon: 'cruelty_free' },
+    { id: 'reptile', name: 'Réptil', scientificName: 'Tartaruga, Jabuti, Iguana, etc.', icon: 'pest_control' },
+    { id: 'ferret', name: 'Furão / Ferret', scientificName: 'Mustela putorius furo', icon: 'pets' },
+    { id: 'amphibian', name: 'Anfíbio', scientificName: 'Sapo, Rã, Salamandra', icon: 'eco' },
+    { id: 'other', name: 'Outros Animais Catalogados', scientificName: 'Espécies autorizadas', icon: 'category' }
+  ];
+
+  // Data máxima para nascimento (hoje)
+  public readonly maxBirthDate = new Date().toISOString().split('T')[0];
+
   // Estados com Signals
   public currentStep = signal<number>(1);
   public selectedProfile = signal<'buyer' | 'seller' | 'delivery_person'>('buyer');
   public hidePassword = signal<boolean>(true);
   public hideConfirmPassword = signal<boolean>(true);
+  public showPetSection = signal<boolean>(false);
 
   // Formulário Reativo
   public registerForm: FormGroup = this.fb.group({
@@ -47,6 +72,9 @@ export class RegisterComponent {
     password: ['', [Validators.required, Validators.minLength(6)]],
     confirmPassword: ['', [Validators.required]],
     
+    // Cadastro de Pets (Opcional - FormArray)
+    pets: this.fb.array([]),
+
     // Campos Etapa 2 - Vendedor
     storeName: [''],
     cnpj: [''],
@@ -64,7 +92,7 @@ export class RegisterComponent {
     plate: ['']
   }, { validators: this.passwordMatchValidator });
 
-  // Mock de arquivos selecionados
+  // Mock de arquivos selecionados para vendedor/entregador
   public documents = signal<string[]>([]);
 
   constructor() {
@@ -72,6 +100,55 @@ export class RegisterComponent {
     this.registerForm.get('profileType')?.valueChanges.subscribe(value => {
       this.selectedProfile.set(value);
       this.updateConditionalValidators(value);
+    });
+  }
+
+  // Getter para FormArray de Pets
+  public get pets(): FormArray {
+    return this.registerForm.get('pets') as FormArray;
+  }
+
+  // Criação de FormGroup para um Pet
+  private createPetGroup(): FormGroup {
+    return this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      species: ['', Validators.required],
+      birthDate: [''],
+      gender: ['male', Validators.required],
+      documentName: ['']
+    });
+  }
+
+  // Adicionar Pet
+  public addPet(): void {
+    this.showPetSection.set(true);
+    this.pets.push(this.createPetGroup());
+  }
+
+  // Remover Pet
+  public removePet(index: number): void {
+    this.pets.removeAt(index);
+    if (this.pets.length === 0) {
+      this.showPetSection.set(false);
+    }
+  }
+
+  // Upload de Documento do Pet (vacina, pedigree, RGA, etc.)
+  public onPetDocumentUpload(event: any, index: number): void {
+    const file = event.target?.files?.[0];
+    if (file) {
+      const petGroup = this.pets.at(index) as FormGroup;
+      petGroup.patchValue({
+        documentName: file.name
+      });
+    }
+  }
+
+  // Remover Documento do Pet
+  public removePetDocument(index: number): void {
+    const petGroup = this.pets.at(index) as FormGroup;
+    petGroup.patchValue({
+      documentName: ''
     });
   }
 
@@ -132,6 +209,12 @@ export class RegisterComponent {
         }
       });
 
+      // Se o usuário adicionou pets, validar campos dos pets
+      if (this.pets.length > 0 && this.pets.invalid) {
+        this.pets.markAllAsTouched();
+        isValid = false;
+      }
+
       if (this.registerForm.hasError('passwordMismatch')) {
         isValid = false;
       }
@@ -158,11 +241,25 @@ export class RegisterComponent {
   }
 
   public onSubmit() {
+    // Filtrar pets caso estejam vazios
+    const rawValue = this.registerForm.value;
+    const cleanPets = (rawValue.pets || []).filter((pet: any) => pet.name && pet.name.trim() !== '');
+
+    const payload = {
+      ...rawValue,
+      pets: cleanPets
+    };
+
     if (this.registerForm.valid) {
-      const success = this.authService.register(this.registerForm.value);
+      const success = this.authService.register(payload);
       if (success) {
-        this.snackBar.open('Cadastro realizado com sucesso!', 'Fechar', {
-          duration: 3000,
+        const petCount = cleanPets.length;
+        const msg = petCount > 0
+          ? `Cadastro realizado com sucesso! ${petCount} pet(s) cadastrado(s) 🐾`
+          : 'Cadastro realizado com sucesso!';
+
+        this.snackBar.open(msg, 'Fechar', {
+          duration: 3500,
           panelClass: ['success-snackbar']
         });
         this.dialogRef.close('success');
