@@ -289,7 +289,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   openRegisterModal() {
     const dialogRef = this.dialog.open(RegisterComponent, {
       width: '100%',
-      maxWidth: '650px',
+      maxWidth: '480px',
+      maxHeight: '90vh',
       panelClass: 'custom-modal-container',
       autoFocus: false
     });
