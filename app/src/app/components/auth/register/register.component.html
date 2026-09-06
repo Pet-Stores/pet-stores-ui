@@ -1,197 +1,317 @@
-<div class="register-container premium-shine">
-  <div class="modal-header">
+<div class="register-dialog-wrapper">
+  <!-- CABEÇALHO FIXO -->
+  <header class="register-header">
     <div class="header-content">
-      <img src="../../../assets/img/Pet Stores (200 × 200 px).svg" alt="Pet Stores Logo" class="logo-small">
-      <h2>Crie sua conta</h2>
-      <p class="subtitle" *ngIf="currentStep() === 1">Escolha como quer participar da nossa comunidade</p>
-      <p class="subtitle" *ngIf="currentStep() === 2">Mais alguns detalhes para sua segurança</p>
+      <img src="assets/img/Pet Stores (200 × 200 px).svg" alt="Pet Stores Logo" class="logo-small">
+      <div class="header-titles">
+        <h2>Crie sua conta</h2>
+        <p class="subtitle" *ngIf="currentStep() === 1">Escolha como quer participar da nossa comunidade</p>
+        <p class="subtitle" *ngIf="currentStep() === 2">Mais alguns detalhes para sua segurança</p>
+      </div>
     </div>
-    <button mat-icon-button (click)="close()" class="close-btn">
+    <button mat-icon-button type="button" (click)="close()" class="close-btn" aria-label="Fechar">
       <mat-icon>close</mat-icon>
     </button>
-  </div>
+  </header>
 
-  <form [formGroup]="registerForm" class="register-form">
-    
-    <!-- ETAPA 1: Cadastro Básico & Perfil -->
-    <div class="step-content" *ngIf="currentStep() === 1">
-      
-      <!-- Seleção de Perfil via Cards -->
-      <div class="profile-selection">
-        <div class="profile-card" 
-             [class.selected]="selectedProfile() === 'buyer'"
-             (click)="setProfile('buyer')">
-          <div class="icon-wrapper">
-            <mat-icon>pets</mat-icon>
+  <!-- CORPO COM SCROLL GARANTIDO -->
+  <main class="register-body">
+    <form [formGroup]="registerForm" class="register-form">
+
+      <!-- ETAPA 1 -->
+      <div class="step-container" *ngIf="currentStep() === 1">
+
+        <!-- Seleção de Perfil -->
+        <div class="profile-selection">
+          <div class="profile-card" [class.selected]="selectedProfile() === 'buyer'" (click)="setProfile('buyer')">
+            <div class="icon-wrapper"><mat-icon>pets</mat-icon></div>
+            <h3>Comprador</h3>
+            <p>Quero comprar produtos e serviços para meu pet.</p>
+            <div class="selection-indicator"></div>
           </div>
-          <h3>Comprador</h3>
-          <p>Quero comprar produtos e serviços para meu pet.</p>
-          <div class="selection-indicator"></div>
+          <div class="profile-card" [class.selected]="selectedProfile() === 'seller'" (click)="setProfile('seller')">
+            <div class="icon-wrapper"><mat-icon>storefront</mat-icon></div>
+            <h3>Vendedor</h3>
+            <p>Quero vender produtos ou oferecer serviços.</p>
+            <div class="selection-indicator"></div>
+          </div>
+          <div class="profile-card" [class.selected]="selectedProfile() === 'delivery_person'" (click)="setProfile('delivery_person')">
+            <div class="icon-wrapper"><mat-icon>local_shipping</mat-icon></div>
+            <h3>Entregador</h3>
+            <p>Quero realizar entregas e faturar.</p>
+            <div class="selection-indicator"></div>
+          </div>
         </div>
 
-        <div class="profile-card" 
-             [class.selected]="selectedProfile() === 'seller'"
-             (click)="setProfile('seller')">
-          <div class="icon-wrapper">
-            <mat-icon>storefront</mat-icon>
-          </div>
-          <h3>Vendedor</h3>
-          <p>Quero vender produtos ou oferecer serviços.</p>
-          <div class="selection-indicator"></div>
-        </div>
-
-        <div class="profile-card" 
-             [class.selected]="selectedProfile() === 'delivery_person'"
-             (click)="setProfile('delivery_person')">
-          <div class="icon-wrapper">
-            <mat-icon>local_shipping</mat-icon>
-          </div>
-          <h3>Entregador</h3>
-          <p>Quero realizar entregas e faturar.</p>
-          <div class="selection-indicator"></div>
-        </div>
-      </div>
-
-      <!-- Inputs Básicos -->
-      <div class="basic-info">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Nome Completo</mat-label>
-          <input matInput formControlName="fullName" placeholder="Ex: João da Silva">
-          <mat-icon matPrefix>person</mat-icon>
-          <mat-error *ngIf="registerForm.get('fullName')?.hasError('required')">Nome é obrigatório</mat-error>
-          <mat-error *ngIf="registerForm.get('fullName')?.hasError('minlength')">Mínimo de 3 caracteres</mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>E-mail ou Telefone</mat-label>
-          <input matInput formControlName="identifier" placeholder="Ex: joao@email.com ou +55 (41) 99999-9999">
-          <mat-icon matPrefix>contact_mail</mat-icon>
-          <mat-error *ngIf="registerForm.get('identifier')?.hasError('required')">E-mail ou Telefone é obrigatório</mat-error>
-          <mat-error *ngIf="registerForm.get('identifier')?.hasError('invalidIdentifier')">Formato inválido</mat-error>
-        </mat-form-field>
-
-        <div class="password-row">
-          <mat-form-field appearance="outline">
-            <mat-label>Senha</mat-label>
-            <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password">
-            <mat-icon matPrefix>lock</mat-icon>
-            <button mat-icon-button matSuffix (click)="hidePassword.set(!hidePassword())" type="button">
-              <mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-            <mat-error *ngIf="registerForm.get('password')?.hasError('required')">Senha é obrigatória</mat-error>
-            <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">Mínimo de 6 caracteres</mat-error>
+        <!-- Campos Básicos -->
+        <div class="basic-info">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nome Completo</mat-label>
+            <input matInput formControlName="fullName" placeholder="Ex: João da Silva">
+            <mat-icon matPrefix>person</mat-icon>
+            <mat-error *ngIf="registerForm.get('fullName')?.hasError('required')">Nome é obrigatório</mat-error>
+            <mat-error *ngIf="registerForm.get('fullName')?.hasError('minlength')">Mínimo de 3 caracteres</mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Confirmar Senha</mat-label>
-            <input matInput [type]="hideConfirmPassword() ? 'password' : 'text'" formControlName="confirmPassword">
-            <mat-icon matPrefix>lock_reset</mat-icon>
-            <button mat-icon-button matSuffix (click)="hideConfirmPassword.set(!hideConfirmPassword())" type="button">
-              <mat-icon>{{hideConfirmPassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-            <mat-error *ngIf="registerForm.get('confirmPassword')?.hasError('required')">Confirmação obrigatória</mat-error>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>E-mail ou Telefone</mat-label>
+            <input matInput formControlName="identifier" placeholder="Ex: joao@email.com ou +55 (41) 99999-9999">
+            <mat-icon matPrefix>contact_mail</mat-icon>
+            <mat-error *ngIf="registerForm.get('identifier')?.hasError('required')">E-mail ou Telefone é obrigatório</mat-error>
+            <mat-error *ngIf="registerForm.get('identifier')?.hasError('invalidIdentifier')">Formato inválido</mat-error>
           </mat-form-field>
+
+          <div class="password-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Senha</mat-label>
+              <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password">
+              <mat-icon matPrefix>lock</mat-icon>
+              <button mat-icon-button matSuffix (click)="hidePassword.set(!hidePassword())" type="button">
+                <mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="registerForm.get('password')?.hasError('required')">Senha obrigatória</mat-error>
+              <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">Mínimo 6 caracteres</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Confirmar Senha</mat-label>
+              <input matInput [type]="hideConfirmPassword() ? 'password' : 'text'" formControlName="confirmPassword">
+              <mat-icon matPrefix>lock_reset</mat-icon>
+              <button mat-icon-button matSuffix (click)="hideConfirmPassword.set(!hideConfirmPassword())" type="button">
+                <mat-icon>{{hideConfirmPassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="registerForm.get('confirmPassword')?.hasError('required')">Confirmação obrigatória</mat-error>
+            </mat-form-field>
+          </div>
+          <mat-error class="mismatch-error" *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
+            As senhas não coincidem
+          </mat-error>
         </div>
-        <mat-error class="mismatch-error" *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
-          As senhas não coincidem
-        </mat-error>
+
+        <!-- SEÇÃO ESPECIAL DE CADASTRO DE PETS -->
+        <div class="pets-section-container">
+          <!-- Banner chamativo -->
+          <div class="pet-invite-banner" [class.has-pets]="pets.length > 0">
+            <div class="banner-top-accent"></div>
+            <div class="banner-header-row">
+              <span class="banner-badge">
+                <mat-icon>stars</mat-icon> EXPERIÊNCIA PERSONALIZADA
+              </span>
+              <span class="optional-pill">Opcional</span>
+            </div>
+
+            <div class="banner-main-row">
+              <div class="pet-icon-circle">
+                <mat-icon>pets</mat-icon>
+              </div>
+              <div class="banner-copy">
+                <h4>Cadastre seu(s) Pet(s) 🐾</h4>
+                <p>Para uma experiência ainda mais incrível, conte-nos sobre seus companheiros! Receba recomendações exclusivas e cuidados sob medida.</p>
+              </div>
+            </div>
+
+            <div class="banner-cta" *ngIf="pets.length === 0">
+              <button mat-raised-button type="button" class="btn-add-first-pet premium-shine" (click)="addPet()">
+                <mat-icon>add_circle</mat-icon>
+                <span>CADASTRAR MEU PET AGORA</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Formulários de Pets -->
+          <div class="pets-list" formArrayName="pets" *ngIf="pets.length > 0">
+            <div class="pet-card" *ngFor="let petGroup of pets.controls; let i = index" [formGroupName]="i">
+              <div class="pet-card-header">
+                <div class="pet-title-tag">
+                  <mat-icon class="pet-tag-icon">pets</mat-icon>
+                  <span class="pet-title-text">{{ petGroup.get('name')?.value || ('Pet #' + (i + 1)) }}</span>
+                </div>
+                <button mat-icon-button type="button" class="btn-remove-pet" (click)="removePet(i)" title="Remover este pet">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+
+              <div class="pet-fields-grid">
+                <!-- Nome do Pet -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Nome do Pet</mat-label>
+                  <input matInput formControlName="name" placeholder="Ex: Thor, Mel, Pipoca...">
+                  <mat-icon matPrefix>badge</mat-icon>
+                  <mat-error *ngIf="petGroup.get('name')?.hasError('required')">Nome obrigatório</mat-error>
+                </mat-form-field>
+
+                <!-- Espécie Catalogada Oficial -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Espécie Catalogada</mat-label>
+                  <mat-select formControlName="species">
+                    <mat-option *ngFor="let sp of catalogedSpecies" [value]="sp.name">
+                      <div class="species-item">
+                        <mat-icon class="sp-icon">{{ sp.icon }}</mat-icon>
+                        <span class="sp-name">{{ sp.name }}</span>
+                        <small class="sp-sci" *ngIf="sp.scientificName">({{ sp.scientificName }})</small>
+                      </div>
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon matPrefix>category</mat-icon>
+                  <mat-error *ngIf="petGroup.get('species')?.hasError('required')">Selecione a espécie</mat-error>
+                </mat-form-field>
+
+                <!-- Data de Nascimento e Sexo lado a lado -->
+                <div class="pet-two-col">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Data de Nascimento</mat-label>
+                    <input matInput type="date" formControlName="birthDate" [max]="maxBirthDate">
+                    <mat-icon matPrefix>cake</mat-icon>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Sexo</mat-label>
+                    <mat-select formControlName="gender">
+                      <mat-option value="male">Macho ♂</mat-option>
+                      <mat-option value="female">Fêmea ♀</mat-option>
+                    </mat-select>
+                    <mat-icon matPrefix>wc</mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- Upload de Documento -->
+              <div class="pet-doc-section">
+                <div class="doc-section-header">
+                  <mat-icon>verified</mat-icon>
+                  <span>Documento / Carteirinha do Pet (Opcional)</span>
+                </div>
+
+                <!-- Dropzone quando não há arquivo -->
+                <div class="doc-dropzone" *ngIf="!petGroup.get('documentName')?.value" (click)="petFileInput.click()">
+                  <mat-icon class="upload-ico">upload_file</mat-icon>
+                  <div class="dropzone-info">
+                    <span class="dropzone-text">Clique para anexar documento</span>
+                    <span class="dropzone-hint">Carteira de vacinação, Pedigree ou RGA (PDF, JPG, PNG)</span>
+                  </div>
+                  <input type="file" #petFileInput (change)="onPetDocumentUpload($event, i)" accept=".pdf,.jpg,.jpeg,.png" hidden>
+                </div>
+
+                <!-- Arquivo Anexado -->
+                <div class="doc-file-badge" *ngIf="petGroup.get('documentName')?.value">
+                  <div class="file-info">
+                    <mat-icon class="check-ico">task_alt</mat-icon>
+                    <span class="file-name">{{ petGroup.get('documentName')?.value }}</span>
+                  </div>
+                  <button mat-icon-button type="button" class="btn-del-file" (click)="removePetDocument(i)" title="Remover documento">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Adicionar Mais Pets -->
+            <div class="add-more-pets-box">
+              <button mat-stroked-button type="button" class="btn-add-more" (click)="addPet()">
+                <mat-icon>add_circle_outline</mat-icon>
+                <span>ADICIONAR OUTRO PET</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <div class="actions">
-        <button mat-raised-button color="primary" class="btn-submit premium-shine" (click)="nextStep()">
-          {{ selectedProfile() === 'buyer' ? 'CONCLUIR CADASTRO' : 'AVANÇAR PARA ETAPA 2' }}
-        </button>
+      <!-- ETAPA 2: Vendedor / Entregador -->
+      <div class="step-container" *ngIf="currentStep() === 2">
+        <!-- Vendedor -->
+        <div class="extra-fields" *ngIf="selectedProfile() === 'seller'">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Razão Social / Nome da Loja</mat-label>
+            <input matInput formControlName="storeName">
+            <mat-icon matPrefix>store</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>CNPJ</mat-label>
+            <input matInput formControlName="cnpj" placeholder="00.000.000/0000-00">
+            <mat-icon matPrefix>assignment</mat-icon>
+          </mat-form-field>
+
+          <div class="upload-section">
+            <p class="upload-title">Documentação Exigida</p>
+            <div class="upload-grid">
+              <div class="upload-card" (click)="fileCNPJ.click()">
+                <mat-icon>cloud_upload</mat-icon>
+                <span>Contrato Social / CNPJ</span>
+                <input type="file" #fileCNPJ (change)="onFileUpload($event, 'CNPJ')" hidden>
+              </div>
+              <div class="upload-card" (click)="fileAlvara.click()">
+                <mat-icon>cloud_upload</mat-icon>
+                <span>Alvará de Funcionamento</span>
+                <input type="file" #fileAlvara (change)="onFileUpload($event, 'Alvara')" hidden>
+              </div>
+            </div>
+            <div class="file-list" *ngIf="documents().length > 0">
+              <div class="file-item" *ngFor="let doc of documents()">
+                <mat-icon>check_circle</mat-icon> {{ doc }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Entregador -->
+        <div class="extra-fields" *ngIf="selectedProfile() === 'delivery_person'">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>CPF</mat-label>
+            <input matInput formControlName="cpf" placeholder="000.000.000-00">
+            <mat-icon matPrefix>badge</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Tipo de Veículo</mat-label>
+            <mat-select formControlName="vehicleType">
+              <mat-option value="bicycle">Bicicleta</mat-option>
+              <mat-option value="moto">Moto</mat-option>
+              <mat-option value="car">Carro</mat-option>
+            </mat-select>
+            <mat-icon matPrefix>directions_run</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width" *ngIf="registerForm.get('vehicleType')?.value !== 'bicycle'">
+            <mat-label>Placa do Veículo</mat-label>
+            <input matInput formControlName="plate" placeholder="ABC-1234">
+            <mat-icon matPrefix>minor_crash</mat-icon>
+          </mat-form-field>
+
+          <div class="upload-section">
+            <p class="upload-title">Documentação Exigida</p>
+            <div class="upload-grid">
+              <div class="upload-card" (click)="fileCNH.click()">
+                <mat-icon>cloud_upload</mat-icon>
+                <span>{{ registerForm.get('vehicleType')?.value === 'bicycle' ? 'RG / Identidade' : 'CNH' }}</span>
+                <input type="file" #fileCNH (change)="onFileUpload($event, 'Documento')" hidden>
+              </div>
+              <div class="upload-card" *ngIf="registerForm.get('vehicleType')?.value !== 'bicycle'" (click)="fileCRLV.click()">
+                <mat-icon>cloud_upload</mat-icon>
+                <span>Documento do Veículo (CRLV)</span>
+                <input type="file" #fileCRLV (change)="onFileUpload($event, 'CRLV')" hidden>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+    </form>
+  </main>
+
+  <!-- RODAPÉ FIXO -->
+  <footer class="register-footer">
+    <div class="footer-step1" *ngIf="currentStep() === 1">
+      <button mat-raised-button color="primary" class="btn-primary-action premium-shine" (click)="nextStep()">
+        {{ selectedProfile() === 'buyer' ? 'CONCLUIR CADASTRO' : 'AVANÇAR PARA ETAPA 2' }}
+      </button>
+      <p class="login-prompt">Já tem uma conta? <a (click)="goToLogin()">Faça Login</a></p>
     </div>
 
-    <!-- ETAPA 2: Dados Específicos -->
-    <div class="step-content" *ngIf="currentStep() === 2">
-      
-      <!-- PERFIL: Vendedor -->
-      <div class="extra-fields" *ngIf="selectedProfile() === 'seller'">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Razão Social / Nome da Loja</mat-label>
-          <input matInput formControlName="storeName">
-          <mat-icon matPrefix>store</mat-icon>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>CNPJ</mat-label>
-          <input matInput formControlName="cnpj" placeholder="00.000.000/0000-00">
-          <mat-icon matPrefix>assignment</mat-icon>
-        </mat-form-field>
-
-        <div class="upload-section">
-          <p class="upload-title">Documentação Exigida</p>
-          <div class="upload-grid">
-            <div class="upload-card" (click)="fileCNPJ.click()">
-              <mat-icon>cloud_upload</mat-icon>
-              <span>Contrato Social / CNPJ</span>
-              <input type="file" #fileCNPJ (change)="onFileUpload($event, 'CNPJ')" hidden>
-            </div>
-            <div class="upload-card" (click)="fileAlvara.click()">
-              <mat-icon>cloud_upload</mat-icon>
-              <span>Alvará de Funcionamento</span>
-              <input type="file" #fileAlvara (change)="onFileUpload($event, 'Alvara')" hidden>
-            </div>
-          </div>
-          <div class="file-list" *ngIf="documents().length > 0">
-            <div class="file-item" *ngFor="let doc of documents()">
-              <mat-icon>check_circle</mat-icon> {{ doc }}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PERFIL: Entregador -->
-      <div class="extra-fields" *ngIf="selectedProfile() === 'delivery_person'">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>CPF</mat-label>
-          <input matInput formControlName="cpf" placeholder="000.000.000-00">
-          <mat-icon matPrefix>badge</mat-icon>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Tipo de Veículo</mat-label>
-          <mat-select formControlName="vehicleType">
-            <mat-option value="bicycle">Bicicleta</mat-option>
-            <mat-option value="moto">Moto</mat-option>
-            <mat-option value="car">Carro</mat-option>
-          </mat-select>
-          <mat-icon matPrefix>directions_run</mat-icon>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width" *ngIf="registerForm.get('vehicleType')?.value !== 'bicycle'">
-          <mat-label>Placa do Veículo</mat-label>
-          <input matInput formControlName="plate" placeholder="ABC-1234">
-          <mat-icon matPrefix>minor_crash</mat-icon>
-        </mat-form-field>
-
-        <div class="upload-section">
-          <p class="upload-title">Documentação Exigida</p>
-          <div class="upload-grid">
-            <div class="upload-card" (click)="fileCNH.click()">
-              <mat-icon>cloud_upload</mat-icon>
-              <span>{{ registerForm.get('vehicleType')?.value === 'bicycle' ? 'RG / Identidade' : 'CNH' }}</span>
-              <input type="file" #fileCNH (change)="onFileUpload($event, 'Documento')" hidden>
-            </div>
-            <div class="upload-card" *ngIf="registerForm.get('vehicleType')?.value !== 'bicycle'" (click)="fileCRLV.click()">
-              <mat-icon>cloud_upload</mat-icon>
-              <span>Documento do Veículo (CRLV)</span>
-              <input type="file" #fileCRLV (change)="onFileUpload($event, 'CRLV')" hidden>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="actions dual-btns">
-        <button mat-stroked-button color="primary" (click)="prevStep()">VOLTAR</button>
-        <button mat-raised-button color="primary" class="premium-shine" (click)="onSubmit()">FINALIZAR</button>
-      </div>
+    <div class="footer-step2" *ngIf="currentStep() === 2">
+      <button mat-stroked-button color="primary" (click)="prevStep()">VOLTAR</button>
+      <button mat-raised-button color="primary" class="btn-primary-action premium-shine" (click)="onSubmit()">FINALIZAR CADASTRO</button>
     </div>
-  </form>
-
-  <div class="modal-footer">
-    <p>Já tem uma conta? <a (click)="goToLogin()">Faça Login</a></p>
-  </div>
+  </footer>
 </div>
