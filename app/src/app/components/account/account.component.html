@@ -1,0 +1,1255 @@
+<div class="account-dashboard-page">
+  <!-- Top Navigation Bar / Breadcrumb -->
+  <div class="dashboard-breadcrumb-bar">
+    <div class="breadcrumb-container">
+      <a routerLink="/" class="breadcrumb-link">
+        <mat-icon>home</mat-icon> Início
+      </a>
+      <mat-icon class="separator">chevron_right</mat-icon>
+      <span class="breadcrumb-current">Minha Conta</span>
+      <mat-icon class="separator">chevron_right</mat-icon>
+      <span class="breadcrumb-sub">
+        {{ activeTab() === 'overview' ? 'Visão Geral & Finanças' :
+           activeTab() === 'personal' ? 'Meus Dados & Endereços' :
+           activeTab() === 'roles' ? 'Tipo de Conta & Papéis' :
+           activeTab() === 'pets' ? 'Meus Pets' :
+           activeTab() === 'wallet' ? 'Carteira & Pagamentos' :
+           activeTab() === 'security' ? 'Segurança & Contas' : 'Preferências & Notificações' }}
+      </span>
+    </div>
+  </div>
+
+  <div class="dashboard-container">
+    <div class="dashboard-grid">
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- 1. SIDEBAR LATERAL NAVEGAÇÃO                            -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <aside class="dashboard-sidebar">
+        <!-- Card Resumo do Usuário -->
+        <div class="user-summary-card">
+          <div class="avatar-wrapper">
+            <img [src]="user()?.profileImage" [alt]="user()?.fullName"
+                 onerror="this.src='https://ui-avatars.com/api/?name=Johnny&background=3C2A20&color=fff'">
+            <span class="online-dot" title="Online"></span>
+          </div>
+
+          <div class="user-identity">
+            <h3>{{ user()?.fullName }}</h3>
+            <p class="user-email">{{ user()?.email || user()?.phone }}</p>
+          </div>
+
+          <div class="user-tier-badge">
+            <mat-icon>diamond</mat-icon>
+            <span>{{ user()?.loyaltyTier || 'Membro Diamante 💎' }}</span>
+          </div>
+
+          <!-- Papel Ativo -->
+          <div class="active-role-chip" [ngClass]="user()?.role">
+            <span class="role-icon">
+              <mat-icon *ngIf="user()?.role === 'buyer'">shopping_bag</mat-icon>
+              <mat-icon *ngIf="user()?.role === 'seller'">storefront</mat-icon>
+              <mat-icon *ngIf="user()?.role === 'delivery_person'">two_wheeler</mat-icon>
+            </span>
+            <span class="role-text">
+              {{ user()?.role === 'buyer' ? 'Perfil Comprador' :
+                 user()?.role === 'seller' ? 'Perfil Lojista' : 'Perfil Entregador' }}
+            </span>
+          </div>
+
+          <!-- Seletor Rápido de Papel (se tiver mais de 1 habilitado) -->
+          <div class="quick-role-switch" *ngIf="user()?.enabledRoles && user()!.enabledRoles.length > 1">
+            <span class="switch-label">Alternar modo rápido:</span>
+            <div class="role-pills">
+              <button type="button" class="role-pill-btn"
+                      [class.active]="user()?.role === 'buyer'"
+                      (click)="switchUserRole('buyer')" title="Modo Comprador">
+                <mat-icon>shopping_bag</mat-icon> Cliente
+              </button>
+              <button type="button" class="role-pill-btn"
+                      *ngIf="user()?.enabledRoles?.includes('seller')"
+                      [class.active]="user()?.role === 'seller'"
+                      (click)="switchUserRole('seller')" title="Modo Lojista">
+                <mat-icon>storefront</mat-icon> Loja
+              </button>
+              <button type="button" class="role-pill-btn"
+                      *ngIf="user()?.enabledRoles?.includes('delivery_person')"
+                      [class.active]="user()?.role === 'delivery_person'"
+                      (click)="switchUserRole('delivery_person')" title="Modo Entregador">
+                <mat-icon>two_wheeler</mat-icon> Entregas
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Menu de Navegação -->
+        <nav class="sidebar-nav">
+          <button class="nav-item" [class.active]="activeTab() === 'overview'" (click)="setTab('overview')">
+            <mat-icon class="nav-icon">insights</mat-icon>
+            <span class="nav-label">Visão Geral & Finanças</span>
+            <span class="nav-badge highlight">R$</span>
+          </button>
+
+          <button class="nav-item" [class.active]="activeTab() === 'personal'" (click)="setTab('personal')">
+            <mat-icon class="nav-icon">person</mat-icon>
+            <span class="nav-label">Meus Dados & Endereços</span>
+          </button>
+
+          <button class="nav-item" [class.active]="activeTab() === 'roles'" (click)="setTab('roles')">
+            <mat-icon class="nav-icon">sync_alt</mat-icon>
+            <span class="nav-label">Tipo de Conta & Papéis</span>
+            <span class="nav-badge roles-badge">3</span>
+          </button>
+
+          <button class="nav-item" [class.active]="activeTab() === 'pets'" (click)="setTab('pets')">
+            <mat-icon class="nav-icon">pets</mat-icon>
+            <span class="nav-label">Meus Pets</span>
+            <span class="nav-badge" *ngIf="user()?.pets?.length">{{ user()?.pets?.length }}</span>
+          </button>
+
+          <button class="nav-item" [class.active]="activeTab() === 'wallet'" (click)="setTab('wallet')">
+            <mat-icon class="nav-icon">account_balance_wallet</mat-icon>
+            <span class="nav-label">Carteira & Pagamentos</span>
+          </button>
+
+          <button class="nav-item" [class.active]="activeTab() === 'security'" (click)="setTab('security')">
+            <mat-icon class="nav-icon">security</mat-icon>
+            <span class="nav-label">Segurança & Contas</span>
+          </button>
+
+          <button class="nav-item" [class.active]="activeTab() === 'preferences'" (click)="setTab('preferences')">
+            <mat-icon class="nav-icon">settings</mat-icon>
+            <span class="nav-label">Preferências & Avisos</span>
+          </button>
+        </nav>
+
+        <!-- Ações do Rodapé da Sidebar -->
+        <div class="sidebar-footer">
+          <a routerLink="/orders" class="footer-btn orders-link">
+            <mat-icon>inventory_2</mat-icon>
+            <span>Ver Meus Pedidos</span>
+          </a>
+
+          <button type="button" class="footer-btn logout-btn" (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Sair da Conta</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- 2. ÁREA DE CONTEÚDO PRINCIPAL (TABS)                    -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <main class="dashboard-content">
+
+        <!-- ──────────────────────────────────────────────────── -->
+        <!-- TAB 1: VISÃO GERAL & FINANÇAS                        -->
+        <!-- ──────────────────────────────────────────────────── -->
+        <section class="tab-pane" *ngIf="activeTab() === 'overview'">
+          <!-- Header da Seção -->
+          <div class="pane-header">
+            <div>
+              <h2>Painel Financeiro & Jornada Pet 🐾</h2>
+              <p class="pane-desc">Acompanhe seus investimentos, histórico de compras e a economia acumulada na Pet Stores.</p>
+            </div>
+            <div class="pane-actions">
+              <a routerLink="/orders" class="btn-quick-orders premium-shine">
+                <mat-icon>shopping_bag</mat-icon> Meus Pedidos
+              </a>
+            </div>
+          </div>
+
+          <!-- Cards de Métricas Principais (KPIs) -->
+          <div class="kpi-grid">
+            <!-- Card 1: Gastos 2026 -->
+            <div class="kpi-card highlight-card">
+              <div class="kpi-icon-box gold-glow">
+                <mat-icon>payments</mat-icon>
+              </div>
+              <div class="kpi-details">
+                <span class="kpi-label">Total Gasto em 2026</span>
+                <h3 class="kpi-value">R$ {{ totalSpent2026() | number:'1.2-2' }}</h3>
+                <div class="kpi-footer-trend positive">
+                  <mat-icon>trending_up</mat-icon>
+                  <span>+18% vs 2025 (R$ {{ totalSpent2025() | number:'1.2-2' }})</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Economia Acumulada -->
+            <div class="kpi-card">
+              <div class="kpi-icon-box green-glow">
+                <mat-icon>savings</mat-icon>
+              </div>
+              <div class="kpi-details">
+                <span class="kpi-label">Economia com Descontos</span>
+                <h3 class="kpi-value">R$ {{ totalSavings() | number:'1.2-2' }}</h3>
+                <div class="kpi-footer-trend neutral">
+                  <mat-icon>local_offer</mat-icon>
+                  <span>{{ couponsAppliedCount() }} cupons resgatados</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Saldo Cashback -->
+            <div class="kpi-card">
+              <div class="kpi-icon-box brown-glow">
+                <mat-icon>monetization_on</mat-icon>
+              </div>
+              <div class="kpi-details">
+                <span class="kpi-label">Cashback Disponível</span>
+                <h3 class="kpi-value">R$ {{ cashbackBalance() | number:'1.2-2' }}</h3>
+                <div class="kpi-footer-trend positive">
+                  <mat-icon>stars</mat-icon>
+                  <span>Use em sua próxima compra!</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4: Total de Pedidos -->
+            <div class="kpi-card">
+              <div class="kpi-icon-box orange-glow">
+                <mat-icon>local_mall</mat-icon>
+              </div>
+              <div class="kpi-details">
+                <span class="kpi-label">Total de Pedidos</span>
+                <h3 class="kpi-value">6 pedidos</h3>
+                <div class="kpi-footer-trend neutral">
+                  <mat-icon>verified</mat-icon>
+                  <span>100% de entregas pontuais</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seção de Gráficos Financeiros -->
+          <div class="charts-row">
+            <!-- Gráfico de Gastos Mensais (SVG Bar Chart) -->
+            <div class="dashboard-card chart-card flex-2">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <mat-icon class="title-icon">bar_chart</mat-icon>
+                  <div>
+                    <h3>Evolução Mensal de Gastos (Últimos 12 Meses)</h3>
+                    <p>Distribuição mês a mês de compras realizadas em todas as lojas</p>
+                  </div>
+                </div>
+                <div class="chart-badge">Média: R$ 202,40/mês</div>
+              </div>
+
+              <div class="bar-chart-container">
+                <div class="bars-wrapper">
+                  <div class="bar-col" *ngFor="let item of monthlyExpenses()">
+                    <div class="bar-tooltip">
+                      <strong>{{ item.month }}</strong>
+                      <span>R$ {{ item.amount | number:'1.2-2' }}</span>
+                      <small>{{ item.orderCount }} {{ item.orderCount === 1 ? 'pedido' : 'pedidos' }}</small>
+                    </div>
+                    <div class="bar-fill" [style.height.%]="item.heightPercent"></div>
+                    <span class="bar-label">{{ item.month }}</span>
+                  </div>
+                </div>
+                <div class="chart-baseline"></div>
+              </div>
+            </div>
+
+            <!-- Gráfico de Categorias (Donut Chart) -->
+            <div class="dashboard-card chart-card flex-1">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <mat-icon class="title-icon">donut_large</mat-icon>
+                  <div>
+                    <h3>Gastos por Categoria</h3>
+                    <p>Onde você mais investe no seu pet</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SVG Donut Chart Nativo -->
+              <div class="donut-chart-container">
+                <svg viewBox="0 0 160 160" class="donut-svg">
+                  <!-- Ração & Alimentação (48%) -->
+                  <circle r="60" cx="80" cy="80" class="donut-segment"
+                          stroke="#3C2A20" stroke-width="24"
+                          stroke-dasharray="180.9 376.9"
+                          stroke-dashoffset="0" />
+                  <!-- Acessórios (24%) -->
+                  <circle r="60" cx="80" cy="80" class="donut-segment"
+                          stroke="#ea580c" stroke-width="24"
+                          stroke-dasharray="90.4 376.9"
+                          stroke-dashoffset="-180.9" />
+                  <!-- Higiene (16%) -->
+                  <circle r="60" cx="80" cy="80" class="donut-segment"
+                          stroke="#d97706" stroke-width="24"
+                          stroke-dasharray="60.3 376.9"
+                          stroke-dashoffset="-271.3" />
+                  <!-- Saúde (12%) -->
+                  <circle r="60" cx="80" cy="80" class="donut-segment"
+                          stroke="#059669" stroke-width="24"
+                          stroke-dasharray="45.2 376.9"
+                          stroke-dashoffset="-331.6" />
+                  <!-- Texto Central -->
+                  <text x="80" y="76" text-anchor="middle" class="donut-center-label">Total</text>
+                  <text x="80" y="94" text-anchor="middle" class="donut-center-value">R$ 1.233</text>
+                </svg>
+
+                <div class="category-legend">
+                  <div class="legend-item" *ngFor="let cat of categoryExpenses()">
+                    <span class="legend-color" [style.background-color]="cat.color"></span>
+                    <span class="legend-name">{{ cat.category }}</span>
+                    <span class="legend-pct">{{ cat.percentage }}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Destaques de Economia e Pedidos Recentes -->
+          <div class="charts-row">
+            <!-- Histórico de Cupons e Descontos -->
+            <div class="dashboard-card flex-1">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <mat-icon class="title-icon">confirmation_number</mat-icon>
+                  <div>
+                    <h3>Extrato de Economia & Cupons</h3>
+                    <p>Valores que você economizou utilizando o aplicativo</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="economy-list">
+                <div class="economy-item" *ngFor="let item of economyHighlights">
+                  <div class="economy-icon">
+                    <mat-icon>loyalty</mat-icon>
+                  </div>
+                  <div class="economy-info">
+                    <h4>{{ item.title }}</h4>
+                    <p>{{ item.store }} • {{ item.date }}</p>
+                  </div>
+                  <div class="economy-val">
+                    - R$ {{ item.discount | number:'1.2-2' }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pedidos Recentes -->
+            <div class="dashboard-card flex-1">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <mat-icon class="title-icon">receipt_long</mat-icon>
+                  <div>
+                    <h3>Últimos Pedidos Realizados</h3>
+                    <p>Acompanhamento direto das suas compras</p>
+                  </div>
+                </div>
+                <a routerLink="/orders" class="view-all-link">Ver todos</a>
+              </div>
+
+              <div class="recent-orders-list">
+                <div class="recent-order-item" *ngFor="let ord of recentOrders()">
+                  <div class="order-badge-status" [ngClass]="ord.status">
+                    <mat-icon *ngIf="ord.status === 'DELIVERED'">check_circle</mat-icon>
+                    <mat-icon *ngIf="ord.status === 'IN_TRANSIT'">local_shipping</mat-icon>
+                    <mat-icon *ngIf="ord.status === 'PREPARING'">inventory_2</mat-icon>
+                  </div>
+                  <div class="order-main-info">
+                    <h4>{{ ord.orderNumber }} • {{ ord.seller }}</h4>
+                    <p>{{ ord.items.length }} {{ ord.items.length === 1 ? 'item' : 'itens' }} • {{ ord.estimatedDelivery }}</p>
+                  </div>
+                  <div class="order-price-info">
+                    <span class="price">R$ {{ ord.total | number:'1.2-2' }}</span>
+                    <a routerLink="/orders" class="track-btn">Detalhes</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Histórico de Notas Fiscais Eletrônicas (NF-e) & Comprovantes -->
+          <div class="dashboard-card invoices-card mt-4">
+            <div class="card-header">
+              <div class="card-title-group">
+                <mat-icon class="title-icon">description</mat-icon>
+                <div>
+                  <h3>Notas Fiscais & Comprovantes de Compra</h3>
+                  <p>Consulte a chave de acesso, baixe o DANFE (PDF) ou o arquivo XML de todos os seus pedidos</p>
+                </div>
+              </div>
+              <div class="invoices-filter-controls">
+                <!-- Filtro por Ano -->
+                <div class="year-filters">
+                  <button type="button" class="year-btn" [class.active]="invoiceYearFilter() === 'ALL'" (click)="invoiceYearFilter.set('ALL')">Todas</button>
+                  <button type="button" class="year-btn" [class.active]="invoiceYearFilter() === '2026'" (click)="invoiceYearFilter.set('2026')">2026</button>
+                  <button type="button" class="year-btn" [class.active]="invoiceYearFilter() === '2025'" (click)="invoiceYearFilter.set('2025')">2025</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Busca Rápida de NF-e -->
+            <div class="invoices-search-bar">
+              <mat-icon class="search-icon">search</mat-icon>
+              <input type="text" placeholder="Buscar por número da nota, pedido, loja ou chave de acesso..."
+                     [value]="invoiceSearch()" (input)="invoiceSearch.set($any($event.target).value)">
+              <button *ngIf="invoiceSearch()" type="button" class="clear-search-btn" (click)="invoiceSearch.set('')">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+
+            <!-- Lista de Notas Fiscais -->
+            <div class="invoices-list" *ngIf="filteredInvoices().length > 0; else noInvoicesFound">
+              <div class="invoice-item-card" *ngFor="let inv of filteredInvoices()">
+                <div class="invoice-main-block">
+                  <div class="invoice-badge-icon">
+                    <mat-icon>receipt</mat-icon>
+                  </div>
+                  <div class="invoice-details">
+                    <div class="invoice-top-row">
+                      <strong>NF-e Nº {{ inv.invoiceNumber }}</strong>
+                      <span class="series-pill">Série {{ inv.series }}</span>
+                      <span class="status-pill authorized">
+                        <mat-icon>verified</mat-icon> Autorizada
+                      </span>
+                    </div>
+                    <div class="invoice-sub-row">
+                      <span class="invoice-seller">{{ inv.seller }} (CNPJ: {{ inv.sellerCnpj }})</span>
+                      <span class="bullet">•</span>
+                      <span class="invoice-order">Pedido: <strong>{{ inv.orderNumber }}</strong></span>
+                      <span class="bullet">•</span>
+                      <span class="invoice-date">Emitida em {{ inv.date }}</span>
+                    </div>
+                    <p class="invoice-summary">{{ inv.itemsSummary }}</p>
+
+                    <div class="invoice-access-key">
+                      <span class="key-label">Chave de Acesso:</span>
+                      <code class="key-code">{{ inv.accessKey }}</code>
+                      <button type="button" class="btn-copy-key" (click)="copyAccessKey(inv.accessKey)" title="Copiar chave de acesso">
+                        <mat-icon>content_copy</mat-icon> Copiar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="invoice-actions-block">
+                  <div class="invoice-total">
+                    <span class="total-lbl">VALOR DA NOTA</span>
+                    <strong class="total-val">R$ {{ inv.amount | number:'1.2-2' }}</strong>
+                  </div>
+
+                  <div class="invoice-download-btns">
+                    <button type="button" class="btn-invoice-pdf" (click)="downloadDanfe(inv)" title="Baixar Documento Auxiliar da Nota Fiscal (DANFE em PDF)">
+                      <mat-icon>picture_as_pdf</mat-icon> Baixar DANFE
+                    </button>
+                    <button type="button" class="btn-invoice-xml" (click)="downloadXml(inv)" title="Baixar Arquivo Fiscal XML">
+                      <mat-icon>code</mat-icon> XML
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <ng-template #noInvoicesFound>
+              <div class="no-invoices-state">
+                <mat-icon>search_off</mat-icon>
+                <h4>Nenhuma nota fiscal encontrada</h4>
+                <p>Verifique o termo pesquisado ou selecione outro ano no filtro acima.</p>
+              </div>
+            </ng-template>
+          </div>
+        </section>
+
+        <!-- ──────────────────────────────────────────────────── -->
+        <!-- TAB 2: MEUS DADOS & ENDEREÇOS                        -->
+        <!-- ──────────────────────────────────────────────────── -->
+        <section class="tab-pane" *ngIf="activeTab() === 'personal'">
+          <div class="pane-header">
+            <div>
+              <h2>Meus Dados Pessoais & Endereços 👤</h2>
+              <p class="pane-desc">Mantenha suas informações cadastrais e endereços de entrega sempre atualizados.</p>
+            </div>
+          </div>
+
+          <div class="two-columns-layout">
+            <!-- Formulário de Dados -->
+            <div class="dashboard-card">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <mat-icon class="title-icon">badge</mat-icon>
+                  <div>
+                    <h3>Informações Cadastrais</h3>
+                    <p>Dados de identificação da sua conta</p>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="profileForm" (ngSubmit)="onSaveProfile()" class="personal-form">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Nome Completo</mat-label>
+                  <input matInput formControlName="fullName">
+                  <mat-icon matPrefix>person</mat-icon>
+                </mat-form-field>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput formControlName="email">
+                    <mat-icon matPrefix>mail</mat-icon>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Telefone / WhatsApp</mat-label>
+                    <input matInput formControlName="phone">
+                    <mat-icon matPrefix>phone</mat-icon>
+                  </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>CPF / CNPJ</mat-label>
+                    <input matInput formControlName="cpfCnpj">
+                    <mat-icon matPrefix>assignment_ind</mat-icon>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Data de Nascimento</mat-label>
+                    <input matInput type="date" formControlName="birthDate">
+                    <mat-icon matPrefix>cake</mat-icon>
+                  </mat-form-field>
+                </div>
+
+                <button mat-raised-button color="primary" class="btn-save-personal premium-shine" type="submit">
+                  <mat-icon>save</mat-icon> SALVAR ALTERAÇÕES
+                </button>
+              </form>
+            </div>
+
+            <!-- Gerenciador de Endereços -->
+            <div class="dashboard-card">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <mat-icon class="title-icon">location_on</mat-icon>
+                  <div>
+                    <h3>Endereços de Entrega</h3>
+                    <p>Gerencie os locais onde você costuma receber pedidos</p>
+                  </div>
+                </div>
+                <button mat-stroked-button class="btn-add-item" (click)="showAddAddress.set(!showAddAddress())">
+                  <mat-icon>{{ showAddAddress() ? 'close' : 'add' }}</mat-icon>
+                  {{ showAddAddress() ? 'Cancelar' : 'Novo Endereço' }}
+                </button>
+              </div>
+
+              <!-- Formulário para Adicionar Endereço -->
+              <div class="inline-form-box" *ngIf="showAddAddress()">
+                <h4>Cadastrar Novo Endereço</h4>
+                <form [formGroup]="addressForm" (ngSubmit)="onAddAddress()">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Identificador (ex: Casa, Trabalho, Casa da Praia)</mat-label>
+                    <input matInput formControlName="title" placeholder="Ex: Casa da Praia">
+                  </mat-form-field>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline">
+                      <mat-label>CEP</mat-label>
+                      <input matInput formControlName="zipCode" placeholder="00000-000">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Rua / Logradouro</mat-label>
+                      <input matInput formControlName="street">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Número</mat-label>
+                      <input matInput formControlName="number">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Complemento</mat-label>
+                      <input matInput formControlName="complement" placeholder="Apto, Bloco...">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Bairro</mat-label>
+                      <input matInput formControlName="neighborhood">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Cidade / UF</mat-label>
+                      <input matInput formControlName="city">
+                    </mat-form-field>
+                  </div>
+
+                  <button mat-raised-button color="primary" type="submit" class="btn-confirm-add">
+                    SALVAR ENDEREÇO
+                  </button>
+                </form>
+              </div>
+
+              <!-- Lista de Endereços Salvos -->
+              <div class="addresses-list">
+                <div class="address-item-card" *ngFor="let addr of user()?.addresses" [class.is-default]="addr.isDefault">
+                  <div class="address-header">
+                    <div class="address-title">
+                      <mat-icon>home_pin</mat-icon>
+                      <strong>{{ addr.title }}</strong>
+                      <span class="default-badge" *ngIf="addr.isDefault">Principal</span>
+                    </div>
+                    <div class="address-actions">
+                      <button mat-icon-button (click)="onSetDefaultAddress(addr.id)" *ngIf="!addr.isDefault" title="Definir como principal">
+                        <mat-icon>check_circle_outline</mat-icon>
+                      </button>
+                      <button mat-icon-button (click)="onRemoveAddress(addr.id)" title="Excluir endereço">
+                        <mat-icon>delete_outline</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <p class="address-lines">
+                    {{ addr.street }}, {{ addr.number }} <span *ngIf="addr.complement">({{ addr.complement }})</span><br>
+                    {{ addr.neighborhood }} • {{ addr.city }} - {{ addr.state }} • CEP: {{ addr.zipCode }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ──────────────────────────────────────────────────── -->
+        <!-- TAB 3: TIPO DE CONTA & TRANSIÇÃO DE PAPEL            -->
+        <!-- ──────────────────────────────────────────────────── -->
+        <section class="tab-pane" *ngIf="activeTab() === 'roles'">
+          <div class="pane-header">
+            <div>
+              <h2>Tipo de Conta & Transição de Papel 🔄</h2>
+              <p class="pane-desc">Na Pet Stores você pode ser Cliente, abrir sua própria Loja Pet ou realizar Entregas na sua cidade.</p>
+            </div>
+          </div>
+
+          <!-- Cards dos 3 Papéis da Plataforma -->
+          <div class="roles-selection-grid">
+            <!-- 1. COMPRADOR -->
+            <div class="role-plan-card" [class.active-role]="user()?.role === 'buyer'">
+              <div class="role-badge-current" *ngIf="user()?.role === 'buyer'">
+                <mat-icon>check_circle</mat-icon> PERFIL ATIVO NO MOMENTO
+              </div>
+              <div class="role-plan-icon brown">
+                <mat-icon>shopping_bag</mat-icon>
+              </div>
+              <h3>Comprador (Cliente)</h3>
+              <p class="role-desc">Encontre as melhores lojas de ração, compre brinquedos, remédios e agende banho e tosa para seus companheiros.</p>
+
+              <ul class="role-perks">
+                <li><mat-icon>check</mat-icon> Acesso a milhares de produtos pet</li>
+                <li><mat-icon>check</mat-icon> Rastreamento em tempo real com GPS</li>
+                <li><mat-icon>check</mat-icon> Cupons exclusivos e cashback acumulado</li>
+              </ul>
+
+              <button mat-stroked-button class="btn-role-action"
+                      [disabled]="user()?.role === 'buyer'"
+                      (click)="switchUserRole('buyer')">
+                {{ user()?.role === 'buyer' ? 'VOCÊ ESTÁ NESTE MODO' : 'USAR COMO COMPRADOR' }}
+              </button>
+            </div>
+
+            <!-- 2. VENDEDOR / LOJA -->
+            <div class="role-plan-card" [class.active-role]="user()?.role === 'seller'">
+              <div class="role-badge-current" *ngIf="user()?.role === 'seller'">
+                <mat-icon>check_circle</mat-icon> PERFIL ATIVO NO MOMENTO
+              </div>
+              <div class="role-plan-icon orange">
+                <mat-icon>storefront</mat-icon>
+              </div>
+              <h3>Vendedor (Pet Shop / Loja)</h3>
+              <p class="role-desc">Venda rações, produtos e medicamentos pela plataforma com repasse rápido e entrega conectada.</p>
+
+              <div class="seller-status-box" *ngIf="user()?.sellerData">
+                <div class="seller-meta">
+                  <strong>{{ user()?.sellerData?.storeName }}</strong>
+                  <span>CNPJ: {{ user()?.sellerData?.cnpj }}</span>
+                  <span class="status-verified"><mat-icon>verified</mat-icon> Loja Verificada</span>
+                </div>
+              </div>
+
+              <ul class="role-perks" *ngIf="!user()?.sellerData">
+                <li><mat-icon>check</mat-icon> Catálogo ilimitado de produtos</li>
+                <li><mat-icon>check</mat-icon> Gestão de pedidos e estoque</li>
+                <li><mat-icon>check</mat-icon> Menor taxa de intermediação do mercado</li>
+              </ul>
+
+              <!-- Se já é vendedor: botão de alternar -->
+              <button mat-stroked-button class="btn-role-action"
+                      *ngIf="user()?.sellerData"
+                      [disabled]="user()?.role === 'seller'"
+                      (click)="switchUserRole('seller')">
+                {{ user()?.role === 'seller' ? 'VOCÊ ESTÁ NO MODO LOJA' : 'ATIVAR MODO LOJA' }}
+              </button>
+
+              <!-- Se ainda não é vendedor: formulário de ativação -->
+              <div class="activate-role-box" *ngIf="!user()?.sellerData">
+                <h4>Quero cadastrar minha loja:</h4>
+                <form [formGroup]="sellerForm" (ngSubmit)="onRegisterSeller()">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nome da Loja</mat-label>
+                    <input matInput formControlName="storeName" placeholder="Ex: Pet Paradise">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>CNPJ da Empresa</mat-label>
+                    <input matInput formControlName="cnpj" placeholder="00.000.000/0001-00">
+                  </mat-form-field>
+                  <button mat-raised-button color="primary" type="submit" class="btn-submit-role">
+                    CADASTRAR LOJA
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- 3. ENTREGADOR -->
+            <div class="role-plan-card" [class.active-role]="user()?.role === 'delivery_person'">
+              <div class="role-badge-current" *ngIf="user()?.role === 'delivery_person'">
+                <mat-icon>check_circle</mat-icon> PERFIL ATIVO NO MOMENTO
+              </div>
+              <div class="role-plan-icon green">
+                <mat-icon>two_wheeler</mat-icon>
+              </div>
+              <h3>Entregador Pet</h3>
+              <p class="role-desc">Faça coletas nas lojas parceiras e entregue para os donos de pets com ganhos por rota e liberdade total de horário.</p>
+
+              <div class="seller-status-box" *ngIf="user()?.deliveryData">
+                <div class="seller-meta">
+                  <strong>Veículo: {{ user()?.deliveryData?.vehicleType | uppercase }}</strong>
+                  <span>Placa: {{ user()?.deliveryData?.plate || 'Não requerida' }}</span>
+                  <span class="status-verified"><mat-icon>verified</mat-icon> Cadastro Aprovado</span>
+                </div>
+              </div>
+
+              <ul class="role-perks" *ngIf="!user()?.deliveryData">
+                <li><mat-icon>check</mat-icon> Pagamentos instantâneos via PIX</li>
+                <li><mat-icon>check</mat-icon> Entregas de bicicleta, moto ou carro</li>
+                <li><mat-icon>check</mat-icon> Suporte e seguro durante as rotas</li>
+              </ul>
+
+              <!-- Se já é entregador: botão de alternar -->
+              <button mat-stroked-button class="btn-role-action"
+                      *ngIf="user()?.deliveryData"
+                      [disabled]="user()?.role === 'delivery_person'"
+                      (click)="switchUserRole('delivery_person')">
+                {{ user()?.role === 'delivery_person' ? 'VOCÊ ESTÁ NO MODO ENTREGADOR' : 'ATIVAR MODO ENTREGAS' }}
+              </button>
+
+              <!-- Se ainda não é entregador: formulário de ativação -->
+              <div class="activate-role-box" *ngIf="!user()?.deliveryData">
+                <h4>Quero ser um entregador:</h4>
+                <form [formGroup]="deliveryForm" (ngSubmit)="onRegisterDelivery()">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tipo de Veículo</mat-label>
+                    <mat-select formControlName="vehicleType">
+                      <mat-option value="bicycle">Bicicleta</mat-option>
+                      <mat-option value="moto">Moto</mat-option>
+                      <mat-option value="car">Carro</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Placa do Veículo</mat-label>
+                    <input matInput formControlName="plate" placeholder="ABC-1234">
+                  </mat-form-field>
+                  <button mat-raised-button color="primary" type="submit" class="btn-submit-role">
+                    COMEÇAR A ENTREGAR
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ──────────────────────────────────────────────────── -->
+        <!-- TAB 4: MEUS PETS                                     -->
+        <!-- ──────────────────────────────────────────────────── -->
+        <section class="tab-pane" *ngIf="activeTab() === 'pets'">
+          <div class="pane-header">
+            <div>
+              <h2>Meus Companheiros Pets 🐾</h2>
+              <p class="pane-desc">Cadastre e gerencie a saúde, espécie e documentos dos seus companheiros.</p>
+            </div>
+            <button mat-raised-button color="primary" class="btn-add-pet-header premium-shine"
+                    (click)="showAddPet.set(!showAddPet())">
+              <mat-icon>{{ showAddPet() ? 'close' : 'add' }}</mat-icon>
+              {{ showAddPet() ? 'Fechar' : 'Cadastrar Novo Pet' }}
+            </button>
+          </div>
+
+          <!-- Formulário de Adicionar Pet -->
+          <div class="dashboard-card inline-pet-form" *ngIf="showAddPet()">
+            <div class="card-header">
+              <div class="card-title-group">
+                <mat-icon class="title-icon">pets</mat-icon>
+                <div>
+                  <h3>Adicionar Novo Pet à Família</h3>
+                  <p>Preencha os dados do seu pet para receber recomendações e ofertas personalizadas</p>
+                </div>
+              </div>
+            </div>
+
+            <form [formGroup]="petForm" (ngSubmit)="onAddPet()">
+              <div class="form-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nome do Pet</mat-label>
+                  <input matInput formControlName="name" placeholder="Ex: Pipoca, Bob...">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Espécie</mat-label>
+                  <mat-select formControlName="species">
+                    <mat-option *ngFor="let sp of speciesList" [value]="sp.name">
+                      <mat-icon>{{ sp.icon }}</mat-icon> {{ sp.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Data de Nascimento</mat-label>
+                  <input matInput type="date" formControlName="birthDate">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Sexo</mat-label>
+                  <mat-select formControlName="gender">
+                    <mat-option value="male">Macho ♂</mat-option>
+                    <mat-option value="female">Fêmea ♀</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <!-- Upload de Documento -->
+              <div class="pet-upload-box" (click)="fileInput.click()">
+                <mat-icon>upload_file</mat-icon>
+                <span>Anexar Carteirinha de Vacinação ou RGA (Opcional)</span>
+                <input type="file" #fileInput (change)="onPetDocUpload($event)" hidden>
+                <small *ngIf="petForm.get('documentName')?.value" class="doc-ready">
+                  Arquivo: {{ petForm.get('documentName')?.value }}
+                </small>
+              </div>
+
+              <button mat-raised-button color="primary" class="btn-save-new-pet" type="submit">
+                CADASTRAR MEU PET
+              </button>
+            </form>
+          </div>
+
+          <!-- Grid de Cards de Pets -->
+          <div class="pets-grid">
+            <div class="pet-profile-card" *ngFor="let pet of user()?.pets; let i = index">
+              <div class="pet-card-top">
+                <div class="pet-avatar-circle">
+                  <mat-icon *ngIf="pet.species.includes('Cão') || pet.species.includes('Cachorro')">pets</mat-icon>
+                  <mat-icon *ngIf="pet.species.includes('Gato')">pets</mat-icon>
+                  <mat-icon *ngIf="pet.species.includes('Pássaro')">flutter_dash</mat-icon>
+                  <mat-icon *ngIf="pet.species.includes('Peixe')">water</mat-icon>
+                  <mat-icon *ngIf="!pet.species.includes('Cão') && !pet.species.includes('Gato') && !pet.species.includes('Pássaro') && !pet.species.includes('Peixe')">cruelty_free</mat-icon>
+                </div>
+                <div class="pet-name-info">
+                  <h3>{{ pet.name }}</h3>
+                  <span class="pet-species-pill">{{ pet.species }}</span>
+                </div>
+                <button mat-icon-button class="btn-del-pet" (click)="onRemovePet(i)" title="Remover pet">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+
+              <div class="pet-attributes">
+                <div class="attr-item">
+                  <mat-icon>cake</mat-icon>
+                  <span>{{ calculatePetAge(pet.birthDate) }}</span>
+                </div>
+                <div class="attr-item">
+                  <mat-icon>wc</mat-icon>
+                  <span>{{ pet.gender === 'male' ? 'Macho ♂' : 'Fêmea ♀' }}</span>
+                </div>
+              </div>
+
+              <!-- Documento Anexado -->
+              <div class="pet-doc-badge" *ngIf="pet.documentName">
+                <mat-icon class="doc-icon">verified</mat-icon>
+                <div class="doc-info">
+                  <strong>Documento Anexado</strong>
+                  <span>{{ pet.documentName }}</span>
+                </div>
+                <mat-icon class="download-icon">download</mat-icon>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ──────────────────────────────────────────────────── -->
+        <!-- TAB 5: CARTEIRA & PAGAMENTOS                         -->
+        <!-- ──────────────────────────────────────────────────── -->
+        <section class="tab-pane" *ngIf="activeTab() === 'wallet'">
+          <div class="pane-header">
+            <div>
+              <h2>Carteira Digital & Formas de Pagamento 💳</h2>
+              <p class="pane-desc">Cadastre cartões de crédito e chaves PIX para compras com 1 clique e recebimento rápido de cashback.</p>
+            </div>
+            <button mat-raised-button color="primary" class="btn-add-card-header premium-shine"
+                    (click)="showAddCard.set(!showAddCard())">
+              <mat-icon>{{ showAddCard() ? 'close' : 'add_card' }}</mat-icon>
+              {{ showAddCard() ? 'Cancelar' : 'Adicionar Cartão' }}
+            </button>
+          </div>
+
+          <div class="two-columns-layout">
+            <!-- Coluna 1: Cartões de Crédito -->
+            <div class="dashboard-card">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <mat-icon class="title-icon">credit_card</mat-icon>
+                  <div>
+                    <h3>Cartões de Crédito Salvos</h3>
+                    <p>Criptografados com tecnologia PCI-DSS de ponta</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Formulário inline para novo cartão -->
+              <div class="inline-form-box" *ngIf="showAddCard()">
+                <h4>Cadastrar Novo Cartão</h4>
+                <form [formGroup]="cardForm" (ngSubmit)="onAddCard()">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nome Impresso no Cartão</mat-label>
+                    <input matInput formControlName="holderName" placeholder="Ex: JOHNNY CARVALHO">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Número do Cartão</mat-label>
+                    <input matInput formControlName="cardNumber" placeholder="0000 0000 0000 0000">
+                  </mat-form-field>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Validade (MM/AA)</mat-label>
+                      <input matInput formControlName="expiry" placeholder="12/28">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>CVV</mat-label>
+                      <input matInput formControlName="cvv" placeholder="123">
+                    </mat-form-field>
+                  </div>
+
+                  <button mat-raised-button color="primary" class="btn-confirm-add" type="submit">
+                    SALVAR CARTÃO
+                  </button>
+                </form>
+              </div>
+
+              <!-- Lista de Cartões Visuais -->
+              <div class="cards-visual-list">
+                <div class="virtual-card" *ngFor="let card of user()?.paymentCards" [class.default-card]="card.isDefault">
+                  <div class="chip-row">
+                    <div class="chip-sim"></div>
+                    <span class="card-brand">{{ card.brand | uppercase }}</span>
+                  </div>
+                  <div class="card-number-mask">
+                    •••• •••• •••• {{ card.last4 }}
+                  </div>
+                  <div class="card-bottom">
+                    <div>
+                      <span class="card-lbl">TITULAR</span>
+                      <strong class="card-name">{{ card.holderName }}</strong>
+                    </div>
+                    <div>
+                      <span class="card-lbl">VALIDADE</span>
+                      <strong class="card-exp">{{ card.expiry }}</strong>
+                    </div>
+                  </div>
+                  <button mat-icon-button class="btn-card-del" (click)="onRemoveCard(card.id)" title="Remover cartão">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Coluna 2: Chaves PIX -->
+            <div class="dashboard-card">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <mat-icon class="title-icon">qr_code</mat-icon>
+                  <div>
+                    <h3>Chaves PIX Cadastradas</h3>
+                    <p>Usadas para estornos automáticos e recebimentos</p>
+                  </div>
+                </div>
+                <button mat-stroked-button class="btn-add-item" (click)="showAddPix.set(!showAddPix())">
+                  <mat-icon>add</mat-icon> Nova Chave
+                </button>
+              </div>
+
+              <!-- Formulário de Chave PIX -->
+              <div class="inline-form-box" *ngIf="showAddPix()">
+                <form [formGroup]="pixForm" (ngSubmit)="onAddPix()">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tipo de Chave</mat-label>
+                    <mat-select formControlName="type">
+                      <mat-option value="CPF">CPF</mat-option>
+                      <mat-option value="EMAIL">E-mail</mat-option>
+                      <mat-option value="PHONE">Celular</mat-option>
+                      <mat-option value="RANDOM">Chave Aleatória</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Chave PIX</mat-label>
+                    <input matInput formControlName="key" placeholder="Digite sua chave...">
+                  </mat-form-field>
+                  <button mat-raised-button color="primary" class="btn-confirm-add" type="submit">
+                    SALVAR CHAVE PIX
+                  </button>
+                </form>
+              </div>
+
+              <div class="pix-list">
+                <div class="pix-item" *ngFor="let pix of user()?.pixKeys">
+                  <div class="pix-icon">
+                    <mat-icon>flash_on</mat-icon>
+                  </div>
+                  <div class="pix-info">
+                    <strong>{{ pix.type }}</strong>
+                    <span>{{ pix.key }}</span>
+                  </div>
+                  <button mat-icon-button (click)="onRemovePix(pix.id)" title="Excluir chave">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ──────────────────────────────────────────────────── -->
+        <!-- TAB 6: SEGURANÇA & CONTAS VINCULADAS                 -->
+        <!-- ──────────────────────────────────────────────────── -->
+        <section class="tab-pane" *ngIf="activeTab() === 'security'">
+          <div class="pane-header">
+            <div>
+              <h2>Segurança, Senha & Conexões 🔐</h2>
+              <p class="pane-desc">Proteja sua conta com senhas fortes, autenticação de dois fatores e controle de acessos.</p>
+            </div>
+          </div>
+
+          <div class="two-columns-layout">
+            <!-- Contas Vinculadas & Alterar Senha -->
+            <div class="dashboard-card">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <mat-icon class="title-icon">link</mat-icon>
+                  <div>
+                    <h3>Contas Sociais Conectadas</h3>
+                    <p>Acesse sua conta sem precisar digitar senha</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="social-links-list">
+                <!-- Google -->
+                <div class="social-item">
+                  <div class="social-brand">
+                    <div class="brand-icon google-ico">G</div>
+                    <div>
+                      <strong>Google</strong>
+                      <span>{{ user()?.linkedAccounts?.google ? 'Conectado como ' + user()?.email : 'Não conectado' }}</span>
+                    </div>
+                  </div>
+                  <button mat-stroked-button [class.btn-connected]="user()?.linkedAccounts?.google"
+                          (click)="toggleLinkedAccount('google')">
+                    {{ user()?.linkedAccounts?.google ? 'Desconectar' : 'Conectar' }}
+                  </button>
+                </div>
+
+                <!-- Apple -->
+                <div class="social-item">
+                  <div class="social-brand">
+                    <div class="brand-icon apple-ico"><mat-icon>apple</mat-icon></div>
+                    <div>
+                      <strong>Apple ID</strong>
+                      <span>{{ user()?.linkedAccounts?.apple ? 'Conectado com segurança' : 'Não conectado' }}</span>
+                    </div>
+                  </div>
+                  <button mat-stroked-button [class.btn-connected]="user()?.linkedAccounts?.apple"
+                          (click)="toggleLinkedAccount('apple')">
+                    {{ user()?.linkedAccounts?.apple ? 'Desconectar' : 'Conectar' }}
+                  </button>
+                </div>
+
+                <!-- Facebook -->
+                <div class="social-item">
+                  <div class="social-brand">
+                    <div class="brand-icon fb-ico">f</div>
+                    <div>
+                      <strong>Facebook</strong>
+                      <span>{{ user()?.linkedAccounts?.facebook ? 'Conectado' : 'Não conectado' }}</span>
+                    </div>
+                  </div>
+                  <button mat-stroked-button [class.btn-connected]="user()?.linkedAccounts?.facebook"
+                          (click)="toggleLinkedAccount('facebook')">
+                    {{ user()?.linkedAccounts?.facebook ? 'Desconectar' : 'Conectar' }}
+                  </button>
+                </div>
+              </div>
+
+              <!-- Alterar Senha -->
+              <div class="password-box">
+                <div class="password-box-header">
+                  <mat-icon>lock</mat-icon>
+                  <div>
+                    <h4>Senha de Acesso</h4>
+                    <p>Última alteração realizada há 3 meses</p>
+                  </div>
+                  <button mat-stroked-button (click)="showChangePassword.set(!showChangePassword())">
+                    {{ showChangePassword() ? 'Cancelar' : 'Alterar Senha' }}
+                  </button>
+                </div>
+
+                <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" *ngIf="showChangePassword()" class="pwd-form">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Senha Atual</mat-label>
+                    <input matInput type="password" formControlName="currentPassword">
+                  </mat-form-field>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Nova Senha</mat-label>
+                      <input matInput type="password" formControlName="newPassword">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Confirmar Nova Senha</mat-label>
+                      <input matInput type="password" formControlName="confirmPassword">
+                    </mat-form-field>
+                  </div>
+
+                  <button mat-raised-button color="primary" type="submit" class="btn-confirm-pwd">
+                    ATUALIZAR SENHA
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Sessões Ativas & 2FA -->
+            <div class="dashboard-card">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <mat-icon class="title-icon">devices</mat-icon>
+                  <div>
+                    <h3>Dispositivos & Sessões Ativas</h3>
+                    <p>Aparelhos conectados no momento na sua conta</p>
+                  </div>
+                </div>
+                <button mat-stroked-button class="btn-end-sessions" (click)="endOtherSessions()">
+                  Desconectar outros
+                </button>
+              </div>
+
+              <div class="sessions-list">
+                <div class="session-item" *ngFor="let s of activeSessions" [class.current]="s.current">
+                  <mat-icon class="session-device-ico">{{ s.icon }}</mat-icon>
+                  <div class="session-info">
+                    <strong>{{ s.device }}</strong>
+                    <span>{{ s.browser }} • {{ s.location }}</span>
+                  </div>
+                  <span class="current-badge" *ngIf="s.current">Ativo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ──────────────────────────────────────────────────── -->
+        <!-- TAB 7: PREFERÊNCIAS & AVISOS                         -->
+        <!-- ──────────────────────────────────────────────────── -->
+        <section class="tab-pane" *ngIf="activeTab() === 'preferences'">
+          <div class="pane-header">
+            <div>
+              <h2>Preferências & Notificações ⚙️</h2>
+              <p class="pane-desc">Defina como e quando a Pet Stores deve entrar em contato com você.</p>
+            </div>
+          </div>
+
+          <div class="dashboard-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <mat-icon class="title-icon">notifications_active</mat-icon>
+                <div>
+                  <h3>Canais de Comunicação</h3>
+                  <p>Escolha os canais para receber alertas de entrega e ofertas</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="preferences-toggles-list">
+              <div class="pref-toggle-item">
+                <div class="pref-text">
+                  <strong>Notificações no WhatsApp</strong>
+                  <p>Receba atualizações passo a passo de rastreamento do entregador direto no seu zap.</p>
+                </div>
+                <button type="button" class="toggle-pill"
+                        [class.active]="user()?.notifications?.whatsapp"
+                        (click)="toggleNotification('whatsapp')">
+                  <span class="toggle-ball"></span>
+                </button>
+              </div>
+
+              <div class="pref-toggle-item">
+                <div class="pref-text">
+                  <strong>Ofertas & Cupons Especiais por E-mail</strong>
+                  <p>Fique por dentro de promoções relâmpago e novidades do mundo pet.</p>
+                </div>
+                <button type="button" class="toggle-pill"
+                        [class.active]="user()?.notifications?.emailOffers"
+                        (click)="toggleNotification('emailOffers')">
+                  <span class="toggle-ball"></span>
+                </button>
+              </div>
+
+              <div class="pref-toggle-item">
+                <div class="pref-text">
+                  <strong>Alertas Críticos de Entrega por SMS</strong>
+                  <p>Aviso imediato quando o entregador estiver no portão de sua casa.</p>
+                </div>
+                <button type="button" class="toggle-pill"
+                        [class.active]="user()?.notifications?.smsDelivery"
+                        (click)="toggleNotification('smsDelivery')">
+                  <span class="toggle-ball"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Privacidade & LGPD -->
+          <div class="dashboard-card mt-4">
+            <div class="card-header">
+              <div class="card-title-group">
+                <mat-icon class="title-icon">privacy_tip</mat-icon>
+                <div>
+                  <h3>Privacidade & Dados Cadastrais (LGPD)</h3>
+                  <p>Seus dados estão protegidos com criptografia de ponta e sob seu total controle</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="lgpd-actions">
+              <button mat-stroked-button (click)="exportData()">
+                <mat-icon>download</mat-icon> Exportar Cópia dos Meus Dados
+              </button>
+              <button mat-stroked-button color="warn">
+                <mat-icon>delete_forever</mat-icon> Solicitar Exclusão da Conta
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</div>

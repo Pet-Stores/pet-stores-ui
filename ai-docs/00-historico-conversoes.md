@@ -20,6 +20,8 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | 2026-05-25 | Feature 13 | Detalhes do Produto e UX Omnichannel | [features/13-detalhes-produto-v1.md](./features/13-detalhes-produto-v1.md) |
 
 
+| 2026-09-06 | Feature 17 | Central do Usuário (Minha Conta) & Configuração Vercel | [features/17-central-do-usuario-e-suporte-vercel.md](./features/17-central-do-usuario-e-suporte-vercel.md) |
+
 ## 💬 Sessões (Resumos de Conversa)
 
 | Data | Registro | Principais Temas | Arquivo |
@@ -40,3 +42,4 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | 2026-08-26 | Sessão 01 | Feature 14 — Tela de Pedidos, Badge e Dropdown Preview na Navbar | [sessions/2026-08-26-sessao-01.md](./sessions/2026-08-26-sessao-01.md) |
 | 2026-08-26 | Feature 14 | Tela de Pedidos (Histórico e Tracking) | [features/14-tela-de-pedidos-historico-e-tracking.md](./features/14-tela-de-pedidos-historico-e-tracking.md) |
 | 2026-08-29 | Feature 15 | Localização de Lojas Parceiras e Mapa Interativo | [features/15-localizacao-lojas-parceiras-mapa-interativo.md](./features/15-localizacao-lojas-parceiras-mapa-interativo.md) |
+| 2026-09-06 | Sessão 01 | Central do Usuário, Histórico de NF-e, Gráficos SVG e Ajuste Vercel | [sessions/2026-09-06-sessao-01.md](./sessions/2026-09-06-sessao-01.md) |
