@@ -380,13 +380,13 @@
               Criar minha conta
             </a>
           } @else {
-            <a href="javascript:void(0)" (click)="funcaoTeste()">
+            <a routerLink="/account">
               <mat-icon>person</mat-icon>
               Minha Conta
             </a>
-            <a routerLink="/orders">
-              <mat-icon>shopping_bag</mat-icon>
-              Meus Pedidos
+            <a routerLink="/account" [queryParams]="{ tab: 'preferences' }">
+              <mat-icon>settings</mat-icon>
+              Configurações
             </a>
             <a href="javascript:void(0)" (click)="logout()" class="logout-link">
               <mat-icon>logout</mat-icon>
