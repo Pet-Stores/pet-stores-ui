@@ -45,6 +45,8 @@ export interface Invoice {
   status: 'AUTHORIZED' | 'EMITTED';
 }
 
+import { NavbarComponent } from '../navbar/navbar.component';
+
 @Component({
   selector: 'app-account',
   standalone: true,
@@ -59,7 +61,8 @@ export interface Invoice {
     MatFormFieldModule,
     MatSelectModule,
     MatSnackBarModule,
-    MatTabsModule
+    MatTabsModule,
+    NavbarComponent
   ],
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']

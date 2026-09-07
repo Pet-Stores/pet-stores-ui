@@ -488,6 +488,10 @@
   border-radius: 20px;
   pointer-events: none;
 
+  @media (max-width: 680px) {
+    display: none !important;
+  }
+
   .fbadge-icon-box {
     @include flex-center;
     width: 34px;
@@ -575,6 +579,10 @@
   box-shadow: 0 6px 20px rgba(60, 42, 32, 0.12);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   opacity: 0.85;
+
+  @media (max-width: 600px) {
+    display: none !important;
+  }
 
   mat-icon {
     font-size: 26px;
