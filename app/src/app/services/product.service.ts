@@ -135,6 +135,24 @@ export class ProductService {
       reviews: []
     },
     {
+      id: 8,
+      name: 'Biscoito Dog Chow Para Cães Adultos Médios e Grandes Sabor Frango 500g',
+      slug: 'biscoito-dog-chow-caes-adultos-frango-500g',
+      price: 19.90,
+      originalPrice: 24.90,
+      discountBadge: '20% OFF',
+      images: ['assets/mock/biscoito_dog_chow.png'],
+      shortDescription: 'Petisco crocante e saboroso rico em cálcio e vitaminas.',
+      description: 'O Biscoito Dog Chow Frango 500g é formulado especialmente para cães adultos de porte médio e grande. Auxilia na manutenção dos dentes limpos e na saúde oral.',
+      sellerName: 'Petshop do João',
+      sellerRating: 4.8,
+      category: 'Petiscos',
+      stock: 40,
+      features: ['Dentes limpos', 'Rico em cálcio', 'Crocância perfeita'],
+      specifications: [{ label: 'Peso', value: '500g' }, { label: 'Sabor', value: 'Frango' }],
+      reviews: [{ user: 'Carla S.', rating: 5, comment: 'Meu dog ama esse biscoito!', date: '2026-05-10' }]
+    },
+    {
       id: 101,
       name: 'Ração Royal Canin Gatos Adultos Castrados',
       slug: 'racao-royal-canin-gatos-castrados',

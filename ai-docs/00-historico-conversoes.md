@@ -22,6 +22,8 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 
 | 2026-09-06 | Feature 17 | Central do Usuário (Minha Conta) & Configuração Vercel | [features/17-central-do-usuario-e-suporte-vercel.md](./features/17-central-do-usuario-e-suporte-vercel.md) |
 
+| 2026-09-06 | Feature 18 | Rodapé Premium Retrátil & Ajustes de Vitrine | [features/18-rodape-premium-e-ajustes-vitrine.md](./features/18-rodape-premium-e-ajustes-vitrine.md) |
+
 ## 💬 Sessões (Resumos de Conversa)
 
 | Data | Registro | Principais Temas | Arquivo |
@@ -43,3 +45,4 @@ Este arquivo serve como um índice para todas as sessões e tarefas registradas,
 | 2026-08-26 | Feature 14 | Tela de Pedidos (Histórico e Tracking) | [features/14-tela-de-pedidos-historico-e-tracking.md](./features/14-tela-de-pedidos-historico-e-tracking.md) |
 | 2026-08-29 | Feature 15 | Localização de Lojas Parceiras e Mapa Interativo | [features/15-localizacao-lojas-parceiras-mapa-interativo.md](./features/15-localizacao-lojas-parceiras-mapa-interativo.md) |
 | 2026-09-06 | Sessão 01 | Central do Usuário, Histórico de NF-e, Gráficos SVG e Ajuste Vercel | [sessions/2026-09-06-sessao-01.md](./sessions/2026-09-06-sessao-01.md) |
+| 2026-09-06 | Sessão 02 | Rodapé Premium (Estilo Mercado Livre), Ícones SVG Sociais e 8º Item da Vitrine | [sessions/2026-09-06-sessao-02.md](./sessions/2026-09-06-sessao-02.md) |
