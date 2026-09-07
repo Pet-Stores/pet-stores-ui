@@ -1,0 +1,63 @@
+// =========================================================================
+// PET STORES - DESIGN SYSTEM RESPONSIVO & MOBILE HYBRID (CAPACITOR READY)
+// =========================================================================
+// Este arquivo centraliza os breakpoints, mixins e utilitários responsivos da aplicação.
+// Toda regra responsiva utiliza Media Queries e variáveis universais para garantir
+// que o layout funcione perfeitamente tanto no Navegador quanto envelopado no Capacitor (Android/iOS).
+
+@use './colors' as c;
+
+// Breakpoints Universais
+$breakpoint-xs: 480px;   // Smartphones pequenos
+$breakpoint-sm: 640px;   // Smartphones grandes / Phablets
+$breakpoint-md: 768px;   // Tablets em retrato
+$breakpoint-lg: 1024px;  // Tablets em paisagem / Laptops pequenos
+$breakpoint-xl: 1280px;  // Desktops e Monitores Full HD
+$breakpoint-xxl: 1440px; // Monitores Ultrawide
+
+// -------------------------------------------------------------------------
+// MIXINS DE RESPONSIVIDADE
+// -------------------------------------------------------------------------
+@mixin mobile-only {
+  @media (max-width: #{$breakpoint-md - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @media (min-width: #{$breakpoint-md}) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @media (min-width: #{$breakpoint-lg}) {
+    @content;
+  }
+}
+
+// -------------------------------------------------------------------------
+// SUPORTE A DISPOSITIVOS MÓVEIS NATIVOS (CAPACITOR SAFE AREAS / NOTCH)
+// -------------------------------------------------------------------------
+// Permite que o app respeite as barras nativas de iOS e Android (Notch, Dynamic Island)
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+}
+
+// Ajuste para evitar rolagem horizontal indesejada em telas móveis
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  touch-action: manipulation; // Melhora a resposta ao toque em telas sensíveis
+}
+
+// Otimizações para touch/mobile
+@media (hover: none) and (pointer: coarse) {
+  /* Regras de Touch UI */
+  button, a {
+    min-height: 44px; // Padrão mínimo de ergonomia para toque Apple/Google
+  }
+}

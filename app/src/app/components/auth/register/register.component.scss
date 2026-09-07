@@ -770,14 +770,29 @@
 /* Responsividade Mobile */
 @media (max-width: 520px) {
   .register-dialog-wrapper {
+    max-height: 94vh;
+    border-radius: 18px;
+
     .register-header {
-      padding: 14px 16px;
+      padding: 12px 14px;
+
+      .header-content {
+        gap: 8px;
+        .logo-small {
+          height: 36px;
+        }
+        .header-titles h2 {
+          font-size: 17px;
+        }
+      }
     }
 
     .register-body {
-      padding: 14px 16px;
+      padding: 12px 14px;
 
       .register-form {
+        gap: 12px;
+
         .profile-selection {
           grid-template-columns: 1fr;
           .profile-card {
@@ -795,11 +810,23 @@
         .pets-section-container .pets-list .pet-card .pet-fields-grid .pet-two-col {
           grid-template-columns: 1fr;
         }
+
+        .upload-section .upload-grid {
+          grid-template-columns: 1fr;
+        }
       }
     }
 
     .register-footer {
-      padding: 12px 16px;
+      padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px));
+
+      .footer-step2 {
+        grid-template-columns: 1fr 1.3fr;
+        gap: 8px;
+        @media (max-width: 360px) {
+          grid-template-columns: 1fr;
+        }
+      }
     }
   }
 }

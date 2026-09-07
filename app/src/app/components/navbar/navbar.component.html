@@ -1,26 +1,21 @@
 <div class="navbar-container">
-  <!-- MONITORES < 1114 PX -->
   @if (isMobileScreen()) {
-    <div class="mobile">
-      <div class="navbar">
-        <div class="menu-icon">
-          @if (openMenu()) {
-            <button (click)="drawer.toggle(); funcaoTeste()" mat-icon-button>
-              <mat-icon>menu</mat-icon>
-            </button>
-          } @else {
-            <button (click)="drawer.toggle(); funcaoTeste()" mat-icon-button>
-              <mat-icon>close</mat-icon>
-            </button>
-          }
+    <div class="mobile-navbar-wrapper">
+      <!-- Barra Superior Mobile (Header Compacto com Efeito Glass) -->
+      <div class="mobile-top-bar">
+        <button type="button" (click)="toggleMobileMenu()" class="mobile-icon-btn menu-btn" aria-label="Abrir menu">
+          <mat-icon>{{ isMobileMenuOpen() ? 'close' : 'menu' }}</mat-icon>
+        </button>
+
+        <div class="mobile-logo" routerLink="/">
+          <img src="../../assets/img/PetStores(200×200px)/1.svg" alt="Pet Stores Logo">
         </div>
 
-        <div class="logo">
-          <img routerLink="/" src="../../assets/img/PetStores(200×200px)/1.svg" alt="Pet Stores Logo">
-        </div>
-
-        <div class="icons" style="margin-left: auto;">
-          <button mat-icon-button routerLink="/cart" class="cart-btn">
+        <div class="mobile-actions">
+          <button type="button" routerLink="/account" [queryParams]="{ tab: 'overview' }" class="mobile-icon-btn account-btn" aria-label="Minha Conta">
+            <mat-icon>person</mat-icon>
+          </button>
+          <button type="button" routerLink="/cart" class="mobile-icon-btn cart-btn" aria-label="Carrinho">
             <mat-icon>shopping_cart</mat-icon>
             @if (cartItemsCount() > 0) {
               <span class="cart-badge">{{ cartItemsCount() }}</span>
@@ -29,22 +24,117 @@
         </div>
       </div>
 
-      <div class="pesquisar-mobile">
-        <div class="search-container">
-          <input matInput [placeholder]="animatedPlaceholder()">
+      <!-- Barra de Busca Mobile Limpa e Elegante -->
+      <div class="mobile-search-bar">
+        <div class="mobile-search-box">
           <mat-icon class="search-icon">search</mat-icon>
+          <input type="text" [placeholder]="animatedPlaceholder()" aria-label="Buscar produtos">
         </div>
       </div>
 
-      <mat-drawer #drawer class="example-sidenav" mode="side">
-        <p>Menu Lateral</p>
-        @if (showFiller()) {
-          <p>Opções em breve...</p>
-        }
-        <button (click)="showFiller.set(!showFiller())" mat-raised-button>
-          Ver mais
-        </button>
-      </mat-drawer>
+      <!-- Backdrop Overlay do Menu Lateral -->
+      <div class="mobile-drawer-backdrop" [class.is-open]="isMobileMenuOpen()" (click)="closeMobileMenu()"></div>
+
+      <!-- Painel do Menu Lateral Deslizante (Off-Canvas) -->
+      <aside class="mobile-drawer-panel" [class.is-open]="isMobileMenuOpen()">
+        <!-- Cabeçalho do Drawer -->
+        <div class="drawer-header">
+          <div class="drawer-user-info">
+            @if (authService.isLoggedIn()) {
+              <div class="drawer-avatar">
+                <img [src]="authService.currentUser()?.profileImage" [alt]="authService.userFirstName()">
+              </div>
+              <div class="drawer-user-text">
+                <span class="drawer-user-greeting">Olá, {{ authService.userFirstName() }}!</span>
+                <span class="drawer-user-badge">{{ authService.currentUser()?.loyaltyTier || 'Cliente VIP' }}</span>
+              </div>
+            } @else {
+              <div class="drawer-avatar guest">
+                <mat-icon>person</mat-icon>
+              </div>
+              <div class="drawer-user-text">
+                <span class="drawer-user-greeting">Olá, Bem-vindo!</span>
+                <span class="drawer-user-hint">Acesse sua conta para ver pedidos</span>
+              </div>
+            }
+          </div>
+
+          <button type="button" (click)="closeMobileMenu()" class="drawer-close-btn" aria-label="Fechar menu">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <!-- Ações Rápidas de Auth -->
+        <div class="drawer-auth-buttons">
+          @if (!authService.isLoggedIn()) {
+            <button type="button" class="btn-drawer-primary" (click)="openLoginModal(); closeMobileMenu()">
+              <mat-icon>login</mat-icon> Entrar
+            </button>
+            <button type="button" class="btn-drawer-secondary" (click)="openRegisterModal(); closeMobileMenu()">
+              <mat-icon>person_add</mat-icon> Cadastrar
+            </button>
+          } @else {
+            <button type="button" class="btn-drawer-primary full-width" routerLink="/account" (click)="closeMobileMenu()">
+              <mat-icon>manage_accounts</mat-icon> Minha Conta
+            </button>
+          }
+        </div>
+
+        <!-- Links de Navegação do App Mobile -->
+        <nav class="drawer-navigation">
+          <span class="nav-group-title">Menu Principal</span>
+
+          <a routerLink="/" (click)="closeMobileMenu()" class="drawer-nav-link">
+            <div class="nav-icon-bg"><mat-icon>home</mat-icon></div>
+            <span class="link-label">Início</span>
+          </a>
+
+          <a routerLink="/stores" (click)="closeMobileMenu()" class="drawer-nav-link">
+            <div class="nav-icon-bg"><mat-icon>storefront</mat-icon></div>
+            <span class="link-label">Lojas Parceiras</span>
+            <span class="nav-pill-badge">Mapa</span>
+          </a>
+
+          <a routerLink="/orders" (click)="closeMobileMenu()" class="drawer-nav-link">
+            <div class="nav-icon-bg"><mat-icon>local_shipping</mat-icon></div>
+            <span class="link-label">Meus Pedidos</span>
+            @if (activeOrdersCount() > 0) {
+              <span class="nav-pill-badge active-pill">{{ activeOrdersCount() }}</span>
+            }
+          </a>
+
+          <a routerLink="/cart" (click)="closeMobileMenu()" class="drawer-nav-link">
+            <div class="nav-icon-bg"><mat-icon>shopping_cart</mat-icon></div>
+            <span class="link-label">Carrinho</span>
+            @if (cartItemsCount() > 0) {
+              <span class="nav-pill-badge cart-pill">{{ cartItemsCount() }}</span>
+            }
+          </a>
+
+          <a routerLink="/account" [queryParams]="{ tab: 'pets' }" (click)="closeMobileMenu()" class="drawer-nav-link">
+            <div class="nav-icon-bg"><mat-icon>pets</mat-icon></div>
+            <span class="link-label">Meus Pets</span>
+          </a>
+
+          <a routerLink="/account" [queryParams]="{ tab: 'wallet' }" (click)="closeMobileMenu()" class="drawer-nav-link">
+            <div class="nav-icon-bg"><mat-icon>credit_card</mat-icon></div>
+            <span class="link-label">Carteira & Pagamentos</span>
+          </a>
+
+          <a routerLink="/account" [queryParams]="{ tab: 'preferences' }" (click)="closeMobileMenu()" class="drawer-nav-link">
+            <div class="nav-icon-bg"><mat-icon>settings</mat-icon></div>
+            <span class="link-label">Configurações & Preferências</span>
+          </a>
+
+          @if (authService.isLoggedIn()) {
+            <div class="drawer-separator"></div>
+            <button type="button" (click)="logout(); closeMobileMenu()" class="drawer-nav-link logout-btn">
+              <div class="nav-icon-bg logout-bg"><mat-icon>logout</mat-icon></div>
+              <span class="link-label">Sair da Conta</span>
+            </button>
+          }
+        </nav>
+      </aside>
     </div>
   } @else {
     <!-- MONITORES > 1114 PX -->
