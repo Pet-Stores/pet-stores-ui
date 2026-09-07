@@ -1,0 +1,397 @@
+.main-footer {
+  background-color: #f7f7f7;
+  border-top: 1px solid #e2e8f0;
+  font-family: inherit;
+  color: #4a5568;
+  position: relative;
+  width: 100%;
+  margin-top: auto;
+  transition: all 0.3s ease;
+
+  .footer-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ------------------------------------ */
+  /* BOTÃO SUPERIOR "MAIS INFORMAÇÕES"    */
+  /* ------------------------------------ */
+  .expand-trigger-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: -1px;
+    z-index: 5;
+
+    .expand-btn {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      padding: 6px 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #3C2A20;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(60, 42, 32, 0.06);
+      transition: all 0.25s ease;
+
+      &:hover {
+        background: #fff8f0;
+        color: #e67e22;
+        border-color: #ffd8a8;
+        transform: translateY(1px);
+        box-shadow: 0 4px 12px rgba(230, 126, 34, 0.12);
+      }
+
+      .arrow-icon {
+        font-size: 1.2rem;
+        width: 1.2rem;
+        height: 1.2rem;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &.rotated {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+
+  /* ------------------------------------ */
+  /* CONTEÚDO EXPANDIDO (SLIDE ANIMATION) */
+  /* ------------------------------------ */
+  .expanded-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0, 1, 0, 1), opacity 0.3s ease, padding 0.3s ease;
+    background-color: #fafafa;
+    border-bottom: 1px solid #edf2f7;
+
+    &.show {
+      max-height: 1000px; /* Grande o suficiente para o conteúdo */
+      opacity: 1;
+      padding: 32px 0 24px;
+      transition: max-height 0.5s ease-in-out, opacity 0.4s ease 0.1s;
+    }
+
+    .grid-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+
+      @media (max-width: 900px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media (max-width: 550px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .footer-col {
+      h4 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #2d3748;
+        margin-bottom: 14px;
+        letter-spacing: -0.2px;
+
+        /* Efeito sutil da marca */
+        &::after {
+          content: '';
+          display: block;
+          width: 24px;
+          height: 2px;
+          background: linear-gradient(90deg, #3C2A20, #e67e22);
+          margin-top: 4px;
+          border-radius: 2px;
+        }
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          margin-bottom: 8px;
+
+          a {
+            color: #718096;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: color 0.2s ease, transform 0.2s ease;
+            display: inline-block;
+
+            &:hover {
+              color: #3C2A20;
+              font-weight: 500;
+              transform: translateX(2px);
+            }
+          }
+        }
+      }
+
+      .social-links {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 20px;
+
+        a {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          color: #4a5568;
+          font-size: 0.85rem;
+          text-decoration: none;
+          transition: all 0.2s ease;
+
+          mat-icon, .social-svg-icon {
+            font-size: 1.1rem;
+            width: 1.1rem;
+            height: 1.1rem;
+            color: #e67e22;
+          }
+
+          &:hover {
+            color: #e67e22;
+            transform: translateX(3px);
+          }
+        }
+      }
+
+      .app-downloads {
+        h5 {
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: #718096;
+          margin-bottom: 8px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .app-badges {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+
+          .badge-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            padding: 6px 12px;
+            text-decoration: none;
+            color: #2d3748;
+            transition: all 0.2s ease;
+
+            mat-icon {
+              font-size: 1.5rem;
+              width: 1.5rem;
+              height: 1.5rem;
+              color: #3C2A20;
+            }
+
+            .btn-text {
+              display: flex;
+              flex-direction: column;
+              line-height: 1.1;
+
+              small {
+                font-size: 0.65rem;
+                color: #718096;
+              }
+
+              span {
+                font-size: 0.8rem;
+                font-weight: 700;
+              }
+            }
+
+            &:hover {
+              background: #3C2A20;
+              color: #ffffff;
+              border-color: #3C2A20;
+
+              mat-icon {
+                color: #FFE1BA;
+              }
+
+              .btn-text small {
+                color: #e2e8f0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* ------------------------------------ */
+  /* BARRA DE CONFIANÇA E PAGAMENTOS      */
+  /* ------------------------------------ */
+  .trust-bar {
+    background: #ffffff;
+    border-bottom: 1px solid #edf2f7;
+    padding: 16px 0;
+
+    .trust-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .trust-badges {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+
+      .trust-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #2d3748;
+
+        mat-icon {
+          font-size: 1.2rem;
+          width: 1.2rem;
+          height: 1.2rem;
+          color: #38a169; /* Verde de confiança */
+        }
+      }
+    }
+
+    .payment-methods {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+
+      .pay-title {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #718096;
+      }
+
+      .pay-icons {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+
+        .pay-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          background: #f7fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 6px;
+          padding: 4px 10px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: #4a5568;
+
+          mat-icon {
+            font-size: 1rem;
+            width: 1rem;
+            height: 1rem;
+            color: #4a5568;
+          }
+
+          &.pix {
+            background: #e6fffa;
+            border-color: #b2f5ea;
+            color: #234e52;
+
+            mat-icon {
+              color: #319795;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* ------------------------------------ */
+  /* RODAPÉ ESSENCIAL (ESTILO MERCADO LIVRE) */
+  /* ------------------------------------ */
+  .essential-footer {
+    padding: 18px 0 24px;
+    background-color: #f7f7f7;
+
+    .essential-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
+      font-size: 0.82rem;
+      margin-bottom: 12px;
+
+      a {
+        color: #333333;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: #e67e22;
+          text-decoration: underline;
+        }
+
+        &.icon-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+
+          .acc-icon {
+            font-size: 1.05rem;
+            width: 1.05rem;
+            height: 1.05rem;
+            color: #3182ce;
+          }
+        }
+      }
+
+      .dot {
+        color: #cbd5e0;
+        font-size: 0.7rem;
+      }
+    }
+
+    .company-legal {
+      font-size: 0.75rem;
+      color: #999999;
+      line-height: 1.5;
+
+      p {
+        margin: 0 0 4px 0;
+      }
+
+      .copyright {
+        color: #666666;
+        font-weight: 500;
+      }
+
+      .legal-details {
+        font-size: 0.72rem;
+      }
+    }
+  }
+}
