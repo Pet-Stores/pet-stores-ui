@@ -73,7 +73,7 @@
     border-bottom: 1px solid #edf2f7;
 
     &.show {
-      max-height: 1000px; /* Grande o suficiente para o conteúdo */
+      max-height: 2500px; /* Grande o suficiente para o conteúdo */
       opacity: 1;
       padding: 32px 0 24px;
       transition: max-height 0.5s ease-in-out, opacity 0.4s ease 0.1s;
@@ -391,6 +391,57 @@
 
       .legal-details {
         font-size: 0.72rem;
+      }
+    }
+  }
+
+  /* ------------------------------------ */
+  /* RESPONSIVIDADE MOBILE DO RODAPÉ     */
+  /* ------------------------------------ */
+  @media (max-width: 600px) {
+    .footer-container {
+      padding: 0 16px;
+    }
+
+    .trust-bar {
+      padding: 14px 0;
+
+      .trust-wrapper {
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+      }
+
+      .trust-badges {
+        justify-content: center;
+        gap: 14px;
+
+        .trust-item {
+          font-size: 0.78rem;
+        }
+      }
+
+      .payment-methods {
+        justify-content: center;
+
+        .pay-icons {
+          justify-content: center;
+        }
+      }
+    }
+
+    .essential-footer {
+      padding: 16px 0 calc(20px + env(safe-area-inset-bottom, 0px));
+
+      .essential-links {
+        justify-content: center;
+        text-align: center;
+        gap: 6px 10px;
+        font-size: 0.78rem;
+      }
+
+      .company-legal {
+        text-align: center;
       }
     }
   }

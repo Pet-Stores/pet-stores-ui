@@ -99,6 +99,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   public isMobileScreen = signal<boolean>(false);
+  public isMobileMenuOpen = signal<boolean>(false);
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen.update(v => !v);
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen.set(false);
+  }
   public showFiller = signal<boolean>(false);
   public openMenu = signal<boolean>(true);
   public animatedPlaceholder = signal<string>('');
@@ -249,7 +258,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   checkScreenSize() {
-    this.isMobileScreen.set(window.innerWidth <= 1114);
+    // Breakpoint padronizado de responsividade mobile (960px)
+    this.isMobileScreen.set(window.innerWidth <= 960);
   }
 
   openLoginModal() {

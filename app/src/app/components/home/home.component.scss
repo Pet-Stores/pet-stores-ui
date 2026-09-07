@@ -1,12 +1,27 @@
 @use '../../../styles/colors' as c;
 
 .home-container {
-  padding-top: 180px; // Espaço para a navbar flutuante
+  padding-top: 180px; // Espaço para a navbar flutuante desktop
   max-width: 1400px;
   margin: 0 auto;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 50px;
+
+  /* ========================================================================= */
+  /* RESPONSIVIDADE DA VITRINE & LAYOUT MOBILE HYBRID                         */
+  /* ========================================================================= */
+  @media (max-width: 960px) {
+    padding-top: 15px; // Ajuste do espaçamento no mobile
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  @media (max-width: 480px) {
+    padding-top: 10px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 }
 
 .products-showcase {
@@ -15,12 +30,33 @@
     font-size: 1.8rem;
     font-weight: 800;
     margin-bottom: 30px;
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
   }
 
   .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
+
+    /* Ajustes adaptativos para telas menores */
+    @media (max-width: 960px) {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 18px;
+    }
+
+    @media (max-width: 580px) {
+      grid-template-columns: repeat(2, 1fr); // 2 colunas no mobile inteligente
+      gap: 12px;
+    }
+
+    @media (max-width: 380px) {
+      grid-template-columns: 1fr; // 1 coluna em telas extremamente pequenas
+    }
   }
 }
 
@@ -33,6 +69,11 @@
   position: relative;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 580px) {
+    padding: 12px;
+    border-radius: 16px;
+  }
 
   &:hover {
     transform: translateY(-8px);
@@ -67,7 +108,12 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 15px;
-    cursor: pointer; // Adicionado cursor pointer
+    cursor: pointer;
+
+    @media (max-width: 580px) {
+      height: 130px;
+      margin-bottom: 10px;
+    }
 
     img {
       max-height: 100%;
@@ -77,11 +123,19 @@
   }
 
   .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
     .seller {
       font-size: 0.75rem;
       color: #888;
       font-weight: 600;
       text-transform: uppercase;
+
+      @media (max-width: 580px) {
+        font-size: 0.65rem;
+      }
     }
 
     h3 {
@@ -94,11 +148,16 @@
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
-      cursor: pointer; // Adicionado cursor pointer
+      cursor: pointer;
       transition: color 0.2s ease;
 
+      @media (max-width: 580px) {
+        font-size: 0.85rem;
+        height: 36px;
+      }
+
       &:hover {
-        color: c.$secundaria; // Feedback visual extra no título
+        color: c.$secundaria;
       }
     }
 
@@ -107,6 +166,11 @@
       font-weight: 900;
       color: c.$principal;
       margin: 10px 0 20px;
+
+      @media (max-width: 580px) {
+        font-size: 1.05rem;
+        margin: 6px 0 12px;
+      }
     }
 
     .buy-btn {
@@ -116,6 +180,12 @@
       padding: 8px 0;
       background: c.$secundaria;
       color: c.$principal;
+      margin-top: auto;
+
+      @media (max-width: 580px) {
+        font-size: 0.75rem;
+        padding: 4px 0;
+      }
       
       &:hover {
         background: c.$principal;
@@ -123,10 +193,4 @@
       }
     }
   }
-}
-
-// Responsividade
-@media (max-width: 600px) {
-  .home-container { padding-top: 140px; }
-  .products-grid { grid-template-columns: 1fr; }
 }

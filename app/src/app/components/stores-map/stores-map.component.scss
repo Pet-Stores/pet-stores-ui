@@ -166,8 +166,10 @@
       border: 1.5px solid rgba(c.$principal, 0.5);
       flex: 1;
       min-width: 280px;
+      min-width: 260px;
       max-width: 460px;
       height: 48px;
+      box-sizing: border-box;
       transition: all 0.3s ease;
 
       &:focus-within {
@@ -182,6 +184,7 @@
         width: 20px;
         height: 20px;
         margin-right: 10px;
+        flex-shrink: 0;
       }
 
       input {
@@ -190,9 +193,11 @@
         color: c.$principal;
         padding: 10px 0;
         width: 100%;
+        min-width: 0;
         outline: none;
         font-size: 0.95rem;
         font-weight: 600;
+        box-sizing: border-box;
 
         &::placeholder {
           color: rgba(c.$principal, 0.6);
@@ -891,4 +896,167 @@
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@media (max-width: 960px) {
+  .stores-page-container {
+    margin: 15px auto 60px;
+    padding: 0 14px;
+    gap: 18px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  .stores-main-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 18px;
+    border-radius: 20px;
+    gap: 14px;
+    width: 100%;
+    box-sizing: border-box;
+
+    .header-text-block .page-title {
+      font-size: 1.5rem;
+    }
+
+    .header-badges-block {
+      width: 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      .stat-pill {
+        font-size: 0.78rem;
+        padding: 6px 12px;
+      }
+    }
+  }
+
+  .location-search-card {
+    padding: 16px 12px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    .search-fields-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+
+      .cep-search-container {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        padding: 0 14px;
+
+        input {
+          min-width: 0;
+          width: 100%;
+          font-size: 0.88rem;
+          box-sizing: border-box;
+        }
+      }
+
+      .or-divider {
+        text-align: center;
+        margin: 0;
+      }
+
+      .btn-gps-action {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        justify-content: center;
+      }
+    }
+
+    .location-feedback {
+      word-break: break-word;
+      font-size: 0.8rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  .filters-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    .categories-scroll {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+      box-sizing: border-box;
+
+      &::-webkit-scrollbar {
+        height: 4px;
+      }
+
+      .filter-chip {
+        flex-shrink: 0;
+        font-size: 0.78rem;
+        padding: 6px 12px;
+      }
+    }
+
+    .search-container.store-search-container,
+    .text-search-container {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+      padding: 0 14px;
+
+      input {
+        min-width: 0;
+        width: 100%;
+        font-size: 0.85rem;
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  .map-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .map-wrapper-card {
+    order: -1;
+    height: 300px;
+    border-radius: 20px;
+    overflow: hidden;
+
+    .leaflet-map-box {
+      height: 100%;
+      min-height: 280px;
+    }
+  }
+
+  .stores-sidebar-list {
+    max-height: none;
+
+    .store-list-card {
+      padding: 16px 14px;
+      border-radius: 18px;
+    }
+  }
 }

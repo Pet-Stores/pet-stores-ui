@@ -1,6 +1,7 @@
 .account-dashboard-page {
   background: #f8f6f3;
   min-height: calc(100vh - 120px);
+  padding-top: 190px;
   padding-bottom: 60px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   color: #3C2A20;
@@ -1581,49 +1582,817 @@
   0% { transform: translateX(-100%) rotate(45deg); }
   20%, 100% { transform: translateX(100%) rotate(45deg); }
 }
-@media (max-width: 1100px) {
+/* ========================================================================= */
+/* ESTILOS RESPONSIVOS COMPLETOS PARA MINHA CONTA (ACCOUNT COMPONENT)        */
+/* ========================================================================= */
+@media (max-width: 1024px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
+
   .dashboard-sidebar {
     position: static;
+    width: 100%;
   }
-  .kpi-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .charts-row, .two-columns-layout, .roles-selection-grid, .pets-grid {
+
+  .charts-row,
+  .two-columns-layout,
+  .roles-selection-grid,
+  .pets-grid {
     grid-template-columns: 1fr;
     flex-direction: column;
   }
-  .invoices-card .invoices-list .invoice-item-card {
-    flex-direction: column;
-    align-items: flex-start;
-    .invoice-actions-block {
+}
+
+@media (max-width: 960px) {
+  .account-dashboard-page {
+    padding-top: 110px !important;
+    padding-bottom: 40px !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .dashboard-breadcrumb-bar {
+    padding: 10px 14px;
+    width: 100%;
+    box-sizing: border-box;
+
+    .breadcrumb-container {
       width: 100%;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 10px;
-      border-top: 1px dashed #eeddd1;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 2px;
+      box-sizing: border-box;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+
+  .dashboard-container {
+    padding: 0 12px !important;
+    margin: 12px auto 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .dashboard-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    gap: 16px !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .dashboard-sidebar {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    position: static !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+
+    .user-summary-card {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      padding: 18px 14px !important;
+      border-radius: 18px !important;
+    }
+
+    .quick-role-switch {
+      width: 100% !important;
+      box-sizing: border-box !important;
+
+      .role-pills {
+        width: 100% !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 6px !important;
+      }
+    }
+
+    .sidebar-nav {
+      display: flex !important;
+      flex-direction: row !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+      padding: 6px 2px 10px !important;
+      gap: 8px !important;
+      box-sizing: border-box !important;
+
+      &::-webkit-scrollbar {
+        height: 4px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #eeddd1;
+        border-radius: 4px;
+      }
+
+      .nav-item {
+        white-space: nowrap !important;
+        flex: 0 0 auto !important;
+        padding: 8px 14px !important;
+        border-radius: 10px !important;
+        font-size: 0.84rem !important;
+
+        .nav-label {
+          font-size: 0.84rem !important;
+        }
+      }
+    }
+
+    .sidebar-footer {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 8px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      margin-top: 4px !important;
+
+      .footer-btn {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 10px !important;
+        font-size: 12px !important;
+        border-radius: 10px !important;
+        box-sizing: border-box !important;
+      }
+    }
+  }
+
+  .dashboard-content {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  .tab-pane {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  .pane-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+
+    h2 {
+      font-size: 1.3rem !important;
+      line-height: 1.25 !important;
+      margin: 0 !important;
+    }
+
+    .pane-desc {
+      font-size: 0.82rem !important;
+      margin: 4px 0 0 !important;
+    }
+
+    .pane-actions,
+    .btn-quick-orders,
+    .btn-add-pet-header,
+    .btn-add-card-header {
+      width: 100% !important;
+      min-height: 44px !important;
+      border-radius: 10px !important;
+      justify-content: center !important;
+      font-size: 0.88rem !important;
+      font-weight: 700 !important;
+      box-sizing: border-box !important;
+    }
+  }
+
+  .two-columns-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    gap: 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  .dashboard-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    padding: 16px 14px !important;
+    border-radius: 18px !important;
+
+    .card-header {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 12px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+
+      .btn-add-item {
+        width: 100% !important;
+        min-height: 42px !important;
+        border-radius: 10px !important;
+        justify-content: center !important;
+        font-weight: 700 !important;
+        box-sizing: border-box !important;
+      }
+    }
+  }
+
+  /* Formulários Gerais (Dados, Endereços, Pet, Cartão) */
+  .personal-form,
+  .inline-form-box,
+  .inline-pet-form,
+  .pwd-form {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+
+    form {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .form-row {
+      display: flex !important;
+      flex-direction: column !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      gap: 10px !important;
+      box-sizing: border-box !important;
+    }
+
+    mat-form-field {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    .btn-save-personal,
+    .btn-confirm-add,
+    .btn-save-new-pet,
+    .btn-confirm-pwd {
+      width: 100% !important;
+      min-height: 44px !important;
+      border-radius: 10px !important;
+      justify-content: center !important;
+      font-size: 0.88rem !important;
+      font-weight: 700 !important;
+      box-sizing: border-box !important;
+    }
+  }
+
+  /* Endereços Salvos */
+  .addresses-list {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    box-sizing: border-box !important;
+
+    .address-item-card {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+      padding: 14px 12px !important;
+      border-radius: 14px !important;
+
+      .address-header {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+      }
+
+      .address-lines {
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+        word-break: break-word !important;
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------------------- */
+  /* TAB 3: MEUS PETS                                                          */
+  /* ------------------------------------------------------------------------- */
+  .pets-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    gap: 14px !important;
+    box-sizing: border-box !important;
+
+    .pet-profile-card {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+      padding: 16px 14px !important;
+      border-radius: 16px !important;
+
+      .pet-card-top {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+        min-width: 0 !important;
+
+        .pet-avatar-circle {
+          width: 44px !important;
+          height: 44px !important;
+          border-radius: 12px !important;
+          flex-shrink: 0 !important;
+          mat-icon { font-size: 22px; width: 22px; height: 22px; }
+        }
+
+        .pet-name-info {
+          flex: 1 !important;
+          min-width: 0 !important;
+
+          h3 {
+            font-size: 15px !important;
+            margin: 0 0 2px !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+          }
+
+          .pet-species-pill {
+            font-size: 11px !important;
+            padding: 2px 8px !important;
+          }
+        }
+
+        .btn-del-pet {
+          flex-shrink: 0 !important;
+        }
+      }
+
+      .pet-attributes {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 8px 10px !important;
+
+        .attr-item {
+          font-size: 12px !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+        }
+      }
+
+      .pet-doc-badge {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        padding: 8px 10px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+
+        .doc-info {
+          flex: 1 !important;
+          min-width: 0 !important;
+
+          strong {
+            display: block !important;
+            font-size: 11px !important;
+          }
+
+          span {
+            display: block !important;
+            max-width: 100% !important;
+            font-size: 10px !important;
+            word-break: break-all !important;
+          }
+        }
+      }
+    }
+  }
+
+  .inline-pet-form {
+    padding: 16px 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+
+    .pet-upload-box {
+      width: 100% !important;
+      padding: 14px 10px !important;
+      text-align: center !important;
+      word-break: break-word !important;
+      box-sizing: border-box !important;
+    }
+  }
+
+  /* ------------------------------------------------------------------------- */
+  /* TAB 4: CARTEIRA & PAGAMENTOS                                              */
+  /* ------------------------------------------------------------------------- */
+  .cards-visual-list {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    box-sizing: border-box !important;
+
+    .virtual-card {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+      padding: 16px 14px !important;
+      height: auto !important;
+      min-height: 155px !important;
+      border-radius: 16px !important;
+
+      .chip-row {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+      }
+
+      .card-number-mask {
+        font-size: clamp(13px, 4.2vw, 16px) !important;
+        letter-spacing: 2px !important;
+        margin: 14px 0 !important;
+      }
+
+      .card-bottom {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: flex-end !important;
+
+        .card-name {
+          font-size: 11px !important;
+          max-width: 140px !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+        }
+
+        .card-exp {
+          font-size: 11px !important;
+        }
+      }
+    }
+  }
+
+  .pix-list {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    box-sizing: border-box !important;
+
+    .pix-item {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+      padding: 10px 12px !important;
+      border-radius: 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+
+      .pix-icon {
+        flex-shrink: 0 !important;
+      }
+
+      .pix-info {
+        flex: 1 !important;
+        min-width: 0 !important;
+
+        strong {
+          display: block !important;
+          font-size: 12px !important;
+        }
+
+        span {
+          display: block !important;
+          word-break: break-all !important;
+          font-size: 11px !important;
+        }
+      }
+
+      button {
+        flex-shrink: 0 !important;
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------------------- */
+  /* TAB 5: PREFERÊNCIAS & CONFIGURAÇÕES                                       */
+  /* ------------------------------------------------------------------------- */
+  .preferences-toggles-list {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    box-sizing: border-box !important;
+
+    .pref-toggle-item {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      padding: 12px !important;
+      border-radius: 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 12px !important;
+
+      .pref-text {
+        flex: 1 !important;
+        min-width: 0 !important;
+
+        strong {
+          font-size: 13px !important;
+          display: block !important;
+        }
+
+        p {
+          font-size: 11px !important;
+          line-height: 1.35 !important;
+          margin: 3px 0 0 !important;
+        }
+      }
+
+      .toggle-pill {
+        flex-shrink: 0 !important;
+      }
+    }
+  }
+
+  .lgpd-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+    box-sizing: border-box !important;
+
+    button {
+      width: 100% !important;
+      border-radius: 10px !important;
+      min-height: 42px !important;
+      justify-content: center !important;
+      font-size: 12px !important;
+      box-sizing: border-box !important;
+    }
+  }
+
+  /* ------------------------------------------------------------------------- */
+  /* TAB 6: SEGURANÇA & CONEXÕES                                               */
+  /* ------------------------------------------------------------------------- */
+  .social-links-list {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    box-sizing: border-box !important;
+
+    .social-item {
+      width: 100% !important;
+      box-sizing: border-box !important;
+      padding: 10px 12px !important;
+      border-radius: 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 8px !important;
+
+      .social-brand {
+        min-width: 0 !important;
+        flex: 1 !important;
+        strong { font-size: 13px !important; display: block !important; }
+        span { font-size: 11px !important; }
+      }
+    }
+  }
+
+  .password-box {
+    width: 100% !important;
+    box-sizing: border-box !important;
+
+    .pwd-form {
+      width: 100% !important;
+      box-sizing: border-box !important;
+
+      .form-row {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 10px !important;
+        box-sizing: border-box !important;
+      }
+
+      .btn-confirm-pwd {
+        width: 100% !important;
+        border-radius: 10px !important;
+        min-height: 44px !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+      }
+    }
+  }
+
+  .sessions-list {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    box-sizing: border-box !important;
+
+    .session-item {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      padding: 10px 12px !important;
+      border-radius: 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+
+      .session-info {
+        flex: 1 !important;
+        min-width: 0 !important;
+        strong { font-size: 12.5px !important; }
+        span { font-size: 11px !important; word-break: break-all !important; }
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------------------- */
+  /* TAB 7: PAPÉIS & TRANSIÇÃO                                                 */
+  /* ------------------------------------------------------------------------- */
+  .roles-selection-grid {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    box-sizing: border-box !important;
+
+    .role-plan-card {
+      width: 100% !important;
+      box-sizing: border-box !important;
+      padding: 18px 14px !important;
+      border-radius: 16px !important;
+
+      .btn-role-action {
+        width: 100% !important;
+        border-radius: 10px !important;
+        min-height: 42px !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+      }
+
+      .activate-role-box {
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------------------- */
+  /* TAB 1: VISÃO GERAL & FINANÇAS                                             */
+  /* ------------------------------------------------------------------------- */
+  .kpi-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .charts-row {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .bar-chart-container {
+    overflow-x: auto;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+
+    .bars-wrapper {
+      min-width: 380px;
+    }
+  }
+
+  .donut-chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .invoices-card {
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .invoices-filter-controls .year-filters {
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .invoices-list .invoice-item-card {
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      box-sizing: border-box;
+
+      .invoice-access-key {
+        flex-wrap: wrap;
+        gap: 6px;
+
+        .key-code {
+          word-break: break-all;
+          font-size: 11px;
+        }
+      }
+
+      .invoice-actions-block {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding-top: 10px;
+        border-top: 1px dashed #eeddd1;
+
+        .invoice-download-btns {
+          width: 100%;
+          display: flex;
+          gap: 8px;
+
+          .btn-invoice-pdf,
+          .btn-invoice-xml {
+            flex: 1;
+            justify-content: center;
+            border-radius: 8px;
+          }
+        }
+      }
     }
   }
 }
+
 @media (max-width: 600px) {
   .kpi-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
-  .personal-form .form-row,
-  .inline-form-box .form-row,
-  .inline-pet-form .form-row {
-    grid-template-columns: 1fr;
-  }
-  .invoices-card .invoices-list .invoice-item-card .invoice-actions-block {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    .invoice-download-btns {
-      width: 100%;
-      .btn-invoice-pdf { flex: 1; justify-content: center; }
-    }
+
+  .dashboard-sidebar .sidebar-footer {
+    grid-template-columns: 1fr !important;
   }
 }

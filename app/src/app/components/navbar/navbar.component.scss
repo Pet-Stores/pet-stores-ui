@@ -1119,8 +1119,431 @@
   }
 }
 
-@media (max-width: 1114px) {
-  .navbar-container { top: 10px; width: 96%; }
-  .navbar { height: 70px; padding: 0 15px; border-radius: 15px; .logo img { height: 50px; } }
-  .pesquisar-mobile .search-container { @include glass-effect; background: rgba(c.$ternaria, 0.9); border-radius: 10px; }
+/* ========================================================================= */
+/* DESIGN RESPONSIVO MOBILE DEFINITIVO (< 960px)                            */
+/* ========================================================================= */
+@media (max-width: 960px) {
+  .navbar-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    padding: calc(env(safe-area-inset-top, 8px) + 8px) 14px 10px;
+    box-sizing: border-box;
+    z-index: 1000;
+  }
+
+  .mobile-navbar-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  /* ------------------------------------------------------------------------- */
+  /* BARRA SUPERIOR MOBILE                                                     */
+  /* ------------------------------------------------------------------------- */
+  .mobile-top-bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    height: 70px;
+    padding: 0 14px;
+    border-radius: 22px;
+    background: c.$secundaria;
+    border: 1.5px solid rgba(c.$principal, 0.15);
+    box-shadow: 0 8px 24px rgba(60, 42, 32, 0.08);
+
+    .menu-btn {
+      justify-self: start;
+    }
+
+    .mobile-icon-btn {
+      background: transparent;
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: c.$principal;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.2s ease, transform 0.2s ease;
+
+      mat-icon {
+        font-size: 26px;
+        width: 26px;
+        height: 26px;
+      }
+
+      &:active {
+        background: rgba(c.$principal, 0.12);
+        transform: scale(0.94);
+      }
+
+      &.cart-btn {
+        position: relative;
+
+        .cart-badge {
+          position: absolute;
+          top: 2px;
+          right: 2px;
+          background: c.$principal;
+          color: c.$ternaria;
+          font-size: 0.65rem;
+          font-weight: 900;
+          min-width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          line-height: 1;
+        }
+      }
+    }
+
+    .mobile-logo {
+      justify-self: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      img {
+        height: 56px;
+        max-width: 150px;
+        width: auto;
+        object-fit: contain;
+        transition: transform 0.2s ease;
+
+        &:active {
+          transform: scale(0.96);
+        }
+      }
+    }
+
+    .mobile-actions {
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+
+  /* ------------------------------------------------------------------------- */
+  /* BARRA DE BUSCA MOBILE INTEGRADA                                           */
+  /* ------------------------------------------------------------------------- */
+  .mobile-search-bar {
+    width: 100%;
+
+    .mobile-search-box {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 46px;
+      background: #ffffff;
+      border-radius: 50px;
+      padding: 0 16px;
+      border: 1.5px solid rgba(c.$principal, 0.18);
+      box-shadow: 0 4px 14px rgba(60, 42, 32, 0.05);
+      box-sizing: border-box;
+      gap: 10px;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+
+      &:focus-within {
+        border-color: c.$principal;
+        box-shadow: 0 4px 18px rgba(60, 42, 32, 0.12);
+      }
+
+      .search-icon {
+        color: c.$principal;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+
+      input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: c.$principal;
+        font-size: 0.88rem;
+        font-weight: 500;
+
+        &::placeholder {
+          color: rgba(c.$principal, 0.55);
+        }
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------------------- */
+  /* BACKDROP & PAINEL DO MENU LATERAL (OFF-CANVAS FLUIDO)                     */
+  /* ------------------------------------------------------------------------- */
+  .mobile-drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 99998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+
+    &.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  .mobile-drawer-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 85vw;
+    max-width: 320px;
+    background: c.$principal;
+    color: #ffffff;
+    z-index: 99999;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    padding: calc(env(safe-area-inset-top, 16px) + 16px) 18px 24px;
+    box-sizing: border-box;
+    overflow-y: auto;
+
+    &.is-open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+
+      .drawer-user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .drawer-avatar {
+          width: 46px;
+          height: 46px;
+          border-radius: 50%;
+          overflow: hidden;
+          border: 2px solid c.$secundaria;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(255, 255, 255, 0.1);
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          &.guest mat-icon {
+            color: c.$secundaria;
+            font-size: 24px;
+            width: 24px;
+            height: 24px;
+          }
+        }
+
+        .drawer-user-text {
+          display: flex;
+          flex-direction: column;
+
+          .drawer-user-greeting {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
+          }
+
+          .drawer-user-badge, .drawer-user-hint {
+            font-size: 0.72rem;
+            color: c.$secundaria;
+            font-weight: 500;
+          }
+        }
+      }
+
+      .drawer-close-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: #ffffff;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s ease;
+
+        &:active {
+          background: rgba(255, 255, 255, 0.2);
+        }
+
+        mat-icon {
+          font-size: 20px;
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+
+    .drawer-auth-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 22px;
+
+      button {
+        flex: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 10px 0;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+
+        &:active {
+          transform: scale(0.97);
+        }
+
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+        }
+
+        &.btn-drawer-primary {
+          background: c.$secundaria;
+          color: c.$principal;
+
+          &.full-width {
+            width: 100%;
+          }
+        }
+
+        &.btn-drawer-secondary {
+          background: rgba(255, 255, 255, 0.12);
+          color: #ffffff;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+      }
+    }
+
+    .drawer-navigation {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      .nav-group-title {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: rgba(255, 255, 255, 0.45);
+        margin: 4px 0 8px 8px;
+      }
+
+      .drawer-nav-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 14px;
+        color: #e2e8f0;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        background: transparent;
+        border: none;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease;
+
+        .nav-icon-bg {
+          width: 34px;
+          height: 34px;
+          border-radius: 10px;
+          background: rgba(255, 255, 255, 0.08);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          mat-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+            color: c.$secundaria;
+          }
+
+          &.logout-bg {
+            background: rgba(239, 68, 68, 0.15);
+            mat-icon {
+              color: #f87171;
+            }
+          }
+        }
+
+        .link-label {
+          flex: 1;
+        }
+
+        .nav-pill-badge {
+          font-size: 0.7rem;
+          font-weight: 700;
+          padding: 2px 8px;
+          border-radius: 20px;
+          background: rgba(c.$secundaria, 0.2);
+          color: c.$secundaria;
+
+          &.active-pill {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+          }
+
+          &.cart-pill {
+            background: c.$secundaria;
+            color: c.$principal;
+          }
+        }
+
+        &:active {
+          background: rgba(255, 255, 255, 0.1);
+          color: #ffffff;
+        }
+
+        &.logout-btn {
+          color: #f87171;
+        }
+      }
+
+      .drawer-separator {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: 12px 0;
+      }
+    }
+  }
 }
