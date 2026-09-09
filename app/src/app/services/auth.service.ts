@@ -108,7 +108,6 @@ export class AuthService {
       phone: '+55 (41) 99534-1904',
       cpfCnpj: '123.456.789-00',
       birthDate: '1995-06-15',
-      profileImage: '../../assets/img/perfil-image.jpeg',
       profileImage: 'assets/img/perfil-image.jpeg',
       role: 'buyer',
       enabledRoles: ['buyer', 'seller'],
@@ -234,8 +233,6 @@ export class AuthService {
     if (savedUser) {
       try {
         const user = JSON.parse(savedUser);
-        if (user.profileImage === '/assets/img/perfil-image.jpeg' || user.profileImage === 'assets/img/perfil-image.jpeg') {
-          user.profileImage = '../../assets/img/perfil-image.jpeg';
         if (!user.profileImage || user.profileImage.includes('perfil-image.jpeg')) {
           user.profileImage = 'assets/img/perfil-image.jpeg';
         }
@@ -288,7 +285,6 @@ export class AuthService {
       fullName: userData.fullName,
       email: userData.identifier?.includes('@') ? userData.identifier : undefined,
       phone: !userData.identifier?.includes('@') ? userData.identifier : undefined,
-      profileImage: '../../assets/img/perfil-image.jpeg',
       profileImage: 'assets/img/perfil-image.jpeg',
       role: userData.profileType || 'buyer',
       enabledRoles: [userData.profileType || 'buyer'],
