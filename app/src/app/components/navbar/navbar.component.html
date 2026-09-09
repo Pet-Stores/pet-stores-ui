@@ -42,7 +42,8 @@
           <div class="drawer-user-info">
             @if (authService.isLoggedIn()) {
               <div class="drawer-avatar">
-                <img [src]="authService.currentUser()?.profileImage" [alt]="authService.userFirstName()">
+                <img [src]="authService.currentUser()?.profileImage" [alt]="authService.userFirstName()"
+                     onerror="this.src='assets/img/perfil-image.jpeg'">
               </div>
               <div class="drawer-user-text">
                 <span class="drawer-user-greeting">Olá, {{ authService.userFirstName() }}!</span>
