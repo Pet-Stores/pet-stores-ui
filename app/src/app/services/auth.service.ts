@@ -108,7 +108,7 @@ export class AuthService {
       phone: '+55 (41) 99534-1904',
       cpfCnpj: '123.456.789-00',
       birthDate: '1995-06-15',
-      profileImage: '../../assets/img/perfil-image.jpeg',
+      profileImage: 'assets/img/perfil-image.jpeg',
       role: 'buyer',
       enabledRoles: ['buyer', 'seller'],
       loyaltyTier: 'Membro Diamante 💎',
@@ -233,8 +233,8 @@ export class AuthService {
     if (savedUser) {
       try {
         const user = JSON.parse(savedUser);
-        if (user.profileImage === '/assets/img/perfil-image.jpeg' || user.profileImage === 'assets/img/perfil-image.jpeg') {
-          user.profileImage = '../../assets/img/perfil-image.jpeg';
+        if (!user.profileImage || user.profileImage.includes('perfil-image.jpeg')) {
+          user.profileImage = 'assets/img/perfil-image.jpeg';
         }
         // Assegura valores padrão caso o usuário no localStorage seja antigo
         if (!user.role) user.role = 'buyer';
@@ -285,7 +285,7 @@ export class AuthService {
       fullName: userData.fullName,
       email: userData.identifier?.includes('@') ? userData.identifier : undefined,
       phone: !userData.identifier?.includes('@') ? userData.identifier : undefined,
-      profileImage: '../../assets/img/perfil-image.jpeg',
+      profileImage: 'assets/img/perfil-image.jpeg',
       role: userData.profileType || 'buyer',
       enabledRoles: [userData.profileType || 'buyer'],
       pets: userData.pets && userData.pets.length > 0 ? userData.pets : [],
